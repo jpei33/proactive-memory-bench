@@ -1,5 +1,5 @@
 [project]
-name = "when-to-speak"
+name = "proactive-memory-bench"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -11,18 +11,15 @@ dependencies = [
     "anthropic>=1.9.0",
     "krippendorff>=0.8.2",
     "matplotlib>=3.11.2",
-    "modal>=1.6.0",
     "numpy>=2.4.6",
     "pandas>=3.0.6",
     "python-dotenv>=1.2.3",
     "pyyaml>=6.0.3",
+    "rank-bm25>=0.2.2",
     "scikit-learn>=1.9.1",
     "tenacity>=9.1.4",
     "tqdm>=4.70.1",
 ]
-
-[project.scripts]
-when-to-speak = "when_to_speak:main"
 
 [project.optional-dependencies]
 local = [
@@ -30,6 +27,4 @@ local = [
     "transformers>=5.18.0",
 ]
 
-[build-system]
-requires = ["uv_build>=0.12.21,<0.13.0"]
-build-backend = "uv_build"
+
