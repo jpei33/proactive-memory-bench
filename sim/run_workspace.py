@@ -294,11 +294,18 @@ Rules:
 {rules}
 - Messages are short like real chat: usually one or two sentences, sometimes a fragment. No sign-offs, no markdown headers.
 - Stay in the speaker's voice and role. Do not narrate; write only what they type.
-- Reply with ONLY a JSON object: {{"speaker": "<person id>", "text": "<message>"}}"""
+- Messages are numbered [n]. Reply with ONLY a JSON object:
+  {{"speaker": "<person id>", "text": "<message>", "reply_to": <number of the one message you are directly answering or reacting to, or null>}}"""
 
 
 def render(msgs) -> str:
-    return "\n".join(f"{m['speaker']}: {m['text']}" for m in msgs) or "(no messages yet; you start the thread)"
+    out = []
+    for m in msgs:
+        if m.get("kind") == "reaction":
+            out.append(f"[{m['turn']}] ({m['speaker']} reacted {m['text']} to message {m.get('reply_to_turn')})")
+        else:
+            out.append(f"[{m['turn']}] {m['speaker']}: {m['text']}")
+    return "\n".join(out) or "(no messages yet; you start the thread)"
 
 
 def user_prompt(d, thread, turn, recent, entry, quiet_note, open_items) -> str:
@@ -318,6 +325,7 @@ def user_prompt(d, thread, turn, recent, entry, quiet_note, open_items) -> str:
         "It moves the situation forward with concrete but invented details (tasks, bugs, ideas, customer questions).",
         "Do not state any specific dates, deadlines, prices, amounts, counts, versions or thresholds that appear in earlier messages.",
         "Do not make new commitments with deadlines, and do not announce decisions.",
+        "If your message directly answers or reacts to one earlier message, set reply_to to its number; otherwise null.",
     ]
     if open_items:
         lines.append("Do not mention whether these are done or their status: " + "; ".join(open_items) + ".")
@@ -345,10 +353,15 @@ def stub(entry, recent, personas):
     return {"speaker": sp, "text": (f"[{entry['event_type']}] {entry['instruction'][:90]}" if entry else "[filler]")}
 
 
-def gen_message(d, thread, turn, recent, entry, quiet_note, open_items, args, leaks):
-    personas = list(d["_persona"])
+ATTEMPTS = 6   # forbid/require checks on scripted messages need a few more tries
+
+
+def gen_message(d, thread, turn, recent, entry, quiet_note, open_items, args, leaks, allowed=None):
+    """Returns (speaker, text, attempts_used, reply_turn). reply_turn is the filler writer's
+    own reply_to (a turn number in `recent`), or None."""
+    personas = list(allowed or d["_persona"])
     sysp = system_prompt(d)
-    for attempt in range(4):
+    for attempt in range(ATTEMPTS):
         if args.dry_run:
             out = stub(entry, recent, personas)
         else:
@@ -361,21 +374,29 @@ def gen_message(d, thread, turn, recent, entry, quiet_note, open_items, args, le
                 out = parse_json(r.text)
             except ValueError:
                 # the model sometimes mirrors the transcript format: "speaker: text"
-                m = re.match(r"\s*([a-z]+)\s*:\s*(.+)", r.text.strip(), re.S)
+                m = re.match(r"\s*(?:\[\d+\]\s*)?([a-z]+)\s*:\s*(.+)", r.text.strip(), re.S)
                 if not m:
                     continue
                 out = {"speaker": m.group(1), "text": m.group(2).strip()}
         sp, text = out.get("speaker"), str(out.get("text", "")).strip()
         if entry:
             sp = entry["speaker"]
-        if sp not in d["_persona"] or not text:
+        if sp not in d["_persona"] or not text or (allowed and sp not in allowed):
             continue
         if not entry and recent and sp == recent[-1]["speaker"]:
             continue
         if not entry and any(p.search(text) for _, p in leaks):
             continue  # filler restated a tracked value; resample
-        return sp, text, attempt
-    raise RuntimeError(f"{thread['id']} turn {turn}: no valid message after 4 attempts")
+        if entry and not args.dry_run:
+            if any(p.search(text) for p in entry.get("forbid", [])):
+                continue  # scripted message used a banned word (entity / value); resample
+            if not all(p.search(text) for p in entry.get("require", [])):
+                continue  # scripted message is missing a required entity / value; resample
+        rt = out.get("reply_to")
+        rt = rt if isinstance(rt, int) and any(m["turn"] == rt for m in recent) else None
+        return sp, text, attempt, rt
+    raise RuntimeError(f"{thread['id']} turn {turn}: no valid message after {ATTEMPTS} attempts"
+                       + (f" (instruction: {entry['instruction'][:120]})" if entry else ""))
 
 
 def run_thread(d, thread, args, leaks, log):
@@ -388,14 +409,25 @@ def run_thread(d, thread, args, leaks, log):
         open_items = [i["what"] for i in d["_item"].values()
                       if pos(d, i["opened_in"]["thread"], i["opened_in"]["turn"]) < pos(d, tid, turn)]
         note = quiet_note if turn <= quiet_until else ""
-        sp, text, attempts = gen_message(d, thread, turn, msgs[-CONTEXT_MSGS:], entry, note,
-                                         open_items, args, leaks)
-        row = {"msg_id": f"{d['workspace']}/{tid}/{turn:03d}", "thread": tid, "turn": turn,
+        if entry and "reaction" in entry:               # reactions cost no LLM call
+            sp, text, attempts, rt = entry["speaker"], entry["reaction"], 0, None
+        else:
+            sp, text, attempts, rt = gen_message(d, thread, turn, msgs[-CONTEXT_MSGS:], entry, note,
+                                                 open_items, args, leaks)
+        ws, g = d["workspace"], entry or {}
+        link = g.get("reply_to")                        # (thread, turn) scripted in the ledger
+        reply_to = (f"{ws}/{link[0]}/{link[1]:03d}" if link else
+                    f"{ws}/{tid}/{rt:03d}" if rt else None)
+        row = {"msg_id": f"{ws}/{tid}/{turn:03d}", "thread": tid, "turn": turn,
                "day": thread["day"], "channel": thread["channel"], "speaker": sp, "text": text,
-               "event_type": entry["event_type"] if entry else "filler",
-               "event_id": entry.get("event_id") if entry else None,
-               "fact_id": entry.get("fact_id") if entry else None,
-               "item_id": entry.get("item_id") if entry else None}
+               "kind": "reaction" if "reaction" in g else "message",
+               "reply_to": reply_to, "reply_to_turn": link[1] if link else rt,
+               "thread_ts": None, "side": False,
+               "event_type": g.get("event_type", "filler"), "event_id": g.get("event_id"),
+               "fact_id": g.get("fact_id"), "item_id": g.get("item_id"),
+               "group": g.get("group"), "group_fact": g.get("group_fact"),
+               "group_value": g.get("group_value"), "group_form": g.get("group_form"),
+               "group_origin": g.get("group_origin")}
         msgs.append(row)
         if attempts:
             log.append(f"{row['msg_id']}: {attempts} resample(s)")
