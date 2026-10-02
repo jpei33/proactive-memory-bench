@@ -16,6 +16,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import threading
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -30,6 +31,7 @@ load_dotenv()
 
 CACHE_DIR = Path(os.environ.get("LLM_CACHE_DIR", "data/cache/llm"))
 USAGE: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+_USAGE_LOCK = threading.Lock()  # complete() may be called from several threads
 _client: anthropic.Anthropic | None = None
 
 
@@ -117,10 +119,11 @@ def complete(system: str | None, messages: list[dict] | str, *, model: str | Non
         stop_reason=r.stop_reason or "", content=[b.model_dump() for b in r.content],
         latency_s=round(time.time() - t0, 3), model=model,
     )
-    tot = USAGE[model]
-    for k, v in res.usage.items():
-        tot[k] += v
-    tot["calls"] += 1
+    with _USAGE_LOCK:
+        tot = USAGE[model]
+        for k, v in res.usage.items():
+            tot[k] += v
+        tot["calls"] += 1
 
     if use_cache:
         path.parent.mkdir(parents=True, exist_ok=True)

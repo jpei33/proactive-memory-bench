@@ -148,7 +148,7 @@ threads:
     side: {situation: "Keiko and Darnell plan a QBR dinner", speakers: [keiko, darnell], n_msgs: 9}
     day: "Thu Oct 15"
     channel: "#acct-northwind"
-    situation: "Northwind leadership change; QBR prep; contract term length."
+    situation: "QBR prep and contract term length. Partway through, Keiko learns Northwind's leadership changed; before that, everyone assumes the sponsor is unchanged."
     n_turns: 35
     events:
       - {id: openai-d05, turn: 1, type: decoy_resolved_before_checkpoint, item: c_load_test,

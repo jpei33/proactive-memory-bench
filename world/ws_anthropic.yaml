@@ -148,7 +148,7 @@ threads:
     side: {situation: "Felix and Yuki pick a venue for the team offsite", speakers: [felix, yuki], n_msgs: 9}
     day: "Mon Oct 19"
     channel: "#harbor-evals"
-    situation: "Second contamination pass; paper results and what goes in the appendix."
+    situation: "Paper results and what goes in the appendix. Partway through, Marcus reports a second contamination pass; before that, everyone assumes the held-out set is final."
     n_turns: 35
     events:
       - {id: anthropic-p06, turn: 1, type: deadline_passed, item: c_baselines, speaker: yuki,

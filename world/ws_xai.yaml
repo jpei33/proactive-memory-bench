@@ -122,7 +122,7 @@ threads:
     structure: threaded
     day: "Mon Oct 5"
     channel: "#kestrel-run"
-    situation: "Run slips a week for the fabric firmware; team re-plans and argues about tokenizers."
+    situation: "Monday run planning and a tokenizer debate. Partway through, Dmitri slips the run start for the fabric firmware and the team re-plans; before that, nobody knows a slip is coming."
     n_turns: 40
     events:
       - {id: xai-p04, turn: 1, type: deadline_passed, item: c_storage_tier, speaker: wen,

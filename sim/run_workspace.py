@@ -18,6 +18,7 @@ import os
 import random
 import re
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 import yaml
@@ -80,8 +81,11 @@ def value_regex(v: str, match: str | None = None) -> re.Pattern:
         return re.compile(match, re.I)
     alts = [rf"(?<!\w){re.escape(_value_core(v))}(?!\w)"]
     m = re.match(r"([A-Z][a-z]{2}) (\d{1,2})$", v)
-    if m:  # "Sep 17" -> also "17th", "the 17"
-        alts += [rf"\b{m.group(2)}(st|nd|rd|th)\b", rf"\bthe {m.group(2)}\b"]
+    if m:  # "Sep 17" -> also "Sept 17", "September 17th", "9/17", "17th", "the 17"
+        mon, day = m.group(1), m.group(2)
+        num = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].index(mon) + 1
+        alts += [rf"\b{mon}[a-z]*\.? {day}(st|nd|rd|th)?\b", rf"\b{num}/{day}\b",
+                 rf"\b{day}(st|nd|rd|th)\b", rf"\bthe {day}\b"]
     return re.compile("|".join(alts), re.I)
 
 
@@ -362,6 +366,7 @@ def gen_message(d, thread, turn, recent, entry, quiet_note, open_items, args, le
     own reply_to (a turn number in `recent`), or None."""
     personas = list(allowed or d["_persona"])
     sysp = system_prompt(d)
+    why = "no output"
     for attempt in range(ATTEMPTS):
         if args.dry_run:
             out = stub(entry, recent, personas)
@@ -370,34 +375,49 @@ def gen_message(d, thread, turn, recent, entry, quiet_note, open_items, args, le
                          model=args.model, max_tokens=1000,
                          seed=args.seed * 100 + attempt)
             if r.stop_reason == "max_tokens":
+                why = "hit max_tokens"
                 continue
             try:
                 out = parse_json(r.text)
             except ValueError:
                 # the model sometimes mirrors the transcript format: "speaker: text"
                 m = re.match(r"\s*(?:\[\d+\]\s*)?([a-z]+)\s*:\s*(.+)", r.text.strip(), re.S)
-                if not m:
+                if m and m.group(1) in d["_persona"]:
+                    out = {"speaker": m.group(1), "text": m.group(2).strip()}
+                elif entry and r.text.strip():
+                    # scripted message: the speaker is fixed, so plain text is usable as is
+                    out = {"speaker": entry["speaker"], "text": r.text.strip().strip('"')}
+                else:
+                    why = f"unparseable output: {r.text[:100]!r}"
                     continue
-                out = {"speaker": m.group(1), "text": m.group(2).strip()}
         sp, text = out.get("speaker"), str(out.get("text", "")).strip()
         if entry:
             sp = entry["speaker"]
         if sp not in d["_persona"] or not text or (allowed and sp not in allowed):
+            why = f"bad speaker {sp!r} or empty text"
             continue
         if not entry and recent and sp == recent[-1]["speaker"]:
+            why = f"{sp} spoke twice in a row"
             continue
-        if not entry and any(p.search(text) for _, p in leaks):
+        hit = next((v for v, p in leaks if p.search(text)), None) if not entry else None
+        if hit:
+            why = f"filler leaked tracked value {hit!r}: {text[:100]!r}"
             continue  # filler restated a tracked value; resample
         if entry and not args.dry_run:
-            if any(p.search(text) for p in entry.get("forbid", [])):
+            bad = next((p.pattern for p in entry.get("forbid", []) if p.search(text)), None)
+            if bad:
+                why = f"used a banned word /{bad}/: {text[:100]!r}"
                 continue  # scripted message used a banned word (entity / value); resample
-            if not all(p.search(text) for p in entry.get("require", [])):
+            miss = next((p.pattern for p in entry.get("require", []) if not p.search(text)), None)
+            if miss:
+                why = f"missing required /{miss}/: {text[:100]!r}"
                 continue  # scripted message is missing a required entity / value; resample
         rt = out.get("reply_to")
         rt = rt if isinstance(rt, int) and any(m["turn"] == rt for m in recent) else None
         return sp, text, attempt, rt
     raise RuntimeError(f"{thread['id']} turn {turn}: no valid message after {ATTEMPTS} attempts"
-                       + (f" (instruction: {entry['instruction'][:120]})" if entry else ""))
+                       + (f"\n  instruction: {entry['instruction'][:160]}" if entry else "")
+                       + f"\n  last rejection: {why}")
 
 
 def run_thread(d, thread, args, leaks, log):
@@ -588,13 +608,14 @@ def main():
     ap.add_argument("--model", default=os.environ.get("SIM_MODEL"))
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--dry-run", action="store_true", help="no API calls; stub text")
+    ap.add_argument("--workers", type=int, default=8,
+                    help="threads and side conversations generated in parallel (1 = sequential)")
     args = ap.parse_args()
     random.seed(args.seed)
 
     d = load(args.ws)
     want = set(args.threads.split(",")) if args.threads else None
     leaks, log = leak_patterns(d), []
-    rng = random.Random(args.seed)
 
     out = Path(f"data/workspaces/{args.ws}{'_dryrun' if args.dry_run else ''}")
     out.mkdir(parents=True, exist_ok=True)
@@ -604,12 +625,30 @@ def main():
         for r in map(json.loads, path.read_text().splitlines()):
             if r["thread"] not in want:
                 per[r["thread"]].append(r)
-    for t in d["threads"]:
-        if want and t["id"] not in want:
-            continue
-        rows = run_thread(d, t, args, leaks, log)
-        if t.get("structure") == "interleaved":
-            rows = interleave(rows, run_side(d, t, args, leaks, log), t, rng)
+    # Threads are independent (each starts fresh; cross-thread links come from the ledger), so
+    # every thread and every side conversation is generated in parallel. Within one, messages
+    # stay sequential because each is written with the previous ones as context.
+    todo = [t for t in d["threads"] if not want or t["id"] in want]
+    jobs = {}
+    with ThreadPoolExecutor(max_workers=max(1, args.workers)) as ex:
+        for t in todo:
+            jobs[ex.submit(run_thread, d, t, args, leaks, log)] = (t, "main")
+            if t.get("structure") == "interleaved":
+                jobs[ex.submit(run_side, d, t, args, leaks, log)] = (t, "side")
+        done, errors = defaultdict(dict), []
+        for fut in as_completed(jobs):
+            t, part = jobs[fut]
+            try:
+                done[t["id"]][part] = fut.result()
+            except Exception as exc:                  # keep going; report all failures at the end
+                errors.append(f"{t['id']} ({part}): {exc}")
+    for t in todo:
+        got = done.get(t["id"], {})
+        if "main" not in got or (t.get("structure") == "interleaved" and "side" not in got):
+            continue                                  # failed thread: keep its previous rows, if any
+        rows = got["main"]
+        if "side" in got:                             # per-thread rng: same result in any run order
+            rows = interleave(rows, got["side"], t, random.Random(f"{args.seed}:{t['id']}"))
         per[t["id"]] = rows
     msgs = [r for t in d["threads"] for r in per[t["id"]]]
     apply_threading(d, msgs)
@@ -620,10 +659,16 @@ def main():
     plants = build_plants(d, msgs)
     (out / "plants.jsonl").write_text("".join(json.dumps(p, ensure_ascii=False) + "\n" for p in plants))
     print(f"\nwrote {len(msgs)} messages, {len(plants)} plants/decoys -> {out}/")
+    if errors:
+        print(f"\n{len(errors)} thread(s) FAILED and were not written (rerun them with --threads):")
+        for e in errors:
+            print("  ", e)
     for line in log:
         print("  ", line)
     if USAGE:
         print("usage:", {m: dict(v) for m, v in USAGE.items()})
+    if errors:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

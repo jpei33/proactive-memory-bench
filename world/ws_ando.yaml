@@ -86,7 +86,7 @@ facts:
     attribute: billing model
     history:
       - {value: "$12 per seat, agent actions metered", match: 'meter', set_in: t1, turn: 17, by: sara}
-      - {value: "$12 per human seat, agents free", match: 'free', set_in: t4, turn: 6, by: sara,
+      - {value: "$12 per human seat, agents free", match: 'agents? (\w+ )?free|free (for )?agents', set_in: t4, turn: 6, by: sara,
          reason: "metering agent actions would punish teams for using agents"}
 
   - id: dm_policy
@@ -94,7 +94,7 @@ facts:
     entity: "agent access to DMs"
     attribute: policy
     history:
-      - {value: "agents never read a DM unless a participant forwards it", match: 'forward',
+      - {value: "agents never read a DM unless a participant forwards it", match: 'never read|unless .{0,40}forward',
          set_in: t2, turn: 5, by: aj}
 
   - id: and341_owner
@@ -198,7 +198,7 @@ threads:
     structure: threaded
     day: "Mon Sep 14"
     channel: "#launch"
-    situation: "Launch slips a week to line up with the Series A announcement; team re-plans."
+    situation: "Monday launch-week planning: post and email timing, partner comms. Partway through, Sara moves the launch to line up with the Series A announcement and the team re-plans; before that, nobody knows a change is coming."
     n_turns: 40
     events:
       - {id: ando-p06, turn: 1, type: deadline_passed, item: c_migration_guide, speaker: olavo,
