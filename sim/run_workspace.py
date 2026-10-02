@@ -17,6 +17,7 @@ import json
 import os
 import random
 import re
+from collections import defaultdict
 from pathlib import Path
 
 import yaml
@@ -440,18 +441,80 @@ def run_thread(d, thread, args, leaks, log):
     return msgs
 
 
+# ---------------------------------------------------------------- channel structure
+def run_side(d, thread, args, leaks, log):
+    """Generate an unrelated side conversation for an `interleaved` thread."""
+    s = thread["side"]
+    fake = {**thread, "situation": s["situation"], "n_turns": s["n_msgs"]}
+    note = ("This is a short side conversation about something unrelated to the team's work items. "
+            f"Only {', '.join(name(d, p) for p in s['speakers'])} speak.")
+    ws, tid, msgs = d["workspace"], thread["id"], []
+    for k in range(1, s["n_msgs"] + 1):
+        sp, text, attempts, rt = gen_message(d, fake, k, msgs[-CONTEXT_MSGS:], None, note, [], args, leaks,
+                                             allowed=s["speakers"])
+        row = {"msg_id": f"{ws}/{tid}/s{k:02d}", "thread": tid, "turn": k,
+               "day": thread["day"], "channel": thread["channel"], "speaker": sp, "text": text,
+               "kind": "message", "reply_to": f"{ws}/{tid}/s{rt:02d}" if rt else None,
+               "reply_to_turn": rt, "thread_ts": None, "side": True,
+               "event_type": "side", "event_id": None, "fact_id": None, "item_id": None,
+               "group": None, "group_fact": None, "group_value": None, "group_form": None,
+               "group_origin": None}
+        msgs.append(row)
+        if attempts:
+            log.append(f"{row['msg_id']}: {attempts} resample(s)")
+        print(f"{row['msg_id']}  {sp:>7}: {text}")
+    return msgs
+
+
+def interleave(main, side, thread, rng):
+    """Insert side messages between main messages, at most one per gap. Scripted pairs
+    (question -> answer etc.) stay adjacent, except events marked `gap: true`, which are
+    forced to get a side message between helper and answer."""
+    gap_turns = {e["turn"] for e in thread["events"] if e.get("gap")}
+    glued = {m["msg_id"] for i, m in enumerate(main) if i and m["group"] and m["turn"] not in gap_turns
+             and m["reply_to"] == main[i - 1]["msg_id"]}
+    slots = [i for i in range(1, len(main)) if main[i]["msg_id"] not in glued]   # insert before main[i]
+    forced = [i for i in slots if main[i]["turn"] in gap_turns]
+    others = [i for i in slots if i not in forced]
+    k = max(0, min(len(others), len(side) - len(forced)))
+    where = set(forced) | set(rng.sample(others, k))
+    out, si = [], 0
+    for i, m in enumerate(main):
+        if i in where and si < len(side):
+            out.append(side[si]); si += 1
+        out.append(m)
+    return out + side[si:]
+
+
+def apply_threading(d, rows):
+    """In `threaded` threads, every same-thread reply sits under its root, like a Slack thread.
+    Reactions keep their target link; cross-thread references stay unthreaded."""
+    by_id = {r["msg_id"]: r for r in rows}
+    struct = {t["id"]: t.get("structure", "flat") for t in d["threads"]}
+    for r in rows:
+        if struct[r["thread"]] != "threaded" or not r["reply_to"] or r["kind"] == "reaction":
+            continue
+        p = by_id.get(r["reply_to"])
+        if not p or p["thread"] != r["thread"]:
+            continue
+        while p["reply_to"] in by_id and by_id[p["reply_to"]]["thread"] == r["thread"]:
+            p = by_id[p["reply_to"]]
+        r["thread_ts"] = p["msg_id"]
+
+
 # ---------------------------------------------------------------- plants
 def build_plants(d, msgs) -> list[dict]:
     by_id = {m["msg_id"]: i for i, m in enumerate(msgs)}
     def mid(thread, turn):
         return f"{d['workspace']}/{thread}/{turn:03d}"
 
-    # every message that states a fact's then-current value
-    statements: dict[str, list[tuple[int, str]]] = {}
+    # evidence groups: every message set that states a fact's value (msgs are in seq order)
+    groups: dict[str, list[int]] = defaultdict(list)
     for i, m in enumerate(msgs):
-        if m["fact_id"] and m["event_type"] in ("establish", "update", "decoy_legit_change_quote",
-                                                 "answer", "self_correction_fix"):
-            statements.setdefault(m["fact_id"], []).append((i, m["msg_id"]))
+        if m.get("group"):
+            groups[m["group"]].append(i)
+    head = {g: msgs[ix[0]] for g, ix in groups.items()}
+    struct = {t["id"]: t.get("structure", "flat") for t in d["threads"]}
 
     plants = []
     for t in d["threads"]:
@@ -476,10 +539,20 @@ def build_plants(d, msgs) -> list[dict]:
                 if e["type"] == "contradiction":
                     p["said_value"] = e["said_value"]
                 p["probe"] = f"What is the current {f['attribute']} of {f['entity']}?"
-                prior = [s for s in statements.get(e["fact"], []) if s[0] < ti]
-                if prior:
-                    ev_idx = prior[-1][0]
-                    p["evidence_msgs"] = [prior[-1][1]]
+                cands = [g for g, ix in groups.items()
+                         if head[g]["group_fact"] == e["fact"] and head[g]["group_value"] == cur
+                         and max(ix) < ti]
+                if cands:
+                    origin = next((g for g in cands if head[g]["group_origin"]), None)
+                    p["evidence_groups"] = [{"group": g, "form": head[g]["group_form"],
+                                             "origin": bool(head[g]["group_origin"]),
+                                             "msgs": [msgs[i]["msg_id"] for i in groups[g]]} for g in cands]
+                    p["evidence_msgs"] = [msgs[i]["msg_id"] for i in groups[origin]] if origin else []
+                    p["evidence_form"] = head[origin]["group_form"] if origin else "explicit"
+                    p["restated"] = len(cands) > 1
+                    o = groups[origin][0] if origin else groups[cands[0]][0]
+                    p["structure"] = struct[msgs[o]["thread"]]
+                    ev_idx = max(max(groups[g]) for g in cands)      # nearest evidence message
             elif e.get("item"):
                 it = d["_item"][e["item"]]
                 o = it["opened_in"]
@@ -493,6 +566,10 @@ def build_plants(d, msgs) -> list[dict]:
                     if oid in by_id:
                         ev_idx = by_id[oid]
                         p["evidence_msgs"] = [oid]
+                        p["evidence_groups"] = [{"group": e["item"], "form": "explicit", "origin": True,
+                                                 "msgs": [oid]}]
+                        p["evidence_form"], p["restated"] = "explicit", False
+                        p["structure"] = struct[o["thread"]]
             if ev_idx is not None and p["kind"] == "plant" and e["type"] not in ("commitment", "pending_decision"):
                 dist = ti - ev_idx
                 same = msgs[ev_idx]["thread"] == t["id"]
@@ -516,17 +593,32 @@ def main():
 
     d = load(args.ws)
     want = set(args.threads.split(",")) if args.threads else None
-    leaks, log, msgs = leak_patterns(d), [], []
-    for t in d["threads"]:
-        if want and t["id"] not in want:
-            continue
-        msgs += run_thread(d, t, args, leaks, log)
+    leaks, log = leak_patterns(d), []
+    rng = random.Random(args.seed)
 
     out = Path(f"data/workspaces/{args.ws}{'_dryrun' if args.dry_run else ''}")
     out.mkdir(parents=True, exist_ok=True)
-    (out / "messages.jsonl").write_text("".join(json.dumps(m) + "\n" for m in msgs))
+    path = out / "messages.jsonl"
+    per: dict[str, list[dict]] = defaultdict(list)
+    if want and path.exists():                       # keep the threads we are not regenerating
+        for r in map(json.loads, path.read_text().splitlines()):
+            if r["thread"] not in want:
+                per[r["thread"]].append(r)
+    for t in d["threads"]:
+        if want and t["id"] not in want:
+            continue
+        rows = run_thread(d, t, args, leaks, log)
+        if t.get("structure") == "interleaved":
+            rows = interleave(rows, run_side(d, t, args, leaks, log), t, rng)
+        per[t["id"]] = rows
+    msgs = [r for t in d["threads"] for r in per[t["id"]]]
+    apply_threading(d, msgs)
+    for k, r in enumerate(msgs):
+        r["seq"] = k                                 # the only ordering downstream code should use
+
+    path.write_text("".join(json.dumps(m, ensure_ascii=False) + "\n" for m in msgs))
     plants = build_plants(d, msgs)
-    (out / "plants.jsonl").write_text("".join(json.dumps(p) + "\n" for p in plants))
+    (out / "plants.jsonl").write_text("".join(json.dumps(p, ensure_ascii=False) + "\n" for p in plants))
     print(f"\nwrote {len(msgs)} messages, {len(plants)} plants/decoys -> {out}/")
     for line in log:
         print("  ", line)
