@@ -1,0 +1,192 @@
+# Workspace ledger: anthropic
+# Synthetic team chat for an evaluations research team at Anthropic preparing an eval
+# suite release and a workshop paper. People, codenames, numbers and dates are all
+# invented; nothing here describes real Anthropic work. See ws_ando.yaml for how this file is used.
+#
+# Totals: 5 facts (2 change), 3 open items, 5 threads (190 turns),
+#         11 plants (8 INTERVENE, 3 TRACK), 8 decoys.
+# Plant buckets (INTERVENE only): near 3, far 1, cross 4.
+# Thread structure: 1 threaded, 2 interleaved, 2 flat.
+
+workspace: anthropic
+company: >
+  An evaluations research team at Anthropic. The team is releasing "harbor", an
+  agentic-coding eval suite, and writing a workshop paper about it: versions,
+  contamination fixes, pass thresholds, compute, and the paper deadline.
+
+filler_rules:
+  - Filler turns must NOT state or paraphrase any value in facts[] (deadlines, versions, thresholds, item counts, owners).
+  - Filler should sound like a research team's Slack: experiment results, plots described in words, paper wording debates.
+  - Topics for filler come from the thread's situation and the personas' roles.
+
+personas:
+  - {id: nadia,  name: Nadia,  role: "research lead; owns the paper and its deadline", style: "organized, sets priorities"}
+  - {id: felix,  name: Felix,  role: "eval infra; owns harbor releases", style: "release-notes tone, versions everything"}
+  - {id: yuki,   name: Yuki,   role: "research scientist; defines pass criteria", style: "precise about metrics"}
+  - {id: marcus, name: Marcus, role: "data; item sourcing, licensing, contamination checks", style: "thorough, cautious"}
+  - {id: elena,  name: Elena,  role: "research engineer; compute and job scheduling", style: "practical, short"}
+  - {id: theo,   name: Theo,   role: "research engineer; baselines and results tables", style: "fast, sometimes behind on updates"}
+
+facts:
+  - id: paper_deadline
+    keys: ["deadline", "workshop", "submission"]
+    entity: "harbor workshop paper"
+    attribute: submission deadline
+    history:
+      - {value: "Oct 23", set_in: t1, turn: 5, by: nadia}
+  - id: suite_version
+    keys: ["harbor", "suite", "release", "tag"]
+    entity: "harbor eval suite release"
+    attribute: version
+    history:
+      - {value: "v1.2", match: '1\.2', set_in: t1, turn: 8, by: felix}
+      - {value: "v1.3", match: '1\.3', set_in: t3, turn: 6, by: felix,
+         reason: "contaminated items found and removed"}
+  - id: compute_owner
+    keys: ["compute", "reservation"]
+    entity: "eval compute reservation"
+    attribute: owner
+    history:
+      - {value: "Elena", set_in: t1, turn: 12, by: nadia}
+  - id: pass_threshold
+    keys: ["gate", "threshold", "pass@1"]
+    entity: "harbor release gate"
+    attribute: threshold
+    history:
+      - {value: "70% pass@1 on the held-out set", match: '70\s?%', set_in: t2, turn: 5, by: yuki}
+  - id: item_count
+    keys: ["held-out", "item count", "items"]
+    entity: "harbor held-out set"
+    attribute: item count
+    history:
+      - {value: "1,200 items", match: '1,?200', set_in: t2, turn: 9, by: marcus}
+      - {value: "1,140 items", match: '1,?140', set_in: t4, turn: 7, by: marcus,
+         reason: "60 more contaminated items removed in the second pass"}
+
+open_items:
+  - {id: c_license_review, kind: commitment, owner: marcus,
+     what: "finish the license review for the scraped repositories",
+     check_point: "Fri Oct 9", opened_in: {thread: t2, turn: 14}, resolved: {thread: t2, turn: 30}}
+  - {id: c_baselines, kind: commitment, owner: theo,
+     what: "rerun all baselines on harbor v1.3",
+     check_point: "Fri Oct 16", opened_in: {thread: t3, turn: 17}, resolved: null}
+  - {id: d_three_shot, kind: pending_decision, owner: nadia,
+     what: "decide whether the 3-shot results go in the paper",
+     check_point: "Tue Oct 20 paper sync", opened_in: {thread: t4, turn: 12}, resolved: {thread: t4, turn: 30}}
+
+threads:
+  - id: t1
+    structure: flat
+    day: "Mon Oct 5"
+    channel: "#harbor"
+    situation: "Planning the harbor release and the workshop paper: deadline, version, compute."
+    n_turns: 40
+    events:
+      - {turn: 5,  type: establish, fact: paper_deadline, speaker: nadia, form: reaction,
+         ask: {turn: 4, speaker: yuki, proposes_value: true}}
+         # yuki: "workshop deadline is Oct 23 right? planning evals backward from that, 👍 if so"  ->  nadia reacts 👍
+      - {turn: 8,  type: establish, fact: suite_version, speaker: felix}
+      - {turn: 12, type: establish, fact: compute_owner, speaker: elena, form: ellipsis,
+         ask: {turn: 11, speaker: nadia, proposes_value: false}}
+         # nadia: "who can own the compute reservation for the paper runs?"  ->  elena: "i'll take it"
+      - {id: anthropic-p01, turn: 18, type: contradiction, fact: paper_deadline, speaker: theo,
+         said_value: "Oct 30", gold_label: INTERVENE, severity: 3, bucket: near,
+         detail: "Theo plans his baseline runs assuming the paper is due the 30th"}
+      - {id: anthropic-d01, turn: 26, type: banter, speaker: elena, gold_label: IGNORE, severity: 1,
+         detail: "Elena jokes that the eval jobs have more retries than she does at the gym"}
+
+  - id: t2
+    structure: interleaved
+    side: {situation: "Elena and Theo debug a flaky job scheduler", speakers: [elena, theo], n_msgs: 10}
+    day: "Wed Oct 7"
+    channel: "#harbor-evals"
+    situation: "Defining the release gate and the held-out set; data licensing."
+    n_turns: 40
+    events:
+      - {turn: 5,  type: establish, fact: pass_threshold, speaker: yuki, form: distributed,
+         parts: ["70% pass@1", "measured on the held-out set only, not dev"], part2_turn: 7}
+      - {turn: 9,  type: establish, fact: item_count, speaker: marcus}
+      - {id: anthropic-p02, turn: 14, type: commitment, item: c_license_review, speaker: marcus,
+         gold_label: TRACK, severity: 1,
+         detail: "Marcus: license review for the scraped repos done by Friday"}
+      - {id: anthropic-d02, turn: 20, type: similar_entity_decoy, speaker: felix, gold_label: IGNORE, severity: 1,
+         detail: "Felix mentions the internal harbor-lite smoke set has 200 items (a different set)"}
+      - {turn: 30, type: resolve, item: c_license_review, speaker: marcus,
+         detail: "Marcus: license review done, three repos excluded"}
+      - {id: anthropic-p03, turn: 35, type: contradiction, fact: pass_threshold, speaker: theo,
+         said_value: "75% pass@1", gold_label: INTERVENE, severity: 2, bucket: far,
+         detail: "Theo writes in the draft that the release gate is 75% pass@1"}
+
+  - id: t3
+    structure: threaded
+    day: "Mon Oct 12"
+    channel: "#harbor"
+    situation: "Contamination found; harbor moves to a new version; baselines must be rerun."
+    n_turns: 40
+    events:
+      - {id: anthropic-d03, turn: 1, type: decoy_resolved_before_checkpoint, item: c_license_review,
+         speaker: nadia, gold_label: IGNORE, severity: 1,
+         detail: "First message after Marcus's Friday check point; the review was already done"}
+      - {turn: 6,  type: update, fact: suite_version, speaker: felix, form: cross_ref,
+         ref: {thread: t2, turn: 38, speaker: felix}}
+         # felix (t2/38): "thinking we cut 1.3 with the scorer fix before the paper runs"  ->  felix: "going ahead with the suite release i floated wednesday"
+      - {id: anthropic-d04, turn: 10, type: decoy_legit_change_quote, fact: suite_version, speaker: yuki,
+         gold_label: IGNORE, severity: 2,
+         detail: "Yuki restates the new version (v1.3) while updating the eval config"}
+      - {id: anthropic-p04, turn: 17, type: commitment, item: c_baselines, speaker: theo,
+         gold_label: TRACK, severity: 1,
+         detail: "Theo: all baselines rerun on the new version by Friday"}
+      - {id: anthropic-p05, turn: 22, type: stale_quote, fact: suite_version, speaker: nadia,
+         said_value: "v1.2", gold_label: INTERVENE, severity: 2, bucket: near,
+         detail: "Nadia's results-table caption still says harbor v1.2"}
+      - {id: anthropic-d05, turn: 28, type: answered_question, fact: compute_owner, speaker: theo,
+         answered_by: elena, gold_label: IGNORE, severity: 1,
+         detail: "Theo asks who holds the compute reservation; Elena answers in the next message"}
+
+  - id: t4
+    structure: interleaved
+    side: {situation: "Felix and Yuki pick a venue for the team offsite", speakers: [felix, yuki], n_msgs: 9}
+    day: "Mon Oct 19"
+    channel: "#harbor-evals"
+    situation: "Second contamination pass; paper results and what goes in the appendix."
+    n_turns: 35
+    events:
+      - {id: anthropic-p06, turn: 1, type: deadline_passed, item: c_baselines, speaker: yuki,
+         gold_label: INTERVENE, severity: 3, bucket: cross,
+         detail: "Thread opens with Yuki's weekend results; nobody says whether Theo's baseline reruns finished Friday"}
+      - {turn: 7,  type: update, fact: item_count, speaker: marcus, form: correction,
+         setup: {turn: 5, speaker: theo}, gap: true}
+         # theo: "baselines running on all 1,200 tonight"  ->  marcus: "careful, 60 got dropped for contamination, it's 1,140 now"
+      - {id: anthropic-p07, turn: 12, type: pending_decision, item: d_three_shot, speaker: nadia,
+         gold_label: TRACK, severity: 1,
+         detail: "Nadia: we'll decide at Tuesday's paper sync whether the 3-shot results go in"}
+      - {id: anthropic-p08, turn: 20, type: stale_quote, fact: item_count, speaker: theo,
+         said_value: "1,200 items", gold_label: INTERVENE, severity: 2, bucket: near,
+         detail: "Theo's dataset section says the held-out set has 1,200 items"}
+      - {id: anthropic-d06, turn: 25, type: decoy_self_correction, fact: suite_version, speaker: elena,
+         gold_label: IGNORE, severity: 1,
+         detail: "Elena says she's rerunning on v1.2, then corrects herself to v1.3 in her next message"}
+      - {turn: 30, type: resolve, item: d_three_shot, speaker: nadia,
+         detail: "Nadia: decided, 3-shot results go in the appendix"}
+
+  - id: t5
+    structure: flat
+    day: "Wed Oct 21"
+    channel: "#harbor"
+    situation: "Two days to the deadline: final numbers, author list, release checklist."
+    n_turns: 35
+    events:
+      - {id: anthropic-p09, turn: 8, type: repeat_question, fact: compute_owner, speaker: felix,
+         gold_label: INTERVENE, severity: 2, bucket: cross,
+         detail: "Felix's release jobs are queued; he asks who owns the compute reservation; nobody answers"}
+      - {id: anthropic-p10, turn: 16, type: contradiction, fact: pass_threshold, speaker: marcus,
+         said_value: "65% pass@1", gold_label: INTERVENE, severity: 2, bucket: cross,
+         detail: "Marcus's release checklist says the gate is 65% pass@1"}
+      - {id: anthropic-d07, turn: 22, type: decoy_proposal, fact: paper_deadline, speaker: theo,
+         gold_label: IGNORE, severity: 2,
+         detail: "Theo floats skipping the workshop and targeting the main conference instead; Nadia says no"}
+      - {id: anthropic-d08, turn: 28, type: sensitive, speaker: marcus, gold_label: IGNORE, severity: 3,
+         detail: "Marcus says he's not doing great this week and might be slow to reply"}
+      - {id: anthropic-p11, turn: 32, type: repeat_question, fact: item_count, speaker: yuki,
+         gold_label: INTERVENE, severity: 2, bucket: cross,
+         detail: "Yuki asks how many items the held-out set has now, for table 1; nobody answers"}

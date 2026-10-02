@@ -1,0 +1,190 @@
+# Workspace ledger: openai
+# Synthetic team chat for an enterprise account team at OpenAI working a large API
+# customer's renewal. The customer, people, prices and terms are all invented;
+# nothing here describes real OpenAI deals. See ws_ando.yaml for how this file is used.
+#
+# Totals: 5 facts (2 change), 3 open items, 5 threads (190 turns),
+#         11 plants (8 INTERVENE, 3 TRACK), 8 decoys.
+# Plant buckets (INTERVENE only): near 3, far 1, cross 4.
+# Thread structure: 1 threaded, 2 interleaved, 2 flat.
+
+workspace: openai
+company: >
+  An enterprise API account team at OpenAI. The team is renewing Northwind Health,
+  a large healthcare customer: contract terms, discount, rate limits, data retention,
+  and the customer's executive contacts.
+
+filler_rules:
+  - Filler turns must NOT state or paraphrase any value in facts[] (dates, discounts, rate limits, retention terms, contacts).
+  - Filler should sound like a sales and solutions team's Slack: deal stages, call recaps, customer quotes described in words.
+  - Topics for filler come from the thread's situation and the personas' roles.
+
+personas:
+  - {id: rachel,  name: Rachel,  role: "account executive; owns the Northwind deal", style: "crisp, deadline-driven"}
+  - {id: tomas,   name: Tomas,   role: "deal desk; pricing and order forms", style: "formal, quotes numbers exactly"}
+  - {id: ines,    name: Ines,    role: "legal counsel for enterprise contracts", style: "careful, flags risk"}
+  - {id: gabe,    name: Gabe,    role: "solutions engineer; rate limits and integration", style: "technical, friendly"}
+  - {id: keiko,   name: Keiko,   role: "customer success manager for Northwind", style: "relays customer asks, warm"}
+  - {id: darnell, name: Darnell, role: "sales leadership; exec relationships", style: "big picture, brief"}
+
+facts:
+  - id: renewal_deadline
+    keys: ["renewal", "signature", "deadline"]
+    entity: "Northwind contract renewal"
+    attribute: signature deadline
+    history:
+      - {value: "Oct 30", set_in: t1, turn: 4, by: rachel}
+  - id: discount
+    keys: ["discount"]
+    entity: "Northwind discount"
+    attribute: rate
+    history:
+      - {value: "18% off list", match: '\b18\b', set_in: t1, turn: 9, by: tomas}
+      - {value: "15% off list", match: '\b15\b', set_in: t3, turn: 7, by: tomas,
+         reason: "finance capped multi-year healthcare discounts at 15%"}
+  - id: exec_contact
+    keys: ["sponsor", "exec", "executive"]
+    entity: "Northwind executive sponsor"
+    attribute: person
+    history:
+      - {value: "Amara Okafor (CIO)", match: 'Amara', set_in: t1, turn: 13, by: darnell}
+      - {value: "Jon Reyes (new CTO)", match: 'Reyes|\bJon\b', set_in: t4, turn: 7, by: keiko,
+         reason: "Amara left Northwind; Jon now owns the AI budget"}
+  - id: rate_limit
+    keys: ["rate limit", "tpm", "tokens per minute"]
+    entity: "Northwind rate limit"
+    attribute: tokens per minute
+    history:
+      - {value: "40M tokens per minute", match: '40\s?M', set_in: t2, turn: 5, by: gabe}
+  - id: retention
+    keys: ["retention", "zdr"]
+    entity: "Northwind data retention"
+    attribute: terms
+    history:
+      - {value: "zero data retention on all endpoints", match: 'zero data retention|\bZDR\b', set_in: t2, turn: 10, by: ines}
+
+open_items:
+  - {id: c_dpa, kind: commitment, owner: ines,
+     what: "send the signed data processing addendum to Northwind legal",
+     check_point: "Fri Oct 9", opened_in: {thread: t1, turn: 20}, resolved: null}
+  - {id: c_load_test, kind: commitment, owner: gabe,
+     what: "load-test Northwind's workload at their full rate limit",
+     check_point: "Wed Oct 14", opened_in: {thread: t2, turn: 18}, resolved: {thread: t3, turn: 30}}
+  - {id: d_two_year, kind: pending_decision, owner: rachel,
+     what: "decide whether to offer Northwind a two-year term",
+     check_point: "Fri Oct 16 finance review", opened_in: {thread: t4, turn: 16}, resolved: null}
+
+threads:
+  - id: t1
+    structure: threaded
+    day: "Tue Oct 6"
+    channel: "#acct-northwind"
+    situation: "Renewal kickoff: timeline, pricing position, who the exec sponsor is, legal paperwork."
+    n_turns: 40
+    events:
+      - {turn: 4,  type: establish, fact: renewal_deadline, speaker: rachel}
+      - {turn: 9,  type: establish, fact: discount, speaker: tomas, form: ellipsis,
+         ask: {turn: 8, speaker: rachel, proposes_value: true}}
+         # rachel: "can we go 18 off list for Northwind?"  ->  tomas: "approved, go"
+      - {turn: 13, type: establish, fact: exec_contact, speaker: darnell}
+      - {id: openai-p01, turn: 20, type: commitment, item: c_dpa, speaker: ines,
+         gold_label: TRACK, severity: 1,
+         detail: "Ines: signed DPA goes to Northwind legal by Friday"}
+      - {id: openai-d01, turn: 27, type: banter, speaker: gabe, gold_label: IGNORE, severity: 1,
+         detail: "Gabe jokes about how many slides the QBR deck has"}
+      - {id: openai-p02, turn: 34, type: contradiction, fact: discount, speaker: keiko,
+         said_value: "20% off list", gold_label: INTERVENE, severity: 3, bucket: far,
+         detail: "Keiko tells the team she hinted at 20% off to Northwind's procurement lead"}
+
+  - id: t2
+    structure: interleaved
+    side: {situation: "Gabe and Rachel compare notes on another customer's outage", speakers: [gabe, rachel], n_msgs: 10}
+    day: "Thu Oct 8"
+    channel: "#acct-northwind-eng"
+    situation: "Technical review of Northwind's workload: throughput, retention, integration issues."
+    n_turns: 40
+    events:
+      - {turn: 5,  type: establish, fact: rate_limit, speaker: gabe, form: reaction,
+         ask: {turn: 4, speaker: keiko, proposes_value: true}, gap: true}
+         # keiko: "they want 40M TPM committed, 👍 if we can"  ->  gabe reacts 👍
+      - {turn: 10, type: establish, fact: retention, speaker: ines, form: distributed,
+         parts: ["zero data retention is approved", "applies to all endpoints, batch included"], part2_turn: 12}
+      - {id: openai-p03, turn: 18, type: commitment, item: c_load_test, speaker: gabe,
+         gold_label: TRACK, severity: 1,
+         detail: "Gabe: load test at their full limit done by next Wednesday"}
+      - {id: openai-p04, turn: 22, type: contradiction, fact: retention, speaker: keiko,
+         said_value: "standard 30-day retention", gold_label: INTERVENE, severity: 3, bucket: near,
+         detail: "Keiko says logs will be available for debugging since Northwind is on standard 30-day retention"}
+      - {id: openai-d02, turn: 28, type: similar_entity_decoy, speaker: rachel, gold_label: IGNORE, severity: 1,
+         detail: "Rachel mentions Northwind Logistics (a different customer) renews Nov 15"}
+
+  - id: t3
+    structure: flat
+    day: "Mon Oct 12"
+    channel: "#acct-northwind"
+    situation: "Finance pushback on discount; order form drafting."
+    n_turns: 40
+    events:
+      - {id: openai-p05, turn: 1, type: deadline_passed, item: c_dpa, speaker: darnell,
+         gold_label: INTERVENE, severity: 2, bucket: cross,
+         detail: "Thread opens with Darnell's weekly pipeline note; nobody mentions the DPA due Friday"}
+      - {turn: 7,  type: update, fact: discount, speaker: tomas, form: cross_ref,
+         ref: {thread: t2, turn: 36, speaker: tomas}}
+         # tomas (t2/36): "heads up, finance wants to cap Northwind at 15% off list on renewal"  ->  tomas: "going with the cap finance asked for"
+      - {id: openai-d03, turn: 11, type: decoy_legit_change_quote, fact: discount, speaker: rachel,
+         gold_label: IGNORE, severity: 2,
+         detail: "Rachel restates the new 15% while planning how to tell Northwind"}
+      - {id: openai-p06, turn: 19, type: stale_quote, fact: discount, speaker: tomas,
+         said_value: "18% off list", gold_label: INTERVENE, severity: 3, bucket: near,
+         detail: "Tomas pastes the order form draft, which still says 18% off list"}
+      - {id: openai-d04, turn: 24, type: answered_question, fact: rate_limit, speaker: keiko,
+         answered_by: gabe, gold_label: IGNORE, severity: 1,
+         detail: "Keiko asks Northwind's rate limit; Gabe answers in the next message"}
+      - {turn: 30, type: resolve, item: c_load_test, speaker: gabe,
+         detail: "Gabe: load test passed at full limit, p95 latency fine"}
+
+  - id: t4
+    structure: interleaved
+    side: {situation: "Keiko and Darnell plan a QBR dinner", speakers: [keiko, darnell], n_msgs: 9}
+    day: "Thu Oct 15"
+    channel: "#acct-northwind"
+    situation: "Northwind leadership change; QBR prep; contract term length."
+    n_turns: 35
+    events:
+      - {id: openai-d05, turn: 1, type: decoy_resolved_before_checkpoint, item: c_load_test,
+         speaker: rachel, gold_label: IGNORE, severity: 1,
+         detail: "First message after Gabe's Wednesday check point; the load test already passed"}
+      - {turn: 7,  type: update, fact: exec_contact, speaker: keiko, form: correction,
+         setup: {turn: 5, speaker: rachel}, gap: true}
+         # rachel: "sending the renewal deck to Amara today"  ->  keiko: "hold off, Jon Reyes (new CTO) is our person now"
+      - {id: openai-p07, turn: 16, type: pending_decision, item: d_two_year, speaker: rachel,
+         gold_label: TRACK, severity: 1,
+         detail: "Rachel: we'll decide on a two-year term after Friday's finance review"}
+      - {id: openai-p08, turn: 20, type: stale_quote, fact: exec_contact, speaker: darnell,
+         said_value: "Amara Okafor", gold_label: INTERVENE, severity: 2, bucket: near,
+         detail: "Darnell says he'll send the QBR deck to Amara"}
+      - {id: openai-d06, turn: 26, type: decoy_proposal, fact: discount, speaker: keiko,
+         gold_label: IGNORE, severity: 2,
+         detail: "Keiko floats 'what if we went back to 18% to close faster?'; Tomas says finance won't allow it"}
+
+  - id: t5
+    structure: flat
+    day: "Mon Oct 19"
+    channel: "#acct-northwind"
+    situation: "Final stretch before signature: redlines, approvals, who signs."
+    n_turns: 35
+    events:
+      - {id: openai-p09, turn: 1, type: deadline_passed, item: d_two_year, speaker: tomas,
+         gold_label: INTERVENE, severity: 2, bucket: cross,
+         detail: "First message after Friday's finance review; nobody says whether the two-year term is approved"}
+      - {id: openai-p10, turn: 12, type: repeat_question, fact: renewal_deadline, speaker: gabe,
+         gold_label: INTERVENE, severity: 2, bucket: cross,
+         detail: "Gabe asks when Northwind has to sign by; nobody answers"}
+      - {id: openai-d07, turn: 22, type: decoy_self_correction, fact: discount, speaker: rachel,
+         gold_label: IGNORE, severity: 1,
+         detail: "Rachel types 18%, then corrects to 15% in her next message"}
+      - {id: openai-d08, turn: 29, type: sensitive, speaker: keiko, gold_label: IGNORE, severity: 3,
+         detail: "Keiko says she's dealing with a personal matter and asks someone to cover tomorrow's call"}
+      - {id: openai-p11, turn: 33, type: repeat_question, fact: exec_contact, speaker: gabe,
+         gold_label: INTERVENE, severity: 2, bucket: cross,
+         detail: "Gabe asks who the exec contact at Northwind is now, to cc on the renewal; nobody answers"}

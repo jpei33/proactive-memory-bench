@@ -1,0 +1,192 @@
+# Workspace ledger: xai
+# Synthetic team chat for a pretraining-infrastructure team at an AI lab (xAI) bringing up
+# a large training run. People, codenames, numbers and dates are all invented;
+# nothing here describes real xAI plans. See ws_ando.yaml for how this file is used.
+#
+# Totals: 5 facts (2 change), 4 open items, 5 threads (190 turns),
+#         11 plants (8 INTERVENE, 3 TRACK), 8 decoys.
+# Plant buckets (INTERVENE only): near 3, far 1, cross 4.
+# Thread structure: 1 threaded, 2 interleaved, 2 flat.
+
+workspace: xai
+company: >
+  The pretraining infrastructure team at xAI, an AI lab. The team is bringing up
+  "kestrel", a large pretraining run on a new GPU cluster: node allocation,
+  storage, checkpointing, network fabric issues and on-call.
+
+filler_rules:
+  - Filler turns must NOT state or paraphrase any value in facts[] (dates, node counts, cadences, thresholds, owners).
+  - Filler should sound like an infra team's Slack: terse, lots of jargon (NCCL, IB fabric, MFU, stragglers), log snippets described in words.
+  - Topics for filler come from the thread's situation and the personas' roles.
+
+personas:
+  - {id: dmitri, name: Dmitri, role: "training lead for kestrel; owns the run schedule", style: "direct, sets dates, impatient with slips"}
+  - {id: wen,    name: Wen,    role: "cluster capacity and scheduling", style: "numbers-first, posts allocation tables"}
+  - {id: kofi,   name: Kofi,   role: "checkpointing and fault tolerance", style: "careful, explains failure modes"}
+  - {id: lucia,  name: Lucia,  role: "network fabric engineer", style: "brief, posts incident updates"}
+  - {id: mateo,  name: Mateo,  role: "data and storage pipeline", style: "optimistic about timelines"}
+  - {id: hana,   name: Hana,   role: "training stability and monitoring", style: "precise, defines thresholds"}
+
+facts:
+  - id: run_start
+    keys: ["run start", "start date", "kickoff", "kick off"]
+    entity: "kestrel pretraining run"
+    attribute: start date
+    history:
+      - {value: "Oct 5", set_in: t1, turn: 5, by: dmitri}
+      - {value: "Oct 12", set_in: t3, turn: 8, by: dmitri,
+         reason: "fabric firmware rollout needs another week"}
+  - id: node_alloc
+    keys: ["nodes", "allocation"]
+    entity: "kestrel node allocation"
+    attribute: node count
+    history:
+      - {value: "2,048 nodes", match: '2,?048', set_in: t1, turn: 9, by: wen}
+  - id: rollback_rule
+    keys: ["rollback", "roll back"]
+    entity: "loss-spike rollback rule"
+    attribute: threshold
+    history:
+      - {value: "roll back if loss rises more than 15% over 200 steps", match: '15\s?%', set_in: t1, turn: 13, by: hana}
+  - id: ckpt_cadence
+    keys: ["checkpoint", "ckpt"]
+    entity: "kestrel checkpoint cadence"
+    attribute: interval
+    history:
+      - {value: "every 500 steps", match: '\b500\b', set_in: t2, turn: 4, by: kofi}
+      - {value: "every 250 steps", match: '\b250\b', set_in: t4, turn: 5, by: kofi,
+         reason: "a node failure on Thursday lost 400 steps of work"}
+  - id: fabric_oncall
+    keys: ["on-call", "oncall", "fabric"]
+    entity: "fabric incident on-call"
+    attribute: owner
+    history:
+      - {value: "Lucia", set_in: t2, turn: 8, by: lucia}
+
+open_items:
+  - {id: c_storage_tier, kind: commitment, owner: mateo,
+     what: "finish moving the tokenized datasets to the new storage tier",
+     check_point: "Fri Oct 2", opened_in: {thread: t1, turn: 24}, resolved: null}
+  - {id: d_tokenizer, kind: pending_decision, owner: dmitri,
+     what: "decide between tokenizer v3 and v4 for kestrel",
+     check_point: "Thu Oct 8 run sync", opened_in: {thread: t3, turn: 25}, resolved: null}
+  - {id: c_restart_drill, kind: commitment, owner: kofi,
+     what: "run the checkpoint-restart drill on the full allocation",
+     check_point: "Sat Oct 10", opened_in: {thread: t4, turn: 22}, resolved: {thread: t4, turn: 31}}
+
+threads:
+  - id: t1
+    structure: flat
+    day: "Mon Sep 28"
+    channel: "#kestrel-run"
+    situation: "Kickoff for the kestrel run: start date, allocation, stability rules, data readiness."
+    n_turns: 40
+    events:
+      - {turn: 5,  type: establish, fact: run_start, speaker: dmitri}
+      - {turn: 9,  type: establish, fact: node_alloc, speaker: wen, form: ellipsis,
+         ask: {turn: 8, speaker: dmitri, proposes_value: true}}
+         # dmitri: "do we have the full 2,048 for kestrel?"  ->  wen: "confirmed, all yours"
+      - {turn: 13, type: establish, fact: rollback_rule, speaker: hana, form: distributed,
+         parts: ["roll back if loss rises more than 15%", "measured over a 200-step window"], part2_turn: 15}
+      - {id: xai-p01, turn: 18, type: contradiction, fact: node_alloc, speaker: mateo,
+         said_value: "2,560 nodes", gold_label: INTERVENE, severity: 2, bucket: near,
+         detail: "Mateo sizes data-loader throughput for 2,560 nodes"}
+      - {id: xai-p02, turn: 24, type: commitment, item: c_storage_tier, speaker: mateo,
+         gold_label: TRACK, severity: 1,
+         detail: "Mateo: datasets will be on the new storage tier by Friday"}
+      - {id: xai-d01, turn: 30, type: banter, speaker: lucia, gold_label: IGNORE, severity: 1,
+         detail: "Lucia jokes that the cluster room is louder than a jet engine"}
+
+  - id: t2
+    structure: interleaved
+    side: {situation: "Mateo and Lucia argue about where to get lunch", speakers: [mateo, lucia], n_msgs: 10}
+    day: "Wed Sep 30"
+    channel: "#infra"
+    situation: "Fabric firmware rollout and checkpointing setup; who handles incidents."
+    n_turns: 40
+    events:
+      - {turn: 4,  type: establish, fact: ckpt_cadence, speaker: kofi, form: reaction, emoji: "✅",
+         ask: {turn: 3, speaker: hana, proposes_value: true}}
+         # hana: "proposing we checkpoint every 500 steps, ✅ if ok"  ->  kofi reacts ✅
+      - {turn: 8,  type: establish, fact: fabric_oncall, speaker: lucia, form: ellipsis,
+         ask: {turn: 7, speaker: wen, proposes_value: false}, gap: true}
+         # wen: "who's on fabric on-call for the run?"  -> [side msg] ->  lucia: "me"
+      - {id: xai-d02, turn: 15, type: answered_question, fact: run_start, speaker: wen,
+         answered_by: dmitri, gold_label: IGNORE, severity: 1,
+         detail: "Wen asks when the run starts; Dmitri answers in the next message"}
+      - {id: xai-p03, turn: 33, type: contradiction, fact: ckpt_cadence, speaker: hana,
+         said_value: "every 1,000 steps", gold_label: INTERVENE, severity: 2, bucket: far,
+         detail: "Hana sizes checkpoint storage assuming a checkpoint every 1,000 steps"}
+
+  - id: t3
+    structure: threaded
+    day: "Mon Oct 5"
+    channel: "#kestrel-run"
+    situation: "Run slips a week for the fabric firmware; team re-plans and argues about tokenizers."
+    n_turns: 40
+    events:
+      - {id: xai-p04, turn: 1, type: deadline_passed, item: c_storage_tier, speaker: wen,
+         gold_label: INTERVENE, severity: 2, bucket: cross,
+         detail: "Thread opens with a weekend capacity update; nobody says whether the storage move finished Friday"}
+      - {turn: 8,  type: update, fact: run_start, speaker: dmitri, form: correction,
+         setup: {turn: 6, speaker: wen}}
+         # wen: "nodes reserved from the 5th as planned"  ->  dmitri: "no, slip a week to the 12th, data isn't ready"
+      - {id: xai-d03, turn: 12, type: decoy_legit_change_quote, fact: run_start, speaker: kofi,
+         gold_label: IGNORE, severity: 2,
+         detail: "Kofi restates the new start date (Oct 12) while moving the restart drill"}
+      - {id: xai-p05, turn: 19, type: stale_quote, fact: run_start, speaker: mateo,
+         said_value: "Oct 5", gold_label: INTERVENE, severity: 2, bucket: near,
+         detail: "Mateo says he'll kick off data loading tonight since the run starts today"}
+      - {id: xai-p06, turn: 25, type: pending_decision, item: d_tokenizer, speaker: dmitri,
+         gold_label: TRACK, severity: 1,
+         detail: "Dmitri: we'll pick tokenizer v3 or v4 at Thursday's run sync"}
+      - {id: xai-d04, turn: 30, type: decoy_proposal, fact: run_start, speaker: wen,
+         gold_label: IGNORE, severity: 1,
+         detail: "Wen floats starting on half the nodes on Oct 7; Dmitri says no"}
+
+  - id: t4
+    structure: interleaved
+    side: {situation: "Wen and Dmitri plan a visit from the GPU vendor", speakers: [wen, dmitri], n_msgs: 9}
+    day: "Fri Oct 9"
+    channel: "#infra"
+    situation: "Post-mortem of Thursday's node failure; checkpointing changes; restart drill."
+    n_turns: 35
+    events:
+      - {id: xai-p07, turn: 1, type: deadline_passed, item: d_tokenizer, speaker: hana,
+         gold_label: INTERVENE, severity: 2, bucket: cross,
+         detail: "First message after Thursday's sync; no one says which tokenizer was picked"}
+      - {turn: 5,  type: update, fact: ckpt_cadence, speaker: kofi, form: cross_ref,
+         ref: {thread: t3, turn: 36, speaker: kofi}}
+         # kofi (t3/36): "after the restart drill i think we need 250-step checkpoints"  ->  kofi: "doing the checkpoint change i floated monday"
+      - {id: xai-d05, turn: 12, type: decoy_self_correction, fact: run_start, speaker: lucia,
+         gold_label: IGNORE, severity: 1,
+         detail: "Lucia says the run starts the 5th, then corrects herself to the 12th in her next message"}
+      - {id: xai-p08, turn: 18, type: stale_quote, fact: ckpt_cadence, speaker: mateo,
+         said_value: "every 500 steps", gold_label: INTERVENE, severity: 2, bucket: near,
+         detail: "Mateo budgets storage I/O for a checkpoint every 500 steps"}
+      - {id: xai-p09, turn: 22, type: commitment, item: c_restart_drill, speaker: kofi,
+         gold_label: TRACK, severity: 1,
+         detail: "Kofi: restart drill on the full allocation done by Saturday"}
+      - {id: xai-d06, turn: 26, type: sensitive, speaker: hana, gold_label: IGNORE, severity: 3,
+         detail: "Hana says she has a family emergency and has to log off for the day"}
+      - {turn: 31, type: resolve, item: c_restart_drill, speaker: kofi,
+         detail: "Kofi: restart drill passed, restore took 11 minutes"}
+
+  - id: t5
+    structure: flat
+    day: "Mon Oct 12"
+    channel: "#kestrel-run"
+    situation: "Launch day for the run: final checks, first steps, watching for stragglers."
+    n_turns: 35
+    events:
+      - {id: xai-d07, turn: 1, type: decoy_resolved_before_checkpoint, item: c_restart_drill,
+         speaker: dmitri, gold_label: IGNORE, severity: 1,
+         detail: "First message after Kofi's Saturday check point; the drill already passed"}
+      - {id: xai-d08, turn: 9, type: similar_entity_decoy, speaker: wen, gold_label: IGNORE, severity: 1,
+         detail: "Wen notes the kestrel-mini ablation run starts Oct 14 (a different run)"}
+      - {id: xai-p10, turn: 17, type: repeat_question, fact: fabric_oncall, speaker: mateo,
+         gold_label: INTERVENE, severity: 2, bucket: cross,
+         detail: "Mateo sees IB link flaps and asks who is on call for fabric issues; nobody answers"}
+      - {id: xai-p11, turn: 27, type: stale_quote, fact: ckpt_cadence, speaker: hana,
+         said_value: "every 500 steps", gold_label: INTERVENE, severity: 2, bucket: cross,
+         detail: "Hana estimates crash losses assuming checkpoints every 500 steps"}

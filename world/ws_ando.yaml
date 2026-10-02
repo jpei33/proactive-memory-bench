@@ -1,0 +1,294 @@
+# Workspace ledger: ando
+# Synthetic team chat for a startup building an agent-native team messenger,
+# in the two weeks before its public launch. Every fact, number and message is
+# invented for this benchmark except the launch date and the $20M raise.
+#
+# How this file is used
+#   sim/run_workspace  : threads run in order; event turns are scripted from this
+#                        file, every other turn is LLM filler from personas + situation.
+#   world/verify       : checks each plant against the values below.
+#   plants.jsonl       : gold_value / stale_value / evidence / bucket come from here.
+#   labeling sheet     : "team facts as of now" is computed from facts[].history.
+#
+# Totals: 6 facts (3 change), 3 open items, 6 threads (230 turns),
+#         16 plants (12 INTERVENE, 4 TRACK), 9 decoys.
+# Plant buckets (INTERVENE only): near 3, far 2, cross 7.
+# Thread structure: 1 threaded, 2 interleaved, 3 flat.
+
+workspace: ando
+company: >
+  Ando, a 7-person startup building a team messenger where AI agents are
+  workspace members next to humans: they have their own identity and inbox,
+  read channels, join threads without being tagged, and keep shared memory
+  across conversations. Launching publicly with a Series A announcement.
+
+filler_rules:
+  - Filler turns must NOT state or paraphrase any value in facts[] (dates, amounts, owners, prices, policies).
+  - Filler should sound like a small, busy startup Slack: short messages, typos ok, some emoji, links described in words.
+  - Topics for filler come from the thread's situation and the personas' roles.
+
+personas:
+  - id: sara
+    name: Sara
+    role: CEO and founder; owns launch date, fundraising, pricing, press
+    style: decisive, short messages, sets dates and makes calls
+  - id: oli
+    name: Oli
+    role: engineering lead; agent runtime and infra
+    style: terse, technical, posts ticket numbers
+  - id: alex
+    name: Alex
+    role: product designer; onboarding flow, agent UX, design reviews
+    style: thinks out loud, asks a lot of clarifying questions
+  - id: aj
+    name: AJ
+    role: backend engineer; permissions, search, memory store
+    style: precise, careful about edge cases
+  - id: olavo
+    name: Olavo
+    role: growth and marketing; launch post, waitlist email, press kit
+    style: upbeat, moves fast, sometimes loose with numbers
+  - id: frida
+    name: Frida
+    role: customer success; design-partner workspaces in beta
+    style: warm, relays customer questions, organized
+
+# ---------------------------------------------------------------- facts
+# Every value a plant depends on, and each time it changes.
+facts:
+  - id: launch_date
+    keys: ["launch"]
+    entity: "public launch"
+    attribute: date
+    history:
+      - {value: "Sep 17", set_in: t1, turn: 6, by: sara}
+      - {value: "Sep 24", set_in: t3, turn: 9, by: sara,
+         reason: "move to Thursday the 24th so the launch lands with the Series A announcement"}
+
+  - id: series_a
+    keys: ["series a", "raise", "round"]
+    entity: "Series A raise"
+    attribute: amount
+    history:
+      - {value: "$20M", set_in: t1, turn: 10, by: sara,
+         note: "embargoed until launch day"}
+
+  - id: waitlist_email_owner
+    keys: ["waitlist"]
+    entity: "launch waitlist email"
+    attribute: owner
+    history:
+      - {value: "Olavo", set_in: t1, turn: 14, by: sara}
+
+  - id: pricing_model
+    keys: ["pricing", "billing"]
+    entity: "pricing"
+    attribute: billing model
+    history:
+      - {value: "$12 per seat, agent actions metered", match: 'meter', set_in: t1, turn: 17, by: sara}
+      - {value: "$12 per human seat, agents free", match: 'free', set_in: t4, turn: 6, by: sara,
+         reason: "metering agent actions would punish teams for using agents"}
+
+  - id: dm_policy
+    keys: ["dm", "direct message"]
+    entity: "agent access to DMs"
+    attribute: policy
+    history:
+      - {value: "agents never read a DM unless a participant forwards it", match: 'forward',
+         set_in: t2, turn: 5, by: aj}
+
+  - id: and341_owner
+    keys: ["and-341", "341", "double-post"]
+    entity: "AND-341 (agent double-posts in threads)"
+    attribute: owner
+    history:
+      - {value: "AJ", set_in: t2, turn: 11, by: oli}
+      - {value: "Oli", set_in: t5, turn: 5, by: oli,
+         reason: "AJ moved to launch-week permissions work"}
+
+# ---------------------------------------------------------------- open items
+# Things the rubric says to TRACK: someone responsible, something to check, a check point.
+open_items:
+  - id: c_migration_guide
+    kind: commitment
+    owner: frida
+    what: "send design partners the Slack-to-Ando migration guide"
+    check_point: "Fri Sep 11"
+    opened_in: {thread: t1, turn: 24}
+    resolved: null                       # never done -> deadline_passed in t3
+
+  - id: c_dm_permission_check
+    kind: commitment
+    owner: aj
+    what: "merge the forwarded-DM permission check"
+    check_point: "Tue Sep 15"
+    opened_in: {thread: t2, turn: 20}
+    resolved: {thread: t3, turn: 30}     # done early -> decoy in t4
+
+  - id: c_press_kit
+    kind: commitment
+    owner: olavo
+    what: "send the press kit to the embargoed reporters"
+    check_point: "Fri Sep 18"
+    opened_in: {thread: t4, turn: 27}
+    resolved: {thread: t5, turn: 31}     # done on time, no follow-up needed
+
+  - id: d_proactive_dms
+    kind: pending_decision
+    owner: sara
+    what: "decide whether agents may DM a human first, without being asked"
+    check_point: "Mon Sep 21 design review"
+    opened_in: {thread: t5, turn: 14}
+    resolved: null                       # never decided -> deadline_passed in t6
+
+# ---------------------------------------------------------------- threads
+# gold_label / severity follow rubric.md. bucket is the intended distance;
+# world/verify recomputes it from the generated messages.
+threads:
+  - id: t1
+    structure: flat
+    day: "Tue Sep 8"
+    channel: "#launch"
+    situation: "Launch kickoff. Sara sets the date, the raise, pricing and owners for launch-week work."
+    n_turns: 40
+    events:
+      - {turn: 6,  type: establish, fact: launch_date, speaker: sara}
+      - {turn: 10, type: establish, fact: series_a, speaker: sara, form: reaction,
+         ask: {turn: 9, speaker: olavo, proposes_value: true}}
+         # olavo: "for the post: $20M Series A, embargoed till launch day? 👍 if right"  ->  sara reacts 👍
+      - {turn: 14, type: establish, fact: waitlist_email_owner, speaker: olavo, form: ellipsis,
+         ask: {turn: 13, speaker: sara, proposes_value: false}}
+         # sara: "who wants the waitlist email?"  ->  olavo: "me!! already drafting"
+      - {turn: 17, type: establish, fact: pricing_model, speaker: sara, form: distributed,
+         parts: ["$12 per seat", "agent actions get metered on top"], part2_turn: 19}
+      - {id: ando-p01, turn: 22, type: contradiction, fact: pricing_model, speaker: alex,
+         said_value: "$15 per seat", gold_label: INTERVENE, severity: 2, bucket: near,
+         detail: "Alex sketches the pricing page and writes the seat price as $15"}
+      - {id: ando-p02, turn: 24, type: commitment, item: c_migration_guide, speaker: frida,
+         gold_label: TRACK, severity: 1,
+         detail: "Frida: she'll send design partners the migration guide by Friday"}
+      - {id: ando-d01, turn: 29, type: banter, speaker: olavo, gold_label: IGNORE, severity: 1,
+         detail: "Olavo jokes about how many launch-day snacks to order"}
+      - {id: ando-p03, turn: 36, type: contradiction, fact: launch_date, speaker: alex,
+         said_value: "Sep 18", gold_label: INTERVENE, severity: 2, bucket: far,
+         detail: "Alex plans design freeze around a launch on the 18th"}
+
+  - id: t2
+    structure: interleaved
+    side: {situation: "Alex and Frida plan the design-partner launch lunch", speakers: [alex, frida], n_msgs: 10}
+    day: "Thu Sep 10"
+    channel: "#eng"
+    situation: "Launch-readiness for the agent runtime: DM permissions, the double-posting bug, memory store load."
+    n_turns: 40
+    events:
+      - {turn: 5,  type: establish, fact: dm_policy, speaker: aj}
+      - {turn: 11, type: establish, fact: and341_owner, speaker: aj, form: ellipsis,
+         ask: {turn: 10, speaker: oli, proposes_value: false}, gap: true}
+         # oli: "AND-341 needs an owner before launch, who can take it?"  -> [side msg] ->  aj: "i'll grab it"
+      - {id: ando-d02, turn: 15, type: similar_entity_decoy, speaker: oli, gold_label: IGNORE, severity: 1,
+         detail: "Oli closes AND-314 (a search indexing bug, owned by Oli), not AND-341"}
+      - {id: ando-p04, turn: 20, type: commitment, item: c_dm_permission_check, speaker: aj,
+         gold_label: TRACK, severity: 1,
+         detail: "AJ: forwarded-DM permission check will be merged by Tuesday"}
+      - {id: ando-p05, turn: 34, type: repeat_question, fact: dm_policy, speaker: alex,
+         gold_label: INTERVENE, severity: 2, bucket: far,
+         detail: "Alex asks whether an agent can read a DM it was @-mentioned in; nobody answers"}
+
+  - id: t3
+    structure: threaded
+    day: "Mon Sep 14"
+    channel: "#launch"
+    situation: "Launch slips a week to line up with the Series A announcement; team re-plans."
+    n_turns: 40
+    events:
+      - {id: ando-p06, turn: 1, type: deadline_passed, item: c_migration_guide, speaker: olavo,
+         gold_label: INTERVENE, severity: 2, bucket: cross,
+         detail: "Thread opens with Olavo's weekend recap; nobody mentions the migration guide, which was due Friday"}
+      - {turn: 9,  type: update, fact: launch_date, speaker: sara, form: correction,
+         setup: {turn: 7, speaker: olavo}}
+         # olavo: "so for the 17th: waitlist email the day before, post at 9?"  ->  sara: "let's make it the 24th instead"
+      - {id: ando-d03, turn: 13, type: decoy_legit_change_quote, fact: launch_date, speaker: frida,
+         gold_label: IGNORE, severity: 2,
+         detail: "Frida restates the new date (Sep 24) while updating the partner calendar"}
+      - {id: ando-p07, turn: 20, type: stale_quote, fact: launch_date, speaker: olavo,
+         said_value: "Sep 17", gold_label: INTERVENE, severity: 2, bucket: near,
+         detail: "Olavo, catching up, asks if the waitlist email can still go out the day before the 17th"}
+      - {id: ando-d04, turn: 25, type: answered_question, fact: waitlist_email_owner, speaker: alex,
+         answered_by: olavo, gold_label: IGNORE, severity: 1,
+         detail: "Alex asks who sends the waitlist email; Olavo answers 'me' in the very next message"}
+      - {turn: 30, type: resolve, item: c_dm_permission_check, speaker: aj,
+         detail: "AJ: forwarded-DM permission check is merged"}
+
+  - id: t4
+    structure: flat
+    day: "Wed Sep 16"
+    channel: "#gtm"
+    situation: "Go-to-market: pricing page, launch post draft, press plan."
+    n_turns: 40
+    events:
+      - {id: ando-d05, turn: 1, type: decoy_resolved_before_checkpoint, item: c_dm_permission_check,
+         speaker: olavo, gold_label: IGNORE, severity: 1,
+         detail: "First message after AJ's Tuesday check point; the item was already merged, so nothing to flag"}
+      - {turn: 6,  type: update, fact: pricing_model, speaker: sara, form: cross_ref,
+         ref: {thread: t3, turn: 35, speaker: alex}}
+         # alex (t3/35): "what if agents were free and we only charge $12 per human seat?"  ->  sara: "going with alex's pricing idea from monday"
+      - {id: ando-d06, turn: 12, type: decoy_proposal, fact: launch_date, speaker: olavo,
+         gold_label: IGNORE, severity: 2,
+         detail: "Olavo floats 'what if we pushed to Oct 1 to give press more time?'; Sara says no"}
+      - {id: ando-p08, turn: 19, type: contradiction, fact: series_a, speaker: olavo,
+         said_value: "$25M", gold_label: INTERVENE, severity: 3, bucket: cross,
+         detail: "Olavo pastes a launch post draft line: 'backed by a $25M Series A'"}
+      - {id: ando-p09, turn: 27, type: commitment, item: c_press_kit, speaker: olavo,
+         gold_label: TRACK, severity: 1,
+         detail: "Olavo: press kit goes to the embargoed reporters by Friday"}
+
+  - id: t5
+    structure: interleaved
+    side: {situation: "Olavo and Frida swap notes on press interview times", speakers: [olavo, frida], n_msgs: 9}
+    day: "Fri Sep 18"
+    channel: "#eng"
+    situation: "Launch-week bug bash. Reassignments, proactive-agent behavior questions."
+    n_turns: 35
+    events:
+      - {turn: 5,  type: update, fact: and341_owner, speaker: oli, form: correction,
+         setup: {turn: 3, speaker: aj}, gap: true}
+         # aj: "still on AND-341 btw, after permissions"  ->  oli: "nah hand it to me, you stay on permissions"
+      - {id: ando-d07, turn: 10, type: similar_entity_decoy, speaker: alex, gold_label: IGNORE, severity: 1,
+         detail: "Alex mentions the iOS app launch is targeting Oct 8 (a different entity from the public launch)"}
+      - {id: ando-p10, turn: 17, type: stale_quote, fact: and341_owner, speaker: frida,
+         said_value: "AJ", gold_label: INTERVENE, severity: 1, bucket: near,
+         detail: "Frida: a design partner hit the double-post bug again, she'll ping AJ since it's his"}
+      - {id: ando-p11, turn: 14, type: pending_decision, item: d_proactive_dms, speaker: sara,
+         gold_label: TRACK, severity: 1,
+         detail: "Sara: we'll decide on Monday's design review whether agents can DM people first"}
+      - {id: ando-d08, turn: 28, type: decoy_self_correction, fact: launch_date, speaker: olavo,
+         gold_label: IGNORE, severity: 1,
+         detail: "Olavo says 'launch is the 17th', then corrects himself to the 24th in his next message"}
+      - {turn: 31, type: resolve, item: c_press_kit, speaker: olavo,
+         detail: "Olavo: press kit sent to all six reporters"}
+
+  - id: t6
+    structure: flat
+    day: "Tue Sep 22"
+    channel: "#design-partners"
+    situation: "Launch-week prep with design partners: FAQ, billing questions, waitlist email."
+    n_turns: 35
+    events:
+      - {id: ando-p12, turn: 1, type: deadline_passed, item: d_proactive_dms, speaker: alex,
+         gold_label: INTERVENE, severity: 2, bucket: cross,
+         detail: "Thread opens the day after the design review; nobody says whether agents may DM people first"}
+      - {id: ando-p13, turn: 8, type: stale_quote, fact: pricing_model, speaker: frida,
+         said_value: "agent actions metered", gold_label: INTERVENE, severity: 3, bucket: cross,
+         detail: "Frida tells the team she warned a design partner that agent actions get billed after launch"}
+      - {id: ando-d09, turn: 14, type: sensitive, speaker: frida, gold_label: IGNORE, severity: 3,
+         detail: "Frida says she has to leave early Thursday for a family matter and asks for cover"}
+      - {id: ando-p14, turn: 21, type: repeat_question, fact: waitlist_email_owner, speaker: alex,
+         gold_label: INTERVENE, severity: 2, bucket: cross,
+         detail: "Alex asks who is sending the waitlist email Thursday; nobody answers"}
+      - {id: ando-p15, turn: 28, type: contradiction, fact: dm_policy, speaker: olavo,
+         said_value: "agents read channel and DM history to build team memory",
+         gold_label: INTERVENE, severity: 3, bucket: cross,
+         detail: "Olavo posts a draft partner FAQ answer saying agents read all DMs to build memory"}
+      - {id: ando-p16, turn: 32, type: repeat_question, fact: and341_owner, speaker: frida,
+         gold_label: INTERVENE, severity: 2, bucket: cross,
+         detail: "Frida says a design partner hit the double-post bug again and asks who has AND-341 now; nobody answers"}
