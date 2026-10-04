@@ -1,0 +1,182 @@
+[
+ {
+  "row": 1,
+  "point_id": "ando/t2/s01",
+  "kind": "ordinary",
+  "plant_id": null,
+  "type": null,
+  "gold_label": null,
+  "severity": null
+ },
+ {
+  "row": 2,
+  "point_id": "xai/t3/021",
+  "kind": "plant_after",
+  "plant_id": "xai-p05",
+  "type": null,
+  "gold_label": null,
+  "severity": null
+ },
+ {
+  "row": 3,
+  "point_id": "xai/t3/025",
+  "kind": "plant_trigger",
+  "plant_id": "xai-p06",
+  "type": "pending_decision",
+  "gold_label": "TRACK",
+  "severity": 1
+ },
+ {
+  "row": 4,
+  "point_id": "openai/t5/029",
+  "kind": "decoy_trigger",
+  "plant_id": "openai-d08",
+  "type": "sensitive",
+  "gold_label": "IGNORE",
+  "severity": 3
+ },
+ {
+  "row": 5,
+  "point_id": "openai/t4/020",
+  "kind": "plant_trigger",
+  "plant_id": "openai-p08",
+  "type": "stale_quote",
+  "gold_label": "INTERVENE",
+  "severity": 2
+ },
+ {
+  "row": 6,
+  "point_id": "openai/t5/033",
+  "kind": "plant_trigger",
+  "plant_id": "openai-p11",
+  "type": "repeat_question",
+  "gold_label": "INTERVENE",
+  "severity": 2
+ },
+ {
+  "row": 7,
+  "point_id": "xai/t5/001",
+  "kind": "decoy_trigger",
+  "plant_id": "xai-d07",
+  "type": "decoy_resolved_before_checkpoint",
+  "gold_label": "IGNORE",
+  "severity": 1
+ },
+ {
+  "row": 8,
+  "point_id": "ando/t2/s09",
+  "kind": "ordinary",
+  "plant_id": null,
+  "type": null,
+  "gold_label": null,
+  "severity": null
+ },
+ {
+  "row": 9,
+  "point_id": "xai/t4/001",
+  "kind": "plant_trigger",
+  "plant_id": "xai-p07",
+  "type": "deadline_passed",
+  "gold_label": "INTERVENE",
+  "severity": 2
+ },
+ {
+  "row": 10,
+  "point_id": "openai/t4/021",
+  "kind": "plant_after",
+  "plant_id": "openai-p08",
+  "type": null,
+  "gold_label": null,
+  "severity": null
+ },
+ {
+  "row": 11,
+  "point_id": "xai/t2/015",
+  "kind": "decoy_trigger",
+  "plant_id": "xai-d02",
+  "type": "answered_question",
+  "gold_label": "IGNORE",
+  "severity": 1
+ },
+ {
+  "row": 12,
+  "point_id": "xai/t3/030",
+  "kind": "decoy_trigger",
+  "plant_id": "xai-d04",
+  "type": "decoy_proposal",
+  "gold_label": "IGNORE",
+  "severity": 1
+ },
+ {
+  "row": 13,
+  "point_id": "ando/t1/024",
+  "kind": "plant_trigger",
+  "plant_id": "ando-p02",
+  "type": "commitment",
+  "gold_label": "TRACK",
+  "severity": 1
+ },
+ {
+  "row": 14,
+  "point_id": "xai/t5/032",
+  "kind": "ordinary",
+  "plant_id": null,
+  "type": null,
+  "gold_label": null,
+  "severity": null
+ },
+ {
+  "row": 15,
+  "point_id": "openai/t3/001",
+  "kind": "plant_trigger",
+  "plant_id": "openai-p05",
+  "type": "deadline_passed",
+  "gold_label": "INTERVENE",
+  "severity": 2
+ },
+ {
+  "row": 16,
+  "point_id": "ando/t5/014",
+  "kind": "plant_trigger",
+  "plant_id": "ando-p11",
+  "type": "pending_decision",
+  "gold_label": "TRACK",
+  "severity": 1
+ },
+ {
+  "row": 17,
+  "point_id": "xai/t2/001",
+  "kind": "ordinary",
+  "plant_id": null,
+  "type": null,
+  "gold_label": null,
+  "severity": null
+ },
+ {
+  "row": 18,
+  "point_id": "openai/t1/009",
+  "kind": "ordinary",
+  "plant_id": null,
+  "type": null,
+  "gold_label": null,
+  "severity": null
+ },
+ {
+  "row": 19,
+  "point_id": "openai/t2/022",
+  "kind": "plant_trigger",
+  "plant_id": "openai-p04",
+  "type": "contradiction",
+  "gold_label": "INTERVENE",
+  "severity": 3
+ },
+ {
+  "row": 20,
+  "point_id": "xai/t3/012",
+  "kind": "decoy_trigger",
+  "plant_id": "xai-d03",
+  "type": "decoy_legit_change_quote",
+  "gold_label": "IGNORE",
+  "severity": 2
+ }
+]

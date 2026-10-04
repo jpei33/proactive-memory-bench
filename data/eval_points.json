@@ -379,9 +379,9 @@
   "gold_label": null
  },
  {
-  "point_id": "ando/t3/025",
+  "point_id": "ando/t3/026",
   "ws": "ando",
-  "seq": 114,
+  "seq": 115,
   "channel": "#launch",
   "thread": "t3",
   "kind": "decoy_trigger",
@@ -390,9 +390,9 @@
   "severity": 1
  },
  {
-  "point_id": "ando/t3/029",
+  "point_id": "ando/t3/030",
   "ws": "ando",
-  "seq": 118,
+  "seq": 119,
   "channel": "#launch",
   "thread": "t3",
   "kind": "ordinary",
@@ -400,19 +400,9 @@
   "gold_label": null
  },
  {
-  "point_id": "ando/t3/031",
+  "point_id": "ando/t3/032",
   "ws": "ando",
-  "seq": 120,
-  "channel": "#launch",
-  "thread": "t3",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
-  "point_id": "ando/t3/033",
-  "ws": "ando",
-  "seq": 122,
+  "seq": 121,
   "channel": "#launch",
   "thread": "t3",
   "kind": "ordinary",
@@ -430,9 +420,19 @@
   "gold_label": null
  },
  {
-  "point_id": "ando/t3/038",
+  "point_id": "ando/t3/035",
   "ws": "ando",
-  "seq": 127,
+  "seq": 124,
+  "channel": "#launch",
+  "thread": "t3",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "ando/t3/037",
+  "ws": "ando",
+  "seq": 126,
   "channel": "#launch",
   "thread": "t3",
   "kind": "ordinary",
@@ -471,9 +471,9 @@
   "severity": 1
  },
  {
-  "point_id": "ando/t4/006",
+  "point_id": "ando/t4/005",
   "ws": "ando",
-  "seq": 135,
+  "seq": 134,
   "channel": "#gtm",
   "thread": "t4",
   "kind": "ordinary",
@@ -484,6 +484,16 @@
   "point_id": "ando/t4/007",
   "ws": "ando",
   "seq": 136,
+  "channel": "#gtm",
+  "thread": "t4",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "ando/t4/008",
+  "ws": "ando",
+  "seq": 137,
   "channel": "#gtm",
   "thread": "t4",
   "kind": "ordinary",
@@ -546,9 +556,9 @@
   "severity": 1
  },
  {
-  "point_id": "ando/t4/031",
+  "point_id": "ando/t4/032",
   "ws": "ando",
-  "seq": 160,
+  "seq": 161,
   "channel": "#gtm",
   "thread": "t4",
   "kind": "ordinary",
@@ -556,9 +566,9 @@
   "gold_label": null
  },
  {
-  "point_id": "ando/t4/037",
+  "point_id": "ando/t4/038",
   "ws": "ando",
-  "seq": 166,
+  "seq": 167,
   "channel": "#gtm",
   "thread": "t4",
   "kind": "ordinary",
@@ -566,19 +576,9 @@
   "gold_label": null
  },
  {
-  "point_id": "ando/t4/040",
+  "point_id": "ando/t5/001",
   "ws": "ando",
-  "seq": 169,
-  "channel": "#gtm",
-  "thread": "t4",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
-  "point_id": "ando/t5/s01",
-  "ws": "ando",
-  "seq": 171,
+  "seq": 170,
   "channel": "#eng",
   "thread": "t5",
   "kind": "ordinary",
@@ -586,9 +586,9 @@
   "gold_label": null
  },
  {
-  "point_id": "ando/t5/s02",
+  "point_id": "ando/t5/002",
   "ws": "ando",
-  "seq": 173,
+  "seq": 172,
   "channel": "#eng",
   "thread": "t5",
   "kind": "ordinary",
@@ -596,9 +596,19 @@
   "gold_label": null
  },
  {
-  "point_id": "ando/t5/s03",
+  "point_id": "ando/t5/003",
   "ws": "ando",
-  "seq": 176,
+  "seq": 174,
+  "channel": "#eng",
+  "thread": "t5",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "ando/t5/005",
+  "ws": "ando",
+  "seq": 177,
   "channel": "#eng",
   "thread": "t5",
   "kind": "ordinary",
@@ -661,16 +671,6 @@
   "gold_label": null
  },
  {
-  "point_id": "ando/t5/020",
-  "ws": "ando",
-  "seq": 195,
-  "channel": "#eng",
-  "thread": "t5",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
   "point_id": "ando/t5/021",
   "ws": "ando",
   "seq": 196,
@@ -691,9 +691,9 @@
   "gold_label": null
  },
  {
-  "point_id": "ando/t5/024",
+  "point_id": "ando/t5/023",
   "ws": "ando",
-  "seq": 199,
+  "seq": 198,
   "channel": "#eng",
   "thread": "t5",
   "kind": "ordinary",
@@ -701,9 +701,19 @@
   "gold_label": null
  },
  {
-  "point_id": "ando/t5/028",
+  "point_id": "ando/t5/025",
   "ws": "ando",
-  "seq": 204,
+  "seq": 200,
+  "channel": "#eng",
+  "thread": "t5",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "ando/t5/029",
+  "ws": "ando",
+  "seq": 205,
   "channel": "#eng",
   "thread": "t5",
   "kind": "decoy_trigger",
@@ -712,19 +722,9 @@
   "severity": 1
  },
  {
-  "point_id": "ando/t5/033",
+  "point_id": "ando/t5/s08",
   "ws": "ando",
-  "seq": 209,
-  "channel": "#eng",
-  "thread": "t5",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
-  "point_id": "ando/t5/s09",
-  "ws": "ando",
-  "seq": 212,
+  "seq": 210,
   "channel": "#eng",
   "thread": "t5",
   "kind": "ordinary",
@@ -931,6 +931,16 @@
   "point_id": "anthropic/t1/007",
   "ws": "anthropic",
   "seq": 6,
+  "channel": "#harbor",
+  "thread": "t1",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "anthropic/t1/008",
+  "ws": "anthropic",
+  "seq": 7,
   "channel": "#harbor",
   "thread": "t1",
   "kind": "ordinary",
@@ -1303,9 +1313,9 @@
   "gold_label": null
  },
  {
-  "point_id": "anthropic/t3/028",
+  "point_id": "anthropic/t3/029",
   "ws": "anthropic",
-  "seq": 117,
+  "seq": 118,
   "channel": "#harbor",
   "thread": "t3",
   "kind": "decoy_trigger",
@@ -1334,9 +1344,29 @@
   "gold_label": null
  },
  {
+  "point_id": "anthropic/t3/035",
+  "ws": "anthropic",
+  "seq": 124,
+  "channel": "#harbor",
+  "thread": "t3",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
   "point_id": "anthropic/t3/039",
   "ws": "anthropic",
   "seq": 128,
+  "channel": "#harbor",
+  "thread": "t3",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "anthropic/t3/040",
+  "ws": "anthropic",
+  "seq": 129,
   "channel": "#harbor",
   "thread": "t3",
   "kind": "ordinary",
@@ -1397,9 +1427,9 @@
   "gold_label": null
  },
  {
-  "point_id": "anthropic/t4/005",
+  "point_id": "anthropic/t4/006",
   "ws": "anthropic",
-  "seq": 137,
+  "seq": 138,
   "channel": "#harbor-evals",
   "thread": "t4",
   "kind": "ordinary",
@@ -1407,9 +1437,9 @@
   "gold_label": null
  },
  {
-  "point_id": "anthropic/t4/006",
+  "point_id": "anthropic/t4/s04",
   "ws": "anthropic",
-  "seq": 138,
+  "seq": 139,
   "channel": "#harbor-evals",
   "thread": "t4",
   "kind": "ordinary",
@@ -1428,29 +1458,9 @@
   "severity": 1
  },
  {
-  "point_id": "anthropic/t4/015",
-  "ws": "anthropic",
-  "seq": 150,
-  "channel": "#harbor-evals",
-  "thread": "t4",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
   "point_id": "anthropic/t4/s07",
   "ws": "anthropic",
   "seq": 151,
-  "channel": "#harbor-evals",
-  "thread": "t4",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
-  "point_id": "anthropic/t4/016",
-  "ws": "anthropic",
-  "seq": 152,
   "channel": "#harbor-evals",
   "thread": "t4",
   "kind": "ordinary",
@@ -1491,9 +1501,9 @@
   "gold_label": null
  },
  {
-  "point_id": "anthropic/t4/025",
+  "point_id": "anthropic/t4/026",
   "ws": "anthropic",
-  "seq": 162,
+  "seq": 163,
   "channel": "#harbor-evals",
   "thread": "t4",
   "kind": "decoy_trigger",
@@ -1502,29 +1512,9 @@
   "severity": 1
  },
  {
-  "point_id": "anthropic/t4/029",
+  "point_id": "anthropic/t4/s09",
   "ws": "anthropic",
-  "seq": 166,
-  "channel": "#harbor-evals",
-  "thread": "t4",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
-  "point_id": "anthropic/t4/034",
-  "ws": "anthropic",
-  "seq": 172,
-  "channel": "#harbor-evals",
-  "thread": "t4",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
-  "point_id": "anthropic/t4/035",
-  "ws": "anthropic",
-  "seq": 173,
+  "seq": 167,
   "channel": "#harbor-evals",
   "thread": "t4",
   "kind": "ordinary",
@@ -1582,6 +1572,16 @@
   "kind": "plant_after",
   "plant_id": "anthropic-p09",
   "offset": 2,
+  "gold_label": null
+ },
+ {
+  "point_id": "anthropic/t5/012",
+  "ws": "anthropic",
+  "seq": 185,
+  "channel": "#harbor",
+  "thread": "t5",
+  "kind": "ordinary",
+  "plant_id": null,
   "gold_label": null
  },
  {
@@ -1686,6 +1686,16 @@
   "point_id": "openai/t1/006",
   "ws": "openai",
   "seq": 5,
+  "channel": "#acct-northwind",
+  "thread": "t1",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "openai/t1/008",
+  "ws": "openai",
+  "seq": 7,
   "channel": "#acct-northwind",
   "thread": "t1",
   "kind": "ordinary",
@@ -1808,6 +1818,16 @@
   "gold_label": null
  },
  {
+  "point_id": "openai/t2/s01",
+  "ws": "openai",
+  "seq": 44,
+  "channel": "#acct-northwind-eng",
+  "thread": "t2",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
   "point_id": "openai/t2/007",
   "ws": "openai",
   "seq": 47,
@@ -1831,16 +1851,6 @@
   "point_id": "openai/t2/009",
   "ws": "openai",
   "seq": 49,
-  "channel": "#acct-northwind-eng",
-  "thread": "t2",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
-  "point_id": "openai/t2/s02",
-  "ws": "openai",
-  "seq": 51,
   "channel": "#acct-northwind-eng",
   "thread": "t2",
   "kind": "ordinary",
@@ -1973,6 +1983,16 @@
   "gold_label": null
  },
  {
+  "point_id": "openai/t2/036",
+  "ws": "openai",
+  "seq": 83,
+  "channel": "#acct-northwind-eng",
+  "thread": "t2",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
   "point_id": "openai/t2/s09",
   "ws": "openai",
   "seq": 84,
@@ -1996,16 +2016,6 @@
   "point_id": "openai/t2/038",
   "ws": "openai",
   "seq": 86,
-  "channel": "#acct-northwind-eng",
-  "thread": "t2",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
-  "point_id": "openai/t2/s10",
-  "ws": "openai",
-  "seq": 87,
   "channel": "#acct-northwind-eng",
   "thread": "t2",
   "kind": "ordinary",
@@ -2110,9 +2120,9 @@
   "gold_label": null
  },
  {
-  "point_id": "openai/t3/024",
+  "point_id": "openai/t3/025",
   "ws": "openai",
-  "seq": 113,
+  "seq": 114,
   "channel": "#acct-northwind",
   "thread": "t3",
   "kind": "decoy_trigger",
@@ -2121,9 +2131,9 @@
   "severity": 1
  },
  {
-  "point_id": "openai/t3/028",
+  "point_id": "openai/t3/029",
   "ws": "openai",
-  "seq": 117,
+  "seq": 118,
   "channel": "#acct-northwind",
   "thread": "t3",
   "kind": "ordinary",
@@ -2131,19 +2141,9 @@
   "gold_label": null
  },
  {
-  "point_id": "openai/t3/030",
+  "point_id": "openai/t3/032",
   "ws": "openai",
-  "seq": 119,
-  "channel": "#acct-northwind",
-  "thread": "t3",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
-  "point_id": "openai/t3/035",
-  "ws": "openai",
-  "seq": 124,
+  "seq": 121,
   "channel": "#acct-northwind",
   "thread": "t3",
   "kind": "ordinary",
@@ -2172,9 +2172,9 @@
   "gold_label": null
  },
  {
-  "point_id": "openai/t4/007",
+  "point_id": "openai/t4/004",
   "ws": "openai",
-  "seq": 140,
+  "seq": 135,
   "channel": "#acct-northwind",
   "thread": "t4",
   "kind": "ordinary",
@@ -2182,9 +2182,19 @@
   "gold_label": null
  },
  {
-  "point_id": "openai/t4/013",
+  "point_id": "openai/t4/s03",
   "ws": "openai",
-  "seq": 147,
+  "seq": 137,
+  "channel": "#acct-northwind",
+  "thread": "t4",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "openai/t4/s05",
+  "ws": "openai",
+  "seq": 142,
   "channel": "#acct-northwind",
   "thread": "t4",
   "kind": "ordinary",
@@ -2247,9 +2257,9 @@
   "severity": 2
  },
  {
-  "point_id": "openai/t4/030",
+  "point_id": "openai/t4/s09",
   "ws": "openai",
-  "seq": 168,
+  "seq": 167,
   "channel": "#acct-northwind",
   "thread": "t4",
   "kind": "ordinary",
@@ -2257,9 +2267,9 @@
   "gold_label": null
  },
  {
-  "point_id": "openai/t4/031",
+  "point_id": "openai/t4/032",
   "ws": "openai",
-  "seq": 169,
+  "seq": 170,
   "channel": "#acct-northwind",
   "thread": "t4",
   "kind": "ordinary",
@@ -2297,26 +2307,6 @@
   "kind": "plant_after",
   "plant_id": "openai-p09",
   "offset": 2,
-  "gold_label": null
- },
- {
-  "point_id": "openai/t5/005",
-  "ws": "openai",
-  "seq": 178,
-  "channel": "#acct-northwind",
-  "thread": "t5",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
-  "point_id": "openai/t5/006",
-  "ws": "openai",
-  "seq": 179,
-  "channel": "#acct-northwind",
-  "thread": "t5",
-  "kind": "ordinary",
-  "plant_id": null,
   "gold_label": null
  },
  {
@@ -2373,9 +2363,19 @@
   "gold_label": null
  },
  {
-  "point_id": "openai/t5/022",
+  "point_id": "openai/t5/016",
   "ws": "openai",
-  "seq": 195,
+  "seq": 189,
+  "channel": "#acct-northwind",
+  "thread": "t5",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "openai/t5/023",
+  "ws": "openai",
+  "seq": 196,
   "channel": "#acct-northwind",
   "thread": "t5",
   "kind": "decoy_trigger",
@@ -2448,6 +2448,16 @@
   "gold_label": null
  },
  {
+  "point_id": "xai/t1/004",
+  "ws": "xai",
+  "seq": 3,
+  "channel": "#kestrel-run",
+  "thread": "t1",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
   "point_id": "xai/t1/006",
   "ws": "xai",
   "seq": 5,
@@ -2478,9 +2488,29 @@
   "gold_label": null
  },
  {
+  "point_id": "xai/t1/012",
+  "ws": "xai",
+  "seq": 11,
+  "channel": "#kestrel-run",
+  "thread": "t1",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
   "point_id": "xai/t1/013",
   "ws": "xai",
   "seq": 12,
+  "channel": "#kestrel-run",
+  "thread": "t1",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "xai/t1/014",
+  "ws": "xai",
+  "seq": 13,
   "channel": "#kestrel-run",
   "thread": "t1",
   "kind": "ordinary",
@@ -2553,6 +2583,16 @@
   "gold_label": null
  },
  {
+  "point_id": "xai/t1/035",
+  "ws": "xai",
+  "seq": 34,
+  "channel": "#kestrel-run",
+  "thread": "t1",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
   "point_id": "xai/t2/001",
   "ws": "xai",
   "seq": 40,
@@ -2613,9 +2653,29 @@
   "gold_label": null
  },
  {
-  "point_id": "xai/t2/015",
+  "point_id": "xai/t2/012",
   "ws": "xai",
-  "seq": 57,
+  "seq": 53,
+  "channel": "#infra",
+  "thread": "t2",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "xai/t2/013",
+  "ws": "xai",
+  "seq": 54,
+  "channel": "#infra",
+  "thread": "t2",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "xai/t2/016",
+  "ws": "xai",
+  "seq": 58,
   "channel": "#infra",
   "thread": "t2",
   "kind": "decoy_trigger",
@@ -2624,29 +2684,9 @@
   "severity": 1
  },
  {
-  "point_id": "xai/t2/s04",
-  "ws": "xai",
-  "seq": 61,
-  "channel": "#infra",
-  "thread": "t2",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
   "point_id": "xai/t2/s05",
   "ws": "xai",
   "seq": 64,
-  "channel": "#infra",
-  "thread": "t2",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
-  "point_id": "xai/t2/s06",
-  "ws": "xai",
-  "seq": 66,
   "channel": "#infra",
   "thread": "t2",
   "kind": "ordinary",
@@ -2664,29 +2704,29 @@
   "gold_label": null
  },
  {
-  "point_id": "xai/t2/s07",
-  "ws": "xai",
-  "seq": 70,
-  "channel": "#infra",
-  "thread": "t2",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
-  "point_id": "xai/t2/025",
-  "ws": "xai",
-  "seq": 71,
-  "channel": "#infra",
-  "thread": "t2",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
   "point_id": "xai/t2/026",
   "ws": "xai",
   "seq": 72,
+  "channel": "#infra",
+  "thread": "t2",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "xai/t2/028",
+  "ws": "xai",
+  "seq": 75,
+  "channel": "#infra",
+  "thread": "t2",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "xai/t2/s09",
+  "ws": "xai",
+  "seq": 76,
   "channel": "#infra",
   "thread": "t2",
   "kind": "ordinary",
@@ -2856,16 +2896,6 @@
   "gold_label": null
  },
  {
-  "point_id": "xai/t3/035",
-  "ws": "xai",
-  "seq": 124,
-  "channel": "#kestrel-run",
-  "thread": "t3",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
   "point_id": "xai/t4/001",
   "ws": "xai",
   "seq": 130,
@@ -2909,9 +2939,9 @@
   "gold_label": null
  },
  {
-  "point_id": "xai/t4/005",
+  "point_id": "xai/t4/008",
   "ws": "xai",
-  "seq": 137,
+  "seq": 141,
   "channel": "#infra",
   "thread": "t4",
   "kind": "ordinary",
@@ -2919,45 +2949,15 @@
   "gold_label": null
  },
  {
-  "point_id": "xai/t4/006",
+  "point_id": "xai/t4/013",
   "ws": "xai",
-  "seq": 138,
-  "channel": "#infra",
-  "thread": "t4",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
-  "point_id": "xai/t4/007",
-  "ws": "xai",
-  "seq": 140,
-  "channel": "#infra",
-  "thread": "t4",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
-  "point_id": "xai/t4/012",
-  "ws": "xai",
-  "seq": 145,
+  "seq": 146,
   "channel": "#infra",
   "thread": "t4",
   "kind": "decoy_trigger",
   "plant_id": "xai-d05",
   "gold_label": "IGNORE",
   "severity": 1
- },
- {
-  "point_id": "xai/t4/015",
-  "ws": "xai",
-  "seq": 150,
-  "channel": "#infra",
-  "thread": "t4",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
  },
  {
   "point_id": "xai/t4/018",
@@ -3025,9 +3025,19 @@
   "gold_label": null
  },
  {
-  "point_id": "xai/t4/034",
+  "point_id": "xai/t4/032",
   "ws": "xai",
-  "seq": 172,
+  "seq": 170,
+  "channel": "#infra",
+  "thread": "t4",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "xai/t4/033",
+  "ws": "xai",
+  "seq": 171,
   "channel": "#infra",
   "thread": "t4",
   "kind": "ordinary",
@@ -3046,16 +3056,6 @@
   "severity": 1
  },
  {
-  "point_id": "xai/t5/005",
-  "ws": "xai",
-  "seq": 178,
-  "channel": "#kestrel-run",
-  "thread": "t5",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
   "point_id": "xai/t5/009",
   "ws": "xai",
   "seq": 182,
@@ -3065,16 +3065,6 @@
   "plant_id": "xai-d08",
   "gold_label": "IGNORE",
   "severity": 1
- },
- {
-  "point_id": "xai/t5/013",
-  "ws": "xai",
-  "seq": 186,
-  "channel": "#kestrel-run",
-  "thread": "t5",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
  },
  {
   "point_id": "xai/t5/017",
@@ -3110,19 +3100,9 @@
   "gold_label": null
  },
  {
-  "point_id": "xai/t5/022",
+  "point_id": "xai/t5/021",
   "ws": "xai",
-  "seq": 195,
-  "channel": "#kestrel-run",
-  "thread": "t5",
-  "kind": "ordinary",
-  "plant_id": null,
-  "gold_label": null
- },
- {
-  "point_id": "xai/t5/023",
-  "ws": "xai",
-  "seq": 196,
+  "seq": 194,
   "channel": "#kestrel-run",
   "thread": "t5",
   "kind": "ordinary",
@@ -3163,9 +3143,9 @@
   "gold_label": null
  },
  {
-  "point_id": "xai/t5/032",
+  "point_id": "xai/t5/031",
   "ws": "xai",
-  "seq": 205,
+  "seq": 204,
   "channel": "#kestrel-run",
   "thread": "t5",
   "kind": "ordinary",
@@ -3176,6 +3156,26 @@
   "point_id": "xai/t5/033",
   "ws": "xai",
   "seq": 206,
+  "channel": "#kestrel-run",
+  "thread": "t5",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "xai/t5/034",
+  "ws": "xai",
+  "seq": 207,
+  "channel": "#kestrel-run",
+  "thread": "t5",
+  "kind": "ordinary",
+  "plant_id": null,
+  "gold_label": null
+ },
+ {
+  "point_id": "xai/t5/035",
+  "ws": "xai",
+  "seq": 208,
   "channel": "#kestrel-run",
   "thread": "t5",
   "kind": "ordinary",

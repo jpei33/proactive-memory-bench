@@ -566,7 +566,10 @@ def build_plants(d, msgs) -> list[dict]:
             if not e.get("id") or (e["type"] not in PLANT_TYPES and "decoy" not in e["type"]
                                    and e["type"] not in ("banter", "sensitive", "answered_question")):
                 continue
-            trig = mid(t["id"], e["turn"])
+            # answered_question / decoy_self_correction are only IGNORE once the follow-up exists
+            # (the answer, the "*24th, sorry"), so the decision point is that follow-up message
+            follow = e["type"] in ("answered_question", "decoy_self_correction")
+            trig = mid(t["id"], e["turn"] + 1 if follow else e["turn"])
             if trig not in by_id:
                 continue  # thread not generated in this run
             ti = by_id[trig]

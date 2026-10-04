@@ -79,4 +79,4 @@ anthropic              11              8             16             38     73
 openai                 11              8             16             37     72
 xai                    11              8             16             37     72
 TOTAL                  49             33             71            150    303
-side messages among ordinary points: 22
+side messages among ordinary points: 21
