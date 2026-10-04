@@ -70,3 +70,16 @@ def recent(msgs, q_seq: int, channel: str, n: int = 15) -> str:
         else:
             out.append(f"{m['speaker']}: {m['text']}")
     return "\n".join(out)
+
+
+def decision_line(msgs, q_seq: int) -> str:
+    """The decision-point message on its own line (reactions rendered as reactions)."""
+    by_id = {m["msg_id"]: m for m in msgs}
+    m = next(x for x in msgs if x["seq"] == q_seq)
+    if m["kind"] == "reaction":
+        return f"({m['speaker']} reacted {m['text']} to {by_id.get(m['reply_to'], {}).get('speaker', '?')}'s message)"
+    return f"{m['speaker']}: {m['text']}"
+
+
+def today(msgs, q_seq: int) -> str:
+    return next(x for x in msgs if x["seq"] == q_seq)["day"]
