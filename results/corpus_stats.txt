@@ -1,0 +1,82 @@
+Corpus statistics
+=================
+
+messages    total   main   side  react  reply_to  threaded  threads  avg words
+ando          249    230     19      1       80%       12%        6       41.8
+anthropic     209    190     19      1       89%       16%        5       39.8
+openai        209    190     19      1       86%       15%        5       40.5
+xai           209    190     19      1       86%       16%        5       42.1
+TOTAL         876    800     76      4       85%       15%       21       41.1
+
+plants by label  INTERVENE  TRACK  total
+ando                    12      4     16
+anthropic                8      3     11
+openai                   8      3     11
+xai                      8      3     11
+TOTAL                   36     13     49
+
+plants by type  commitment  contradiction  deadline_passed  pending_decision  repeat_question  stale_quote  total
+ando                     3              4                2                 1                3            3     16
+anthropic                2              3                1                 1                2            2     11
+openai                   2              2                2                 1                2            2     11
+xai                      2              2                2                 1                1            3     11
+TOTAL                    9             11                7                 4                8           10     49
+
+INTERVENE plants by bucket   near    far  cross  total
+ando                            3      2      7     12
+anthropic                       2      2      4      8
+openai                          2      2      4      8
+xai                             2      2      4      8
+TOTAL                           9      8     19     36
+
+INTERVENE fact plants by evidence form  explicit  ellipsis  reaction  correction  cross_ref  distributed  total
+ando                                           3         1         1           3          1            1     10
+anthropic                                      0         1         1           2          1            2      7
+openai                                         1         1         0           2          1            1      6
+xai                                            0         2         1           1          2            0      6
+TOTAL                                          4         5         3           8          5            4     29
+
+... of which not restated (clean)  explicit  ellipsis  reaction  correction  cross_ref  distributed  total
+ando                                      3         0         1           2          1            1      8
+anthropic                                 0         0         1           2          0            2      5
+openai                                    1         1         0           2          0            1      5
+xai                                       0         2         1           0          2            0      5
+TOTAL                                     4         3         3           6          3            4     23
+
+form x bucket (all workspaces)   near    far  cross  total
+explicit                            0      2      2      4
+ellipsis                            1      1      3      5
+reaction                            1      1      1      3
+correction                          3      2      3      8
+cross_ref                           2      1      2      5
+distributed                         2      1      1      4
+TOTAL                               9      8     12     29
+
+form x origin structure (all workspaces)  threaded   flat  interleaved  total
+explicit                                         1      1            2      4
+ellipsis                                         1      3            1      5
+reaction                                         0      2            1      3
+correction                                       2      0            6      8
+cross_ref                                        3      0            2      5
+distributed                                      0      1            3      4
+TOTAL                                            7      7           15     29
+
+deadline_passed plants (evidence = an explicit commitment): 7
+evidence distance in messages: min 3, median 35, max 197
+
+decoys by type  answered_question  banter  decoy_legit_change_quote  decoy_proposal  decoy_resolved_before_checkpoint  decoy_self_correction  sensitive  similar_entity_decoy  total
+ando                            1       1                         1               1                                 1                      1          1                     2      9
+anthropic                       1       1                         1               1                                 1                      1          1                     1      8
+openai                          1       1                         1               1                                 1                      1          1                     1      8
+xai                             1       1                         1               1                                 1                      1          1                     1      8
+TOTAL                           4       4                         4               4                                 4                      4          4                     5     33
+
+Decision points (eval/select_points.py)
+---------------------------------------
+workspace   plant_trigger  decoy_trigger    plant_after       ordinary  total
+ando                   16              9             23             38     86
+anthropic              11              8             16             38     73
+openai                 11              8             16             37     72
+xai                    11              8             16             37     72
+TOTAL                  49             33             71            150    303
+side messages among ordinary points: 19
