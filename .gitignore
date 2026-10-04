@@ -7,3 +7,5 @@ models/
 .DS_Store
 .ipynb_checkpoints/
 docs/*_Sprint.html
+logs/
+label/track_review.md
