@@ -2,11 +2,11 @@ Corpus statistics
 =================
 
 messages    total   main   side  react  reply_to  threaded  threads  avg words
-ando          249    230     19      1       80%       12%        6       41.8
-anthropic     209    190     19      1       89%       16%        5       39.8
-openai        209    190     19      1       86%       15%        5       40.5
-xai           209    190     19      1       86%       16%        5       42.1
-TOTAL         876    800     76      4       85%       15%       21       41.1
+ando          249    230     19      1       41%        5%        6       23.9
+anthropic     209    190     19      1       33%        8%        5       24.7
+openai        209    190     19      1       44%       10%        5       23.3
+xai           209    190     19      1       30%        4%        5       23.8
+TOTAL         876    800     76      4       37%        7%       21       23.9
 
 plants by label  INTERVENE  TRACK  total
 ando                    12      4     16
@@ -79,4 +79,4 @@ anthropic              11              8             16             38     73
 openai                 11              8             16             37     72
 xai                    11              8             16             37     72
 TOTAL                  49             33             71            150    303
-side messages among ordinary points: 19
+side messages among ordinary points: 22

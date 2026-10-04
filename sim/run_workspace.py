@@ -238,6 +238,11 @@ def build_schedule(d, thread) -> dict[int, dict]:
                         group_origin=True, reply_to=e["reply_to"], forbid=[keys_regex(f["keys"])])
         elif typ in ("contradiction", "stale_quote"):
             said = e.get("said_value") or prev
+            known = any(h["value"] == said for h in f["history"])
+            if known:
+                meta["require"] = [vpat(d, e["fact"], said)]
+            elif len(said.split()) <= 4:                    # invented short values like "$25M"
+                meta["require"] = [value_regex(said)]
             ins = (f"{detail}. Use the value \"{said}\" naturally and confidently, as if it were "
                    f"correct. Do not hedge, and do not mention any other value for the {ent}.")
         elif typ == "repeat_question":
@@ -297,10 +302,10 @@ People:
 
 Rules:
 {rules}
-- Messages are short like real chat: usually one or two sentences, sometimes a fragment. No sign-offs, no markdown headers.
+- Messages are short like real team chat: most are under 20 words, many are a quick fragment ("on it", "same", "lgtm"). Only about one in six runs longer, up to ~40 words. No sign-offs, no markdown headers, no greetings on every message.
 - Stay in the speaker's voice and role. Do not narrate; write only what they type.
 - Messages are numbered [n]. Reply with ONLY a JSON object:
-  {{"speaker": "<person id>", "text": "<message>", "reply_to": <number of the one message you are directly answering or reacting to, or null>}}"""
+  {{"speaker": "<person id>", "text": "<message>", "reply_to": <number of the one earlier message this depends on, or null (the usual case)>}}"""
 
 
 def render(msgs) -> str:
@@ -330,13 +335,29 @@ def user_prompt(d, thread, turn, recent, entry, quiet_note, open_items) -> str:
         "It moves the situation forward with concrete but invented details (tasks, bugs, ideas, customer questions).",
         "Do not state any specific dates, deadlines, prices, amounts, counts, versions or thresholds that appear in earlier messages.",
         "Do not make new commitments with deadlines, and do not announce decisions.",
-        "If your message directly answers or reacts to one earlier message, set reply_to to its number; otherwise null.",
+        "Keep it under 20 words unless it truly needs more.",
+        "Set reply_to ONLY if your message would be unclear without one specific earlier message (a direct answer, "
+        "'yes'/'agreed' to a proposal, a follow-up to a question). Most messages just continue the conversation: use null.",
+        "Never write any of these tracked values (refer to them indirectly, e.g. 'the sponsor', 'the discount', "
+        "'the date'): " + "; ".join(tracked_terms(d)) + ".",
     ]
     if open_items:
         lines.append("Do not mention whether these are done or their status: " + "; ".join(open_items) + ".")
     if quiet_note:
         lines.append(quiet_note)
     return head + "\n".join(lines)
+
+
+def tracked_terms(d) -> list[str]:
+    """Short forms of every tracked value that is not a team member's name (for the filler prompt)."""
+    persona_names = {p["name"].lower() for p in d["personas"]}
+    out = []
+    for f in d["facts"]:
+        for h in f["history"]:
+            core = _value_core(str(h["value"]))
+            if core.lower() not in persona_names and core not in out:
+                out.append(core)
+    return out
 
 
 # ---------------------------------------------------------------- tracked-value leak check
@@ -391,6 +412,9 @@ def gen_message(d, thread, turn, recent, entry, quiet_note, open_items, args, le
                     why = f"unparseable output: {r.text[:100]!r}"
                     continue
         sp, text = out.get("speaker"), str(out.get("text", "")).strip()
+        if re.search(r"</?[a-zA-Z][\w:-]*[^>]*>", text) or text[:1] in "{<":
+            why = f"markup instead of a message: {text[:80]!r}"
+            continue
         if entry:
             sp = entry["speaker"]
         if sp not in d["_persona"] or not text or (allowed and sp not in allowed):
@@ -413,7 +437,7 @@ def gen_message(d, thread, turn, recent, entry, quiet_note, open_items, args, le
                 why = f"missing required /{miss}/: {text[:100]!r}"
                 continue  # scripted message is missing a required entity / value; resample
         rt = out.get("reply_to")
-        rt = rt if isinstance(rt, int) and any(m["turn"] == rt for m in recent) else None
+        rt = rt if isinstance(rt, int) and any(m["turn"] == rt for m in recent[-8:]) else None
         return sp, text, attempt, rt
     raise RuntimeError(f"{thread['id']} turn {turn}: no valid message after {ATTEMPTS} attempts"
                        + (f"\n  instruction: {entry['instruction'][:160]}" if entry else "")
