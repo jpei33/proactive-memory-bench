@@ -1,0 +1,101 @@
+row,label,severity,notes
+1,IGNORE,1,Kofi mentions testing async checkpoint staging but gives no check point to track.
+2,INTERVENE,3,"The draft says agents read DM history, but agents never read DMs unless a participant forwards them."
+3,INTERVENE,2,"The held-out set is now 1,140 items, not the previous 1,200, so the tables should use 1,140."
+4,IGNORE,1,"This is a suggestion for the sweep, with no named owner or check point."
+5,TRACK,1,Frida will send design partners the Slack-to-Ando migration guide by Fri Sep 11.
+6,TRACK,1,Keiko will flag whether Jon supports the expansion once she hears back from Northwind’s admin.
+7,IGNORE,1,The request adds no explicitly named owner or new checkpoint to track.
+8,IGNORE,1,"Felix says he’ll find looping traces but gives no check point, so there’s nothing to track yet."
+9,IGNORE,1,"This is a suggestion about channel permissions, with no conflicting fact or explicit owner and checkpoint."
+10,INTERVENE,2,Frida’s migration guide was due Sep 11 and Sara’s DM-policy decision was due at Monday’s review; both remain open.
+11,INTERVENE,2,"The public launch is Sep 24, not Sep 17, so the day-before email would be Sep 23."
+12,IGNORE,3,"This is a personal matter, so don’t intrude with a response."
+13,TRACK,1,Check that Frida replies to the partners once AJ’s writeup is ready.
+14,IGNORE,1,This is a status update with no conflicting fact or stated check point.
+15,IGNORE,1,"Wen addressed the question to Kofi, so it is his to answer."
+16,TRACK,1,"Keiko should ask the platform lead about an intro call when she talks to them, before the QBR."
+17,TRACK,1,Check whether Wen drains the C nodes into the spare pool during the flap test if loaders stall.
+18,TRACK,1,Track Elena’s check that the last batch of eval jobs is not preempted overnight.
+19,IGNORE,1,"Rachel directed the modeling request to Tomas, and it has no stated check point."
+20,IGNORE,1,"The facts say agents are free, but don’t specify how to display agent seats on the page."
+21,TRACK,1,Theo will rerun flagged items and compare baseline scores if the issue-thread grep finds any.
+22,IGNORE,1,"The message states an Oct 8 target but names no owner for the mobile-push fix, so there is no trackable item or fact to correct."
+23,IGNORE,1,"This is a customer preference about prompt changes, with no contradiction or follow-up commitment to track."
+24,TRACK,1,Gabe will load-test Northwind’s workload at its full rate limit and share results by Wed Oct 14.
+25,IGNORE,1,"Olavo is already the recorded owner of the waitlist email, and Alex’s question has been answered."
+26,INTERVENE,1,Oli owns AND-341; AJ was the previous owner.
+27,INTERVENE,2,Amara Okafor is the previous executive sponsor; Jon Reyes is Northwind’s current sponsor.
+28,IGNORE,2,Keiko only floated 20% off; the current 18% discount has not been changed.
+29,IGNORE,1,"AND-341 is still open, consistent with the recent messages; AND-314 is a different ticket."
+30,IGNORE,1,"Olavo corrected the launch date to Sep 24, which matches the current team fact."
+31,INTERVENE,3,"Northwind has zero data retention on all endpoints, not standard 30-day log retention, so correct this before telling their ops lead."
+32,IGNORE,1,Marcus says he’ll look for multi-file replacements but gives no check point.
+33,IGNORE,1,"This is explicitly a what-if, not a proposed change to the current Sep 24 launch date."
+34,IGNORE,1,"The Oct 12 date matches the current run start, and the typo is corrected in the same message."
+35,IGNORE,1,"This is a joking comment about the QBR deck, with no fact to correct or follow-up to track."
+36,IGNORE,1,"The decision is scheduled for Sep 21, but no named owner is stated, so this does not meet the TRACK criteria."
+37,TRACK,1,Check that Kofi rolls out the jitter patch once the tech finishes at the rack.
+38,IGNORE,1,"The message asks to decide send timing but states no owner or checkpoint, and nothing conflicts with the current facts."
+39,IGNORE,1,"Gabe offers to add a test harness but gives no checkpoint, so there is nothing to track yet."
+40,IGNORE,1,Lucia answered Wen’s allocation question; no follow-up owner or checkpoint was stated.
+41,TRACK,1,Frida will hold the partner heads-up wording until Olavo provides the new timing.
+42,INTERVENE,1,Lucia is the fabric incident on-call.
+43,IGNORE,1,"This is a hypothetical proposal to start on Oct 7, not a claim that changes the current Oct 12 start date."
+44,IGNORE,1,"This is an undecided pricing proposal addressed to Sara, not a change to the current pricing."
+45,IGNORE,1,"Lucia answers Wen’s ownership question, but gives no check point to track."
+46,INTERVENE,3,"The current harbor release gate is 70% pass@1, not 65% as proposed for the checklist and package notes."
+47,IGNORE,1,"Gabe offers to prepare a snippet, but gives no check point for a follow-up."
+48,IGNORE,1,"This is an exploratory question about parser behavior, with no stated team fact to correct or follow-up to track."
+49,INTERVENE,2,The current policy is that agents never read a DM unless a participant forwards it.
+50,IGNORE,1,This matches the current release gate: 70% pass@1 on the held-out set.
+51,IGNORE,1,"The 40M-token-per-minute limit matches the current fact, and the comparison has no stated checkpoint."
+52,IGNORE,1,"Marcus is proposing a direction, with no conflicting fact or explicit follow-up to track."
+53,IGNORE,1,"Harbor-lite is a separate set, and Felix gives no check point for the manifest update."
+54,IGNORE,1,"The typing-indicator question is not answered by the team facts and opens no owned, time-bound follow-up."
+55,IGNORE,1,Marcus’s update introduces no contradiction or checkable commitment with a stated checkpoint.
+56,INTERVENE,2,"Pricing is $12 per seat, not $15; the mock would need correction."
+57,TRACK,1,"Check that AJ merges the forwarded-DM permission check, including the late-add edge case, by Tue Sep 15."
+58,TRACK,1,Olavo committed to send the press kit to embargoed reporters by Fri Sep 18.
+59,IGNORE,1,"Rachel addressed the discount question to Tomas, so it is his to answer."
+60,IGNORE,1,"The 15% discount matches the current fact, and Keiko’s follow-up has no stated checkpoint."
+61,IGNORE,1,"Oli takes over asking about naming the partner, but no check point is stated."
+62,INTERVENE,2,"The checkpoint cadence is every 250 steps, not 500, so a crash would lose at most 250 steps."
+63,INTERVENE,2,Ines’s signed data processing addendum was due to Northwind legal on Oct 9 and is still open.
+64,IGNORE,1,This is a design preference and introduces no contradiction or follow-up with a stated checkpoint.
+65,IGNORE,1,"Yuki identifies the clearest plateau transcript, with no contradiction or new tracked commitment."
+66,INTERVENE,1,"Frida’s migration guide was due Fri Sep 11 and is still listed as open, with no sign it was sent."
+67,INTERVENE,2,"The harbor release gate is 70% pass@1, not 75%."
+68,INTERVENE,1,The eval compute reservation is owned by Elena.
+69,IGNORE,1,"AJ’s AND-341 ownership matches the facts, and “soon” gives no checkpoint to track."
+70,TRACK,1,Track Kofi’s cross-check of the slow ranks against the leaf 14 rank map when he reviews them.
+71,IGNORE,1,This asks for more context about the clinic check-in surge; no known fact answers it and no follow-up is explicitly assigned.
+72,TRACK,1,"Track Marcus’s license review of the scraped repositories, due Fri Oct 9."
+73,IGNORE,1,"This is a tentative rollout suggestion, with no contradiction or follow-up owner and checkpoint."
+74,IGNORE,1,"Elena plans to try cached dependency images, but gives no check point to track."
+75,IGNORE,1,"The screenshot promise has no stated check point, and the one-agent sidebar matches the agreed demo setup."
+76,TRACK,1,Theo should export the 3-shot results before the Tue Oct 20 paper sync.
+77,INTERVENE,2,"The current Kestrel allocation is 2,048 nodes, not 2,560; confirm the data-loader sizing before proceeding."
+78,IGNORE,1,The cable swap update matches no conflicting fact and gives no explicit checkpoint to track.
+79,TRACK,1,Olavo will start the pricing page copy pass after lunch; check that it happens.
+80,TRACK,1,Mateo will monitor prefetch depth until the tech finishes the swap; check that it remains stable.
+81,IGNORE,1,The scheduler issue is a status report with no stated owner or checkpoint requiring action.
+82,INTERVENE,2,"Kestrel’s checkpoint cadence is every 500 steps, not 1,000."
+83,IGNORE,1,The postmortem anecdote does not contradict or ask about a tracked Northwind fact.
+84,INTERVENE,2,Rachel’s two-year-term decision was due at Friday’s finance review and is still listed as open.
+85,INTERVENE,3,"The current Northwind discount is 15% off list, not the stale 18%; the draft could offer an incorrect price."
+86,IGNORE,1,"The format question is addressed to Alex, so it is theirs to answer."
+87,IGNORE,3,This is a personal working-condition update; responding would intrude on a sensitive exchange.
+88,INTERVENE,2,"The current harbor eval suite is v1.3; v1.2 in the caption is stale, so the wording should be updated."
+89,IGNORE,1,"Gabe’s commitment has no stated check point, so it is not trackable."
+90,INTERVENE,2,"Kestrel starts Oct 12, not Oct 5; kicking off data loading tonight is premature."
+91,IGNORE,1,"The question is directed to Olavo, who owns the launch waitlist email."
+92,IGNORE,1,"This agrees to Alex’s demo draft, with no explicit checkpoint that needs tracking."
+93,TRACK,1,Gabe will sketch a weekly misfire dashboard once overrides are logged; check that it’s done then.
+94,IGNORE,1,"The release version and replacement plan don’t conflict with the paper deadline, and no named owner is assigned to a follow-up."
+95,IGNORE,3,"This concerns a personal dietary restriction, and Keiko’s follow-up has no stated checkpoint."
+96,IGNORE,3,"This is a personal family emergency, so responding to the coverage request would intrude on a sensitive exchange."
+97,IGNORE,1,"Kofi owns emitting the structured log line, but no check point is stated."
+98,IGNORE,1,"The allocation question is addressed to Wen, and no node-count fact is provided."
+99,TRACK,1,Theo committed to finish the harbor v1.3 baseline reruns by Fri Oct 16; check that they’re complete by then.
+100,TRACK,1,Kofi will run the checkpoint-restart drill on the full allocation by Sat Oct 10; check that it is completed by then.

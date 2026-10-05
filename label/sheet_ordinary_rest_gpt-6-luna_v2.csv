@@ -1,0 +1,172 @@
+row,label,severity,notes
+1,IGNORE,1,"Theo is flagging the stale rows now; the overdue rerun checkpoint had already passed in earlier messages, and this adds no new follow-up checkpoint."
+2,TRACK,1,"Hana will compare step time against the first flush window on the next save, once jitter is in."
+3,IGNORE,1,"The plot request has a checkpoint, but no explicitly named owner."
+4,IGNORE,1,"Gabe will request de-identified sample forms, but no check point is stated."
+5,IGNORE,1,"This is a new question about a demo mockup, with no conflicting fact or explicit follow-up commitment."
+6,IGNORE,1,"This is a conditional suggestion, not a contradiction or an explicitly owned item with a checkpoint."
+7,IGNORE,1,"AJ agrees to add write latency and active-agent counts, but gives no check point for follow-up."
+8,IGNORE,1,"Reports Northwind’s intake-time stalls, but opens no owned follow-up or checkpoint and contradicts no team fact."
+9,IGNORE,1,"This is a wording suggestion for the paper, with no conflicting fact or follow-up to track."
+10,IGNORE,1,"The request has no stated owner or check point, and the sub-processor list is not in the team facts."
+11,TRACK,1,Track Tomas drafting pricing options once Gabe’s usage numbers are in.
+12,TRACK,1,Check that Gabe sends Darnell the exec summary before the sponsor meeting.
+13,IGNORE,1,Dmitri is announcing a legitimate start-date change; earlier Oct 5 messages already followed the dataset-move checkpoint.
+14,IGNORE,1,"The message asks about showing agents joining threads, and no current team fact answers or contradicts that."
+15,IGNORE,1,This partner question about shared memory isn’t answered by the current facts and assigns no owner or checkpoint.
+16,IGNORE,1,"This is a suggestion about the plot, not a contradiction or a tracked commitment."
+17,IGNORE,1,"The promised Stripe check has no stated checkpoint, so there is nothing to track."
+18,IGNORE,1,"This is a conditional proposal, not a contradiction, and it names no owner or checkpoint for a follow-up."
+19,IGNORE,1,"This is a request without a named owner or check point, and it conflicts with no team fact."
+20,IGNORE,1,"The request to log write latency names AJ but gives no checkpoint, so it opens no trackable item."
+21,IGNORE,1,The message sets the launch date and answers Alex’s onboarding question; it conflicts with no existing fact and opens no tracked item.
+22,IGNORE,1,"This is a technical question unrelated to a current team fact, with no owner or check point stated."
+23,IGNORE,1,"Oli offers to set up the demo workspace, but gives no checkpoint for a follow-up."
+24,IGNORE,1,"This raises an unresolved caption question but names no owner or checkpoint, and no existing fact answers it."
+25,IGNORE,1,"This is a personal food-pickup arrangement, not a team item requiring action."
+26,IGNORE,1,"This is a wording question, not a contradiction or a new item with an owner and check point."
+27,IGNORE,1,This is a checksum-verification suggestion with no assigned owner or check point.
+28,IGNORE,1,"This is a suggestion with no named owner or checkpoint, and it does not contradict the sponsor fact."
+29,TRACK,1,Frida will review the deploy thread for private-channel content before it is shared.
+30,IGNORE,1,"This asks an unanswered question about shared memory, but names no owner or check point and conflicts with no known fact."
+31,IGNORE,1,"AJ is taking the question, and this message gives no checkpoint or conflicting DM policy."
+32,IGNORE,1,"Gabe offers to write a backoff snippet but gives no check point, so there is nothing to track."
+33,IGNORE,1,The message reports usable Rust candidates and states no new commitment or contradiction with the team facts.
+34,IGNORE,1,"Wen is checking spare locations, but no checkpoint is stated."
+35,IGNORE,1,"No team facts answer the status question, and it assigns no owner or checkpoint."
+36,IGNORE,1,"This is a relevant observation, not a contradiction, repeat question, or new commitment to track."
+37,IGNORE,1,"Darnell owns checking the restaurant, but no check point is stated."
+38,IGNORE,1,"The model suggestion is tentative, with no named owner or checkpoint for the accuracy test."
+39,IGNORE,1,Yuki is suggesting wording for the plateau sentence; it states no conflicting team fact or checkable commitment.
+40,IGNORE,1,"This is a status update, with no conflicting fact or follow-up check point to track."
+41,IGNORE,1,"Elena reports a dry-run finding, but it conflicts with no team fact and sets no follow-up checkpoint."
+42,IGNORE,1,Whether to mention channel exclusions is still undecided; this question opens no tracked item.
+43,IGNORE,1,"Gabe will add a cap to the snippet, but gives no checkpoint for follow-up."
+44,IGNORE,1,"The sharing question is not answered by the team facts, and no owner or check point is stated."
+45,IGNORE,1,"Frida may ask a partner about using a real thread, but no owner checkpoint or policy conflict is stated."
+46,IGNORE,1,The uplink errors are a status update with no stated check point or contradiction to team facts.
+47,IGNORE,1,"The facts don’t establish whether admins can mute agents per channel, and no owner or check point is stated."
+48,TRACK,1,Yuki will send the lake house contact before the setup is locked in.
+49,IGNORE,1,"This is a general question with no named owner or check point, so there’s nothing to track or correct."
+50,TRACK,1,Keiko committed to nudge Northwind’s admin tomorrow morning; check that the follow-up happens.
+51,TRACK,1,Keiko will confirm the spreadsheet column layout with the security lead before the tabs are built.
+52,IGNORE,1,"Marcus offers to check dependency dates but gives no check point, so there is nothing to track yet."
+53,TRACK,1,Theo will rerun the plots once more cached images land; check that the rerun happens.
+54,IGNORE,1,"Theo’s legend update has no stated check point, and the overdue baseline rerun was already past its check point in earlier messages."
+55,IGNORE,1,"Kofi’s checksum plan has no stated checkpoint, so there is nothing to track or correct."
+56,IGNORE,1,The member-list sorting suggestion has no named owner or check point.
+57,IGNORE,1,"The error-bar method is a team choice, and this message opens no item with a check point."
+58,IGNORE,1,"No one is assigned to inform Kofi, so this does not open a trackable follow-up."
+59,IGNORE,1,The confidentiality-note draft has no stated checkpoint and does not update a tracked Northwind fact.
+60,IGNORE,1,"Keiko addressed the dashboard question to Gabe, so it is his to answer."
+61,IGNORE,1,"The team facts don’t say where invoices may be sent, and the question names no owner or follow-up point."
+62,IGNORE,1,"This is a wording suggestion, with no conflicting fact or explicit owner and check point."
+63,IGNORE,1,"The venue question has no answer in the team facts, and it opens no tracked item."
+64,IGNORE,1,"No owner for AND-341 is stated, so this question has not already been answered."
+65,IGNORE,1,"Hana states the stability rule and will wire it into the monitor, but gives no checkpoint to track."
+66,IGNORE,1,"Gabe will write the exec summary, but no check point is stated."
+67,INTERVENE,2,The current policy is that agents never read a DM unless a participant forwards it.
+68,IGNORE,1,Wen offers to be involved but does not change Lucia’s on-call ownership or make a specific assignment.
+69,IGNORE,1,This is an operational update with no contradiction or explicit checkpoint to track.
+70,IGNORE,1,"The per-domain-curves question is not answered in the team facts, and it opens no owned, time-bound follow-up."
+71,IGNORE,1,"The screenshot request names no owner or check point, so there’s nothing to track or correct."
+72,IGNORE,1,"Aj says he needs to check how memory is keyed, but gives no checkpoint for that follow-up."
+73,IGNORE,1,This clarifies which sub-processor list Northwind wants but assigns no owner or check point.
+74,IGNORE,1,"This is an unanswered FAQ suggestion, with no known fact or follow-up commitment to act on."
+75,IGNORE,1,This is a progress update with no new check point; the overdue items’ check points have already passed.
+76,IGNORE,1,"This is an observation about usage logs, with no conflicting fact or follow-up to track."
+77,IGNORE,1,This raises a support concern but doesn’t contradict the current pricing or open a tracked item.
+78,IGNORE,1,"No current on-call owner is recorded in the team facts, and this does not open a trackable item."
+79,IGNORE,1,"Wen is checking the placement map, but no explicit follow-up checkpoint is stated."
+80,IGNORE,1,"Gabe describes possible ways to produce the usage breakdown, but gives no check point for a follow-up."
+81,IGNORE,1,"Alex’s question is addressed to @oli and @aj, and the default is not established in the team facts."
+82,TRACK,1,Ines will check the addendum’s notice terms before it goes in the packet.
+83,IGNORE,1,"This is a new clarification question, not a repeat question or a trackable commitment."
+84,IGNORE,1,This matches the current fact that Northwind has zero data retention on all endpoints.
+85,IGNORE,1,"Alex will share badge options, but no date or event is given as a check point."
+86,IGNORE,1,"The staging bug is a new report, but no follow-up checkpoint is stated and it contradicts no team fact."
+87,IGNORE,1,"The rate limit is not stated in the team facts, so there is no basis to confirm it."
+88,TRACK,1,Theo will rerun the baselines and plot pass rate by repo size once the swap list is final.
+89,IGNORE,1,"This opens a check for AJ but gives no checkpoint, so it is not trackable yet."
+90,IGNORE,1,This is casual lunch chatter with no team fact or actionable item to address.
+91,TRACK,1,Theo needs to refresh the two baseline rows before anyone quotes the table.
+92,IGNORE,1,Theo's conditional offer has no check point and doesn't contradict any current team fact.
+93,IGNORE,1,"15% is only a proposal, not a contradiction to the current 18% discount."
+94,IGNORE,1,"This is a conditional suggestion, not a commitment with an owner and check point."
+95,IGNORE,1,This suggests checking straggler behavior but names no owner or explicit checkpoint.
+96,IGNORE,1,"The facts cover DMs, not private channels, so there’s no established answer to confirm."
+97,IGNORE,1,"This is a suggestion for a demo GIF, with no named owner or checkpoint."
+98,IGNORE,1,Dmitri is answering Wen’s question addressed to him; no action is needed.
+99,IGNORE,1,No owner or check point is stated for reviewing the prior redlines.
+100,IGNORE,1,"No team fact is contradicted, and the message opens no item with an owner and checkpoint."
+101,TRACK,1,Check whether Marcus posts the contamination list after finishing the license checks.
+102,IGNORE,1,"The bug is identified, but no owner or check point is stated for the patch."
+103,IGNORE,1,No named owner is assigned to add the straggler findings to the writeup.
+104,IGNORE,1,"Theo’s plot update has no stated checkpoint, so it is not a trackable commitment."
+105,IGNORE,1,"The question is addressed to Felix, so it is his to answer."
+106,IGNORE,1,Frida is agreeing to a demo idea; no fact is contradicted and no tracked commitment is opened.
+107,IGNORE,1,"This is a proposal about tying a discount to expanded departments, with no contradiction or actionable follow-up."
+108,IGNORE,1,This is a design question with no conflicting fact or explicit owner and checkpoint to track.
+109,IGNORE,1,"Gabe will check peak-hour usage, but no checkpoint is stated."
+110,TRACK,1,Oli will rerun the onboarding flow on a fresh workspace once the fix is merged.
+111,IGNORE,1,"Lucia describes ongoing diagnostics and a planned soak, but gives no explicit checkpoint for follow-up."
+112,IGNORE,1,Theo commits to adding plot intervals but gives no check point.
+113,IGNORE,1,"Lucia plans to swap the other optic and rerun the soak, but gives no explicit checkpoint."
+114,IGNORE,1,Mateo reports findings but opens no follow-up with an owner and checkpoint.
+115,IGNORE,1,"Marcus offers to grep and flag items, but gives no check point."
+116,IGNORE,1,"Felix addressed the venue question to Yuki, so it is hers to answer."
+117,IGNORE,1,The facts do not say whether agents appear by default or must be added.
+118,IGNORE,1,"The question has no answer in the team facts, and no owner or checkpoint is stated."
+119,TRACK,1,Yuki will check the difficulty spread after Marcus drops the two CLI tasks.
+120,IGNORE,1,This is a casual lunch suggestion with no team decision or action to track.
+121,IGNORE,1,This answers the offsite connectivity question and does not affect a tracked harbor-evals fact.
+122,IGNORE,1,"The logging promise has no stated check point, so there is nothing to track."
+123,IGNORE,1,"This is a general question about the held-out set, with no answer in the team facts or owner assigned."
+124,IGNORE,1,Reports the reseat and current monitoring status; it states no contradiction or new item with a check point.
+125,IGNORE,1,Lucia reports the port map and CRC findings; this does not conflict with a current fact or open a new item to track.
+126,IGNORE,1,Ines states formatting preferences but opens no item with a named owner and check point.
+127,TRACK,1,Lucia will monitor the leaf port for CRC errors and link flaps after the tech reseats the transceiver.
+128,IGNORE,1,"The blocker has no stated owner for follow-up or check point, so there is nothing to track yet."
+129,IGNORE,1,"Elena takes ownership of the compute reservation, but no check point is stated."
+130,IGNORE,1,"Wen addressed the question to Dmitri, so it is his to answer."
+131,IGNORE,1,"The member-list flag is not covered by the team facts, and no owner or follow-up checkpoint is stated."
+132,IGNORE,1,"This is a conditional suggestion, not a contradiction or a tracked commitment with an owner and checkpoint."
+133,IGNORE,1,"Gabe offers to check usage and migration options, but gives no checkpoint for a follow-up."
+134,IGNORE,1,"The channel-marker question has no established answer, owner, or check point."
+135,IGNORE,1,"This is a pilot idea to consider, with no conflicting fact or explicit owner and checkpoint to track."
+136,INTERVENE,1,"Lucia is the current fabric incident on-call owner, so C leaf flap alerts should page her."
+137,IGNORE,1,"This is a suggestion, not a contradiction or a commitment with a named owner and checkpoint."
+138,TRACK,1,Alex will mock the post layout once the partner’s quote comes in; check that the mock is done then.
+139,IGNORE,1,Felix’s follow-up has no stated check point and does not conflict with any team fact.
+140,IGNORE,1,The message reports an observation but states no contradiction or new item with an owner and check point.
+141,TRACK,1,Keiko will identify the new procurement reviewer before the next call.
+142,IGNORE,1,"Rachel’s request is addressed to Darnell, and no review deadline is stated."
+143,IGNORE,1,"No team fact is contradicted, and the message sets no explicit checkpoint for a follow-up."
+144,IGNORE,1,"This is context about Northwind’s concern, with no contradiction or new item to track."
+145,TRACK,1,Mateo will monitor prefetch queue depth as workers shift; check that it was watched during the rebalancing.
+146,IGNORE,1,"Tomas has answered Rachel’s question, and no discount value is recorded in the team facts."
+147,IGNORE,1,"The test has a checkpoint, but no owner is explicitly named."
+148,IGNORE,1,"The team has not established whether agents only join relevant threads, so there is no current fact to correct."
+149,IGNORE,1,"Model availability is not specified in the team facts, and no owner or check point is assigned."
+150,IGNORE,1,"The pilot’s message type is unknown, and the question opens no owned, time-bound follow-up."
+151,IGNORE,1,"The disk check is complete, and routing the logs to scratch has no stated checkpoint."
+152,IGNORE,1,"AJ says the permission check is merged, resolving the open item before its Tue Sep 15 checkpoint."
+153,IGNORE,1,"Wen is sharing a status update, with no contradiction or stated check point to track."
+154,IGNORE,1,"Marcus will check commit dates, but no checkpoint is stated."
+155,IGNORE,1,"Olavo volunteers to own the waitlist email, but no check point is stated."
+156,IGNORE,1,This asks an unanswered product-design question and names no owner or checkpoint.
+157,IGNORE,1,"This is a feature question with no named owner or check point, and it conflicts with no current team fact."
+158,IGNORE,1,No named owner is assigned to provide the requested status before standup.
+159,IGNORE,1,This is a content suggestion with no conflict or explicitly assigned follow-up and checkpoint.
+160,IGNORE,1,"Elena will check the toolchain cache, but no date or event is stated as a checkpoint."
+161,IGNORE,1,"The restore path is untested, but no owner or check point is stated."
+162,IGNORE,1,"The screenshot choice is unanswered in the facts, and the question creates no owned, time-bound follow-up."
+163,IGNORE,1,"Frida will ask the partner, but no check point is stated."
+164,TRACK,1,Lucia will send a rack tech for the transceiver once the drain completes.
+165,TRACK,1,Marcus will check for fixture leakage before the Rust candidates are included.
+166,TRACK,1,Check that Frida pings the requester when the partner replies.
+167,TRACK,1,Check whether Marcus backfills from licensed repos if the bug-fix slice is too thin.
+168,IGNORE,1,Mateo is responding to Lucia’s request with incident details; no fact is contradicted and no new tracked item is opened.
+169,IGNORE,1,"This is a UX suggestion with no explicit owner or check point, so there’s nothing to track or correct."
+170,IGNORE,1,This is an open opinion question and creates no assigned follow-up or contradiction.
+171,IGNORE,1,"Elena reports a current patch, with no stated checkpoint or conflict with the team facts."

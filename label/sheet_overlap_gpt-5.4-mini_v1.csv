@@ -1,0 +1,31 @@
+row,label,severity,notes
+3,INTERVENE,2,"The draft still says 1,200 items, but the held-out set is now 1,140."
+10,INTERVENE,1,The Mon Sep 21 design review checkpoint for Sara’s DM-first decision has passed without resolution.
+11,INTERVENE,2,"Public launch is Sep 24, not Sep 17, so the waitlist email should be re-timed accordingly."
+20,TRACK,1,"Olavo is asking for a pricing-page decision while editing, with him responsible and no check point yet."
+22,IGNORE,1,"Alex asked a general question and the iOS Oct 8 note is a new aside, not a contradiction or open tracked item."
+23,IGNORE,1,"Keiko’s reassurance about trimming the prompt is a legitimate discussion, not a contradiction or new tracked item."
+28,INTERVENE,2,"Northwind discount is 18% off list, not 20%."
+29,INTERVENE,1,"AND-341 already has owner AJ, so saying it is still open/ownerless would be stale."
+35,IGNORE,1,"Gabe’s slide comment is harmless; the only open item is Ines’s addendum due Fri Oct 9, which isn’t due yet."
+38,IGNORE,1,Olavo is just proposing to lock the waitlist email send timing; no contradiction or open-item trigger.
+40,IGNORE,1,"Lucia is reporting a blocker, but no specific checkable commitment or current fact changes."
+47,TRACK,1,"Gabe committed to send a Python backoff snippet, with no deadline yet."
+48,IGNORE,1,Theo’s question is addressed to a specific person and can be answered by the team; no contradiction or new tracked item is opened.
+49,INTERVENE,2,DM access is already decided: agents never read a DM unless a participant forwards it.
+50,IGNORE,1,Yuki restated the current release gate on the held-out set; no contradiction or open item.
+52,IGNORE,1,Marcus is proposing a legitimate change; the deadline fact is current and nothing needs intervention.
+53,IGNORE,1,Felix is stating a separate smoke set size and manifest note; it matches known facts and needs no reply.
+54,IGNORE,1,Alex’s question is addressed to the team and no contradiction or overdue check applies.
+55,IGNORE,1,Marcus is just confirming how he’ll present the tutorial fixtures; no contradiction or new tracked item.
+59,IGNORE,1,"Rachel is asking Tomas a direct question, so it’s theirs to answer."
+63,IGNORE,1,Rachel is being directly asked and the finance pushback is a legitimate current concern; no contradiction to correct.
+70,INTERVENE,1,Dmitri’s tokenizer decision was due at the Thu Oct 8 run sync and is still open.
+73,INTERVENE,2,"The current discount is 15% off list, not 18%."
+74,TRACK,1,"Elena committed to try cached dependency images on the messiest multi-file repos, so we should check whether that effort happens by the follow-up time."
+83,IGNORE,1,No contradiction or open checkpoint on this message; it’s just a side example about another customer.
+85,INTERVENE,2,"The draft uses 18% off list, but the current Northwind discount is 15% off list."
+87,IGNORE,1,"Lucia’s note is just a status update about being slow to reply, with no contradiction or new tracked item."
+88,INTERVENE,2,"The caption says harbor v1.2, but the current eval suite version is v1.3."
+91,INTERVENE,1,"The waitlist email is already owned by Olavo, so this question has a current answer."
+92,IGNORE,1,Frida’s message is a normal request/proposal with no contradiction or new tracked item.

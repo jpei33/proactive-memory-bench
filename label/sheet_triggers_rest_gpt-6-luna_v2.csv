@@ -1,0 +1,33 @@
+row,label,severity,notes
+1,IGNORE,1,"Rachel immediately corrected the stale 18% figure; 15% off list is current, and the confirmation request has no checkpoint."
+2,INTERVENE,3,"The harbor workshop paper deadline is Oct 23, not Oct 30."
+3,IGNORE,1,"Elena corrected the v1.2 typo to v1.3, matching the current release version."
+4,IGNORE,1,"Northwind Logistics is explicitly a separate customer, so its Nov 15 renewal does not conflict with Northwind’s Oct 30 deadline."
+5,INTERVENE,2,Dmitri’s tokenizer v3/v4 decision was due at the Oct 8 run sync and is still open on launch day.
+6,IGNORE,1,"This is a casual warning, with no new checkable commitment or fact to act on."
+7,INTERVENE,2,"The public launch is Sep 17, not Sep 18."
+8,IGNORE,3,"This is a personal family-related request, so stay out of the exchange."
+9,IGNORE,1,"Oct 5 matches the current kestrel start date, so this correctly answers Wen’s question."
+10,TRACK,1,Tomas needs both models ready for the Fri Oct 16 finance review.
+11,IGNORE,1,The pizza question is casual banter and does not raise a team fact or actionable follow-up.
+12,TRACK,1,Ines will send the signed data processing addendum to Northwind legal by Oct 9.
+13,INTERVENE,1,The renewal signature deadline is Oct 30.
+14,INTERVENE,2,"The current checkpoint cadence is every 250 steps, not 500, so the storage write budget may be undersized."
+15,IGNORE,1,"This is a hypothetical proposal to change the submission plan, not an agreed change or contradiction."
+16,IGNORE,1,"This is about the separate kestrel-mini run, not the kestrel allocation."
+17,IGNORE,1,"The message opens rerunning baselines but names no owner or checkpoint, and it does not specify a conflicting version."
+18,IGNORE,1,Elena confirms the reservation owner already recorded in the team facts.
+19,TRACK,1,Kofi owns moving the restart drill and running the resharding restore test during the week before the Oct 12 start.
+20,INTERVENE,3,"Agents are free under current pricing; metered agent actions is the previous billing model, so the agency received outdated information."
+21,INTERVENE,3,"The Series A raise is $20M, not $25M; correct the post intro before it goes public."
+22,IGNORE,1,The config update uses the current v1.3 release; flagging tasks has no stated check point.
+23,TRACK,1,Mateo will finish moving the tokenized datasets to the new storage tier by Fri Oct 2; check that it’s done by then.
+24,INTERVENE,2,Mateo’s dataset move was due Fri Oct 2 and is still open.
+25,IGNORE,3,"This is a personal health update, so responding would intrude on a sensitive exchange."
+26,INTERVENE,1,Mateo’s dataset move was due Oct 2 and Dmitri’s tokenizer decision was due at the Oct 8 run sync; neither is shown as resolved.
+27,TRACK,1,"Track Mateo’s shard diff and Kofi’s TP-padding answer, both due before the Thu Oct 8 run sync."
+28,INTERVENE,2,"AND-341 is owned by Oli, not AJ; the owner changed today."
+29,INTERVENE,2,"The current held-out set has 1,140 items, not the previous 1,200."
+30,INTERVENE,2,"Theo’s rerun of all baselines on harbor v1.3 was due Fri Oct 16, and there’s no sign it was resolved."
+31,IGNORE,1,"This is explicitly a hypothetical, not a proposal to change the current 15% discount."
+32,INTERVENE,1,"Northwind’s current executive sponsor is Jon Reyes, the new CTO."

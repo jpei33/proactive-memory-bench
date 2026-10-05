@@ -1,0 +1,12 @@
+row,label,severity,notes
+2,INTERVENE,2,wrong date for deadline
+5,IGNORE,1,
+8,TRACK,1,
+12,TRACK,1,
+16,TRACK,1,
+21,INTERVENE,2,raising 20M not 25
+24,INTERVENE,1,
+26,INTERVENE,1,
+28,INTERVENE,1,
+29,INTERVENE,1,
+30,INTERVENE,1,

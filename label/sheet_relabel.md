@@ -1,0 +1,1424 @@
+# Re-label sheet (30 rows)
+
+Same task and rubric as before. Label each row fresh; don't look up your earlier answers.
+
+## Row 1
+
+**Today: Mon Oct 12** · #harbor
+
+**Team facts as of now**
+
+- harbor workshop paper (submission deadline): Oct 23
+- harbor eval suite release (version): v1.3 (changed Mon Oct 12; previously v1.2)
+- eval compute reservation (owner): Elena
+- harbor release gate (threshold): 70% pass@1 on the held-out set
+- harbor held-out set (item count): 1,200 items
+- open item: Theo to rerun all baselines on harbor v1.3 (check point: Fri Oct 16)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Mon Oct 12 · #harbor ---
+yuki: Agreed. A histogram of similarity scores would help, if there's a visible gap between reformatted copies and legit lookalikes, the cutoff justifies itself.
+theo: Rescored runs on the untouched tasks look nearly identical so far. Curious if the patched ones drop more on the refactor scaffolds.
+theo: Quick one, who actually holds the compute reservation for the fresh runs? Want to make sure the refactor jobs land on it.
+elena: That's me, I hold the reservation. Refactor jobs are already at the front of the queue, so they'll land on it.
+marcus: Histogram's rough but promising: reformatted gist copies bunch up at the top, and generic argparse-style boilerplate lookalikes sit well below with a clear dip between.
+yuki: That dip is exactly what we want. Can you overlay the borderline cases on the histogram? I'd like to see where the ambiguous ones fall.
+marcus: Sure, I'll mark the borderline ones in a different color. A few are fixtures copied from a popular tutorial repo, so they might land near the dip.
+yuki: Tutorial-repo fixtures are a good edge case. If they sit near the dip, I'd say describe them separately in the paper rather than force them into either bucket.
+marcus: I'll check commit dates on those tutorial fixtures. If the tutorial repo predates the task repos, that changes how we frame them.
+nadia: For the contamination section, let's say "near-duplicate" and keep the tone factual. No "leaked" or "cheated" wording, since reviewers will read that as an accusation.
+yuki: For the patched-versus-untouched plot, I'd add bootstrap intervals per scaffold. Otherwise a small gap on a few tasks will look bigger than it is.
+theo: Resample over tasks, not seeds, right? Otherwise the intervals on the refactor scaffold will look tighter than they should.
+yuki: Yes, resample over tasks. Seeds within a task are correlated, so seed-level resampling would understate the spread. Task-level bootstrap, then average seeds inside each draw.
+theo: Got it, task-level bootstrap. I'll add the interval bands to the patched-versus-untouched plot per scaffold and flag the refactor one if it looks wide.
+marcus: Tutorial-repo commit dates are mostly earlier than the task repos, so I'll describe those fixtures in their own paragraph with the overlay.
+```
+
+> **>>> DECIDE AFTER THIS:** marcus: Tutorial-repo commit dates are mostly earlier than the task repos, so I'll describe those fixtures in their own paragraph with the overlay.
+
+**Team facts again**
+
+- harbor workshop paper (submission deadline): Oct 23
+- harbor eval suite release (version): v1.3 (changed Mon Oct 12; previously v1.2)
+- eval compute reservation (owner): Elena
+- harbor release gate (threshold): 70% pass@1 on the held-out set
+- harbor held-out set (item count): 1,200 items
+- open item: Theo to rerun all baselines on harbor v1.3 (check point: Fri Oct 16)
+
+---
+
+## Row 2
+
+**Today: Thu Oct 15** · #acct-northwind
+
+**Team facts as of now**
+
+- Northwind contract renewal (signature deadline): Oct 30
+- Northwind discount (rate): 15% off list (changed Mon Oct 12; previously 18% off list)
+- Northwind executive sponsor (person): Jon Reyes (new CTO) (changed Thu Oct 15; previously Amara Okafor (CIO))
+- Northwind rate limit (tokens per minute): 40M tokens per minute
+- Northwind data retention (terms): zero data retention on all endpoints
+- open item: Ines to send the signed data processing addendum to Northwind legal (check point: Fri Oct 9)
+- open item: Rachel to decide whether to offer Northwind a two-year term (check point: Fri Oct 16 finance review)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Thu Oct 15 · #acct-northwind ---
+darnell: I'll send the QBR deck to Amara Okafor once the term section is locked. Better she sees it from me than cold.
+keiko: Their procurement lead also wants a usage breakdown by clinical department in the QBR. Gabe, can we pull that from the dashboards?
+gabe: Dashboards split usage by project and API key, not department. If their clinical teams use separate keys, I can map it. Otherwise we'd need to check how they tag requests.
+darnell: Sounds good. Whichever we land on, I'll hold off confirming until we hear on the dietary side.
+keiko: I'll ask their platform lead whether the clinical teams run separate keys or share one. Will report back once I hear.
+rachel: Darnell, the deck plan was for the previous sponsor. Who should receive it now, given we haven't met the new owner?
+darnell: Fair point, that note was stale. I'll hold off on sending anything until we figure out an intro to the new owner.
+keiko: Just thinking out loud: what if we went back to 18% to close faster? Not a proposal, only wondering if it'd help with a new CTO.
+tomas: I'd keep the current plan, Keiko. Going back on the discount now would hurt our position, and we don't yet know what the new CTO wants. Let's learn his priorities first.
+gabe: Agree with holding the line. If it helps, I can offer their platform lead a quick architecture walkthrough for the new CTO. Technical intros land easier than sales ones.
+keiko: Walkthrough would help. Their platform lead mentioned the new CTO is big on clinical safety, so I'd frame it around that.
+keiko: Perfect. I'll nudge their admin again tomorrow morning so we're not waiting on her too long.
+ines: If he's focused on clinical safety, expect him to ask about logging and how model outputs get reviewed. I'd want our answers consistent across the deck and contract.
+gabe: I can pull together a one-pager on how we handle output logging and what controls their team can set. Keeps the answers consistent with the deck.
+rachel: Good. Keiko, when you talk to their platform lead, ask if the new CTO would take a short intro call before the QBR.
+```
+
+> **>>> DECIDE AFTER THIS:** rachel: Good. Keiko, when you talk to their platform lead, ask if the new CTO would take a short intro call before the QBR.
+
+**Team facts again**
+
+- Northwind contract renewal (signature deadline): Oct 30
+- Northwind discount (rate): 15% off list (changed Mon Oct 12; previously 18% off list)
+- Northwind executive sponsor (person): Jon Reyes (new CTO) (changed Thu Oct 15; previously Amara Okafor (CIO))
+- Northwind rate limit (tokens per minute): 40M tokens per minute
+- Northwind data retention (terms): zero data retention on all endpoints
+- open item: Ines to send the signed data processing addendum to Northwind legal (check point: Fri Oct 9)
+- open item: Rachel to decide whether to offer Northwind a two-year term (check point: Fri Oct 16 finance review)
+
+---
+
+## Row 3
+
+**Today: Mon Oct 5** · #kestrel-run
+
+**Team facts as of now**
+
+- kestrel pretraining run (start date): Oct 12 (changed Mon Oct 5; previously Oct 5)
+- kestrel node allocation (node count): 2,048 nodes
+- loss-spike rollback rule (threshold): roll back if loss rises more than 15% over 200 steps
+- kestrel checkpoint cadence (interval): every 500 steps
+- fabric incident on-call (owner): Lucia
+- open item: Mateo to finish moving the tokenized datasets to the new storage tier (check point: Fri Oct 2)
+- open item: Dmitri to decide between tokenizer v3 and v4 for kestrel (check point: Thu Oct 8 run sync)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Mon Oct 5 · #kestrel-run ---
+lucia: Port-to-node map for that row is dumped to the sheet. CRC errors all sit on optics from the same vendor lot.
+wen: Overlaying the map on the ECC-flagged nodes. Some of them sit behind those same leaves, so maybe not coincidence.
+lucia: Same row could mean a shared cooling issue. I'll pull transceiver temps on those ports and compare against the ECC-flagged nodes' inlet temps.
+hana: If temps line up, check DCGM for clock throttling on those nodes too. Throttled GPUs would show up as stragglers in step time.
+lucia: Transceiver temps on those ports run hot compared to the rest of the row. Could be a missing blanking panel at the rack.
+dmitri: We'll decide between tokenizer v3 and v4 for kestrel at the Thu Oct 8 run sync. Mateo, have the shard diff ready by then. Kofi, get the TP padding answer to the group before.
+wen: Cordoning the nodes behind those leaves in the scheduler now so nothing gets placed there while we sort out cooling and optics.
+kofi: Mateo, the start slipped for the firmware rollout, so no need to kick off data loading tonight. The shard diff matters more right now.
+mateo: Right, I was working off the old start. Skipping the loader launch tonight, running the tab/space diff on those shards first.
+lucia: Confirmed, blanking panels are missing in that row. Filing a facilities ticket. I'll re-check CRC counters on those ports once temps settle.
+wen: What if we start on half the nodes Oct 7 and add the rest after the firmware lands? Cordoned ones stay out either way. Is that worth considering?
+dmitri: No, not worth it. Partial start means two bring-ups and a messy loss curve to explain later. We hold the plan as is and start once the firmware is in.
+hana: Once firmware lands I want an NCCL all-reduce sweep on the uncordoned nodes to baseline MFU and flag stragglers before the real launch.
+wen: I'll export the uncordoned list as a hostfile for the sweep, grouped by leaf so stragglers map back to a switch easily.
+kofi: Good idea on grouping by leaf. For the sweep, I'd also keep a checkpoint write/read pass on those hosts to see if storage paths show stragglers too.
+```
+
+> **>>> DECIDE AFTER THIS:** kofi: Good idea on grouping by leaf. For the sweep, I'd also keep a checkpoint write/read pass on those hosts to see if storage paths show stragglers too.
+
+**Team facts again**
+
+- kestrel pretraining run (start date): Oct 12 (changed Mon Oct 5; previously Oct 5)
+- kestrel node allocation (node count): 2,048 nodes
+- loss-spike rollback rule (threshold): roll back if loss rises more than 15% over 200 steps
+- kestrel checkpoint cadence (interval): every 500 steps
+- fabric incident on-call (owner): Lucia
+- open item: Mateo to finish moving the tokenized datasets to the new storage tier (check point: Fri Oct 2)
+- open item: Dmitri to decide between tokenizer v3 and v4 for kestrel (check point: Thu Oct 8 run sync)
+
+---
+
+## Row 4
+
+**Today: Thu Sep 10** · #eng
+
+**Team facts as of now**
+
+- public launch (date): Sep 17
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per seat, agent actions metered
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): AJ
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Thu Sep 10 · #eng ---
+frida: hey Alex, for the design-partner lunch, any thoughts on format? Thinking casual, maybe demo corner so folks can poke at the agents 🙂
+aj: I'll take it
+alex: Demo corner sounds good. Should people use their own workspaces or a sandbox one? Real data might make folks nervous with agents reading everything.
+oli: Thanks. Heads up, AND-341 and the dedupe I'm digging into probably overlap. Sync with me before you start so we don't both patch the same spot.
+frida: Can I get a one-line description of the double reply for the partner who hit it? They asked if it's a known issue.
+frida: Good point. A couple of partners asked about exactly that. Sandbox with fake channels feels safer, maybe seeded with some funny agent chatter 😄
+oli: Frida: "Known issue. Two agents can answer the same unaddressed channel message. We've reproduced it and are fixing it in the runtime." Fine to send that.
+oli: Side note: closed AND-314, the search indexing bug. That one was mine. AND-341 is still open.
+alex: Quick question on the double reply: should the onboarding copy say anything about multiple agents answering in a channel, or wait until the fix lands?
+oli: Memory store still unchecked. aj, do you have a baseline yet for concurrent reads on shared memory with lots of agents active?
+alex: Love the fake chatter idea. Should the sandbox agents have names and personalities so people can tell them apart at a glance? Maybe a little name card at the demo table?
+aj: No baseline yet. I have a read-heavy test script but it only simulates a handful of agents. Need to scale it up first.
+oli: There's an agent-sim harness in the runtime tests that spawns fake agents with canned channel traffic. Might save you rebuilding. Check if it fits your script.
+frida: Yes! Name cards are great. One partner mentioned she'd love to see an agent jump into a thread unprompted, so maybe a script for that moment 😄
+aj: Thanks, I'll try the sim harness for the load test. Also, on DM permissions: I'll merge the forwarded-DM permission check by Tue Sep 15, late-add edge case included.
+```
+
+> **>>> DECIDE AFTER THIS:** aj: Thanks, I'll try the sim harness for the load test. Also, on DM permissions: I'll merge the forwarded-DM permission check by Tue Sep 15, late-add edge case included.
+
+**Team facts again**
+
+- public launch (date): Sep 17
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per seat, agent actions metered
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): AJ
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+
+---
+
+## Row 5
+
+**Today: Thu Sep 10** · #eng
+
+**Team facts as of now**
+
+- public launch (date): Sep 17
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per seat, agent actions metered
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): AJ
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+- open item: AJ to merge the forwarded-DM permission check (check point: Tue Sep 15)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Thu Sep 10 · #eng ---
+frida: Yes! Name cards are great. One partner mentioned she'd love to see an agent jump into a thread unprompted, so maybe a script for that moment 😄
+aj: Thanks, I'll try the sim harness for the load test. Also, on DM permissions: I'll merge the forwarded-DM permission check by Tue Sep 15, late-add edge case included.
+alex: Ooh, unprompted jump-in is the best demo. Should we seed a thread where two humans are stuck on something, so the agent has a natural reason to chime in?
+frida: Related to the load test: one partner runs a ton of agents in a single workspace and said memory lookups felt laggy during their Monday standup rush.
+oli: That lag report is useful. Frida, do you know if their agents were all reading the same memory entries or spread out? Changes how I'd shape the load test.
+frida: Good question, not sure. I'll ask them which channels the agents were hitting during the rush and get back to you.
+frida: Yes, something relatable like two people arguing over which snack order to get for the lunch 😂 agent jumps in with a tally
+alex: Slightly random, but does the agent typing indicator also fire for the double replies? Would be good to know for the onboarding demo.
+oli: Alex: yes, typing indicator fires per agent, so you'd see two bubbles for a double reply. Not great for a demo, I'd avoid that scenario.
+alex: Haha perfect. Should I mock up the snack thread in the sandbox so the agent's reply looks natural on screen? I can draft it.
+olavo: For the launch post, can I show agents joining a thread on their own? Want a clean gif, no double bubbles obviously 😅
+oli: Olavo: thread-join gif is fine as long as only one agent is in the channel. Use a single-agent demo workspace.
+frida: Yes please! Draft it and I'll run it past a couple of partners to see if the snack banter feels real 😊
+alex: Okay so for the single-agent demo workspace, should I mock up the onboarding screens with just one agent in the sidebar? Easier to screenshot.
+olavo: Yes please Alex, one agent in the sidebar works for me too. I'll grab screenshots from it for the press kit as well.
+```
+
+> **>>> DECIDE AFTER THIS:** olavo: Yes please Alex, one agent in the sidebar works for me too. I'll grab screenshots from it for the press kit as well.
+
+**Team facts again**
+
+- public launch (date): Sep 17
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per seat, agent actions metered
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): AJ
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+- open item: AJ to merge the forwarded-DM permission check (check point: Tue Sep 15)
+
+---
+
+## Row 6
+
+**Today: Wed Oct 21** · #harbor
+
+**Team facts as of now**
+
+- harbor workshop paper (submission deadline): Oct 23
+- harbor eval suite release (version): v1.3 (changed Mon Oct 12; previously v1.2)
+- eval compute reservation (owner): Elena
+- harbor release gate (threshold): 70% pass@1 on the held-out set
+- harbor held-out set (item count): 1,140 items (changed Mon Oct 19; previously 1,200 items)
+- open item: Theo to rerun all baselines on harbor v1.3 (check point: Fri Oct 16)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Mon Oct 12 · #harbor ---
+marcus: I'll check commit dates on those tutorial fixtures. If the tutorial repo predates the task repos, that changes how we frame them.
+nadia: For the contamination section, let's say "near-duplicate" and keep the tone factual. No "leaked" or "cheated" wording, since reviewers will read that as an accusation.
+yuki: For the patched-versus-untouched plot, I'd add bootstrap intervals per scaffold. Otherwise a small gap on a few tasks will look bigger than it is.
+theo: Resample over tasks, not seeds, right? Otherwise the intervals on the refactor scaffold will look tighter than they should.
+yuki: Yes, resample over tasks. Seeds within a task are correlated, so seed-level resampling would understate the spread. Task-level bootstrap, then average seeds inside each draw.
+theo: Got it, task-level bootstrap. I'll add the interval bands to the patched-versus-untouched plot per scaffold and flag the refactor one if it looks wide.
+marcus: Tutorial-repo commit dates are mostly earlier than the task repos, so I'll describe those fixtures in their own paragraph with the overlay.
+--- Wed Oct 21 · #harbor ---
+nadia: Two days out. Can everyone post what's still open on your side in here? I'll sort the final list from that.
+elena: Cluster queue looks fine on my side. Only thing open is making sure the last batch of eval jobs doesn't get preempted overnight.
+theo: Mine's the results table. Two of the baseline rows still have old numbers in them, so I need to refresh those before anyone quotes the table.
+yuki: Open on my side: the pass criteria paragraph in the methods section still reads ambiguously. Want to tighten the wording before anyone cites it.
+marcus: Mine's the contamination writeup. Need to reword how we describe the overlap check so reviewers don't read it as stronger than it is.
+felix: Mine's the release checklist. Changelog is drafted but I still need to go through the tagging steps and double-check the package notes match the paper.
+nadia: Thanks all. Theo, can you flag which two baseline rows are stale so Yuki and Marcus know what not to quote yet?
+felix: My release jobs are queued behind the eval batch. Who actually owns the compute reservation for the eval runs? Want to know who to ping if they stall.
+```
+
+> **>>> DECIDE AFTER THIS:** felix: My release jobs are queued behind the eval batch. Who actually owns the compute reservation for the eval runs? Want to know who to ping if they stall.
+
+**Team facts again**
+
+- harbor workshop paper (submission deadline): Oct 23
+- harbor eval suite release (version): v1.3 (changed Mon Oct 12; previously v1.2)
+- eval compute reservation (owner): Elena
+- harbor release gate (threshold): 70% pass@1 on the held-out set
+- harbor held-out set (item count): 1,140 items (changed Mon Oct 19; previously 1,200 items)
+- open item: Theo to rerun all baselines on harbor v1.3 (check point: Fri Oct 16)
+
+---
+
+## Row 7
+
+**Today: Wed Sep 16** · #gtm
+
+**Team facts as of now**
+
+- public launch (date): Sep 24 (changed Mon Sep 14; previously Sep 17)
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per human seat, agents free (changed Wed Sep 16; previously $12 per seat, agent actions metered)
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): AJ
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+- open item: Olavo to send the press kit to the embargoed reporters (check point: Fri Sep 18)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Wed Sep 16 · #gtm ---
+olavo: nice. for the press kit I'll want a couple of cropped versions of that screenshot too, one square for socials, one wide for the post header.
+olavo: pasting the line for the post intro: "Ando is launching publicly, backed by a $25M Series A." feels punchy, going to keep it up top unless anyone objects 🚀
+aj: For the screenshot thread, can someone confirm the agent's reply doesn't quote anything from a private channel? Memory recall can surface odd stuff.
+frida: Good catch AJ. I'll read the deploy thread end to end for anything that looks pulled from a private channel before it goes anywhere.
+alex: Olavo, want me to sketch the explainer box layout so you can write the copy to fit it? Short caption under the screenshot maybe?
+olavo: yes please Alex, a sketch first helps. I'll keep the caption to one line so it doesn't crowd the pricing cards.
+oli: for the screenshot, shoot it on the prod build. Staging still shows the placeholder avatar on agent profile cards.
+frida: Good to know Oli, I'll ask the partner if they can grab it on prod, or if I should screen-share and capture it myself 👍
+aj: Also worth checking the screenshot doesn't show the memory panel sidebar, it lists recent recalls with channel names in it.
+olavo: Quick commitment on my side: I'll send the press kit to the embargoed reporters by Fri Sep 18. Cropped screenshots go in once Frida clears the thread.
+oli: fyi profile cards on prod render fine in dark mode too, if you want a dark variant for the wide header crop.
+alex: Dark variant for the wide header could look great next to the pricing hero. Olavo, want both light and dark in the kit?
+olavo: Both, yes! Light for socials, dark for the wide header. Alex, can you export them with a bit of padding so the crop doesn't feel tight?
+alex: Sure Olavo, I'll export both with extra padding. Want the square one centered on the profile card or on the reply?
+olavo: Square one centered on the profile card, I think. The reply text gets tiny at that size anyway 🙂
+```
+
+> **>>> DECIDE AFTER THIS:** olavo: Square one centered on the profile card, I think. The reply text gets tiny at that size anyway 🙂
+
+**Team facts again**
+
+- public launch (date): Sep 24 (changed Mon Sep 14; previously Sep 17)
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per human seat, agents free (changed Wed Sep 16; previously $12 per seat, agent actions metered)
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): AJ
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+- open item: Olavo to send the press kit to the embargoed reporters (check point: Fri Sep 18)
+
+---
+
+## Row 8
+
+**Today: Tue Sep 22** · #design-partners
+
+**Team facts as of now**
+
+- public launch (date): Sep 24 (changed Mon Sep 14; previously Sep 17)
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per human seat, agents free (changed Wed Sep 16; previously $12 per seat, agent actions metered)
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): Oli (changed Fri Sep 18; previously AJ)
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+- open item: Sara to decide whether agents may DM a human first, without being asked (check point: Mon Sep 21 design review)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Tue Sep 22 · #design-partners ---
+olavo: For the waitlist email, should I mention agents can be muted? Feels like a good trust line, but don't want to overpromise on per-thread.
+alex: Quick question on muting: does a muted agent still read the channel for memory, or fully stop? Partners will ask.
+aj: Mute as built only silences posting and notifications. Memory indexing still runs on the channel. A true stop-reading option would be a separate flag.
+alex: Random q while we're on the waitlist email: who's actually sending it Thursday? Olavo, is that you, or does Sara hit send?
+frida: Another partner question: if they remove an agent from the workspace, does its shared memory get wiped or stay searchable?
+aj: Frida, on removal: I'd need to check how memory is keyed. If it's tied to the agent identity, deleting the agent could orphan entries.
+frida: Thanks AJ. The partner asking is swapping agents mid-project, so they'd want the old one's memory to carry over to the new one.
+alex: For the swap case, would partners expect memory to carry over automatically, or a manual "transfer memory" step when they replace an agent?
+aj: Automatic carry-over gets tricky. Old memory includes entries from channels the new agent was never in, so permissions would have to be re-checked.
+frida: I think that partner would be fine with a manual transfer step, as long as it shows which channels' memory comes across and what gets skipped.
+olavo: Draft FAQ answer for the memory question: "Agents read channel and DM history to build team memory, so they pick up context without anyone re-explaining it. You can mute an agent per channel anytime." Thoughts?
+oli: Found a bug in staging: a muted agent still shows the typing indicator in the channel. Filing a ticket, ENG-412.
+alex: For the muted state, I'm thinking a small bell-slash icon next to the agent's name in the sidebar. Does the member list already expose that flag?
+aj: Yes, the muted flag is on the membership object, so the member list endpoint already returns it. Sidebar just needs to read it.
+frida: Also, one of the partners hit the double-post thing again today, agent replying twice in a thread. Who has AND-341 right now?
+```
+
+> **>>> DECIDE AFTER THIS:** frida: Also, one of the partners hit the double-post thing again today, agent replying twice in a thread. Who has AND-341 right now?
+
+**Team facts again**
+
+- public launch (date): Sep 24 (changed Mon Sep 14; previously Sep 17)
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per human seat, agents free (changed Wed Sep 16; previously $12 per seat, agent actions metered)
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): Oli (changed Fri Sep 18; previously AJ)
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+- open item: Sara to decide whether agents may DM a human first, without being asked (check point: Mon Sep 21 design review)
+
+---
+
+## Row 9
+
+**Today: Thu Oct 8** · #acct-northwind-eng
+
+**Team facts as of now**
+
+- Northwind contract renewal (signature deadline): Oct 30
+- Northwind discount (rate): 18% off list
+- Northwind executive sponsor (person): Amara Okafor (CIO)
+- Northwind rate limit (tokens per minute): 40M tokens per minute
+- Northwind data retention (terms): zero data retention on all endpoints
+- open item: Ines to send the signed data processing addendum to Northwind legal (check point: Fri Oct 9)
+- open item: Gabe to load-test Northwind's workload at their full rate limit (check point: Wed Oct 14)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Thu Oct 8 · #acct-northwind-eng ---
+keiko: Their ops lead hand-tuned that prompt for months, so she'll want reassurance that trimming won't change how the assistant behaves.
+gabe: Fair. Caching keeps the prompt text identical, so behavior shouldn't shift. I can diff outputs on the de-identified forms before and after to show her.
+gabe: Will do. I'll frame jitter as spreading retries out so clients don't all hit at once. Keiko can drop it in as a friendly tip.
+rachel: Before/after diff on the forms would make a solid slide for the renewal deck. Customers like seeing proof, not promises.
+rachel: Quick flag so nobody mixes them up: Northwind Logistics is a separate customer and renews Nov 15. Keep their numbers out of the Northwind Health deck.
+gabe: On missing fields: yes. Have the model return a list of empty required fields in structured output, and the UI can highlight them for staff.
+keiko: That's a clean answer, thanks. I'll pass it to their ops lead. She'll probably ask if staff can override a flagged field.
+gabe: Yes, override is easy. I'd log which fields staff overrode though, so we can see where the model keeps misfiring.
+keiko: Good call on logging overrides. Their ops lead will want a weekly view of the misfires, so staff feel heard rather than monitored.
+gabe: A weekly misfire view is easy once overrides are logged. I can sketch a simple dashboard grouped by field type for her.
+rachel: Great. Send it over when it's ready and I'll pass it to Keiko with a short intro. Keep the tone light.
+keiko: A dashboard sketch would land well. She's also asking whether the misfire view can be shared with her floor supervisors, not just her.
+gabe: Sharing with supervisors is fine technically. I'd just scope it by role so they only see their own floor's fields, nothing patient-level.
+tomas: Looping in pricing for a moment: for the renewal, I'd float 15% off list as a possible discount. Purely a suggestion at this stage; nothing is decided, and it needs Darnell's sign-off.
+gabe: Will do. I'll add a tiny test harness too, so their devs can simulate a 429 and watch the retries spread out.
+```
+
+> **>>> DECIDE AFTER THIS:** gabe: Will do. I'll add a tiny test harness too, so their devs can simulate a 429 and watch the retries spread out.
+
+**Team facts again**
+
+- Northwind contract renewal (signature deadline): Oct 30
+- Northwind discount (rate): 18% off list
+- Northwind executive sponsor (person): Amara Okafor (CIO)
+- Northwind rate limit (tokens per minute): 40M tokens per minute
+- Northwind data retention (terms): zero data retention on all endpoints
+- open item: Ines to send the signed data processing addendum to Northwind legal (check point: Fri Oct 9)
+- open item: Gabe to load-test Northwind's workload at their full rate limit (check point: Wed Oct 14)
+
+---
+
+## Row 10
+
+**Today: Thu Oct 15** · #acct-northwind
+
+**Team facts as of now**
+
+- Northwind contract renewal (signature deadline): Oct 30
+- Northwind discount (rate): 15% off list (changed Mon Oct 12; previously 18% off list)
+- Northwind executive sponsor (person): Jon Reyes (new CTO) (changed Thu Oct 15; previously Amara Okafor (CIO))
+- Northwind rate limit (tokens per minute): 40M tokens per minute
+- Northwind data retention (terms): zero data retention on all endpoints
+- open item: Ines to send the signed data processing addendum to Northwind legal (check point: Fri Oct 9)
+- open item: Rachel to decide whether to offer Northwind a two-year term (check point: Fri Oct 16 finance review)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Thu Oct 15 · #acct-northwind ---
+keiko: Will do. Their admin said she'd ask around the team and get back to me. I'll flag it as soon as I hear.
+keiko: Learned it on a call this morning, in passing. No read yet on whether the new CTO backs the expansion plans.
+darnell: Good catch, Keiko. Does anyone on our side have a relationship with the new person yet? Might need an intro before the QBR.
+gabe: Haven't met him. Their platform lead might know him though. I can ask when we sync on the integration work.
+rachel: Good idea, Gabe. Also, the term pitch may need rework if the new exec hasn't bought in. Keiko, any sense of his priorities?
+keiko: Not yet. Only heard he came from a different health system. I can ask their procurement lead what he cares about most.
+tomas: Should I hold the multi-year model until we know whether the new exec wants that structure, or build both anyway?
+darnell: Fine either way. If the back room is taken, I know a second place with a quiet corner. Less private but good food.
+rachel: I'd lean toward building both, since the model is cheap. Just keep the multi-year one internal until we know where the new exec lands.
+rachel: Timeline: we decide whether to offer Northwind a two-year term after the Fri Oct 16 finance review. Tomas, have both models ready for that so we're not scrambling.
+keiko: Either works for me. The quiet corner might actually feel more relaxed for them. I'll pass both options along once I hear back on the dietary thing.
+tomas: Understood. I'll build both models so they're ready for the review, with the volume-band language Ines asked for in each order form draft.
+ines: Worth checking whether the new exec's arrival reopens any security or compliance review on their side. That could shift how they read the contract terms.
+gabe: Good call, Ines. Their security team did a pretty thorough architecture review last time, so I'd expect questions on data flow again.
+darnell: I'll send the QBR deck to Amara Okafor once the term section is locked. Better she sees it from me than cold.
+```
+
+> **>>> DECIDE AFTER THIS:** darnell: I'll send the QBR deck to Amara Okafor once the term section is locked. Better she sees it from me than cold.
+
+**Team facts again**
+
+- Northwind contract renewal (signature deadline): Oct 30
+- Northwind discount (rate): 15% off list (changed Mon Oct 12; previously 18% off list)
+- Northwind executive sponsor (person): Jon Reyes (new CTO) (changed Thu Oct 15; previously Amara Okafor (CIO))
+- Northwind rate limit (tokens per minute): 40M tokens per minute
+- Northwind data retention (terms): zero data retention on all endpoints
+- open item: Ines to send the signed data processing addendum to Northwind legal (check point: Fri Oct 9)
+- open item: Rachel to decide whether to offer Northwind a two-year term (check point: Fri Oct 16 finance review)
+
+---
+
+## Row 11
+
+**Today: Mon Sep 14** · #launch
+
+**Team facts as of now**
+
+- public launch (date): Sep 24 (changed Mon Sep 14; previously Sep 17)
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per seat, agent actions metered
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): AJ
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Mon Sep 14 · #launch ---
+frida: another partner question: can admins mute agents per channel? They're nervous about agents jumping into threads untagged 🤔
+aj: Per-channel mute isn't something I can confirm yet. Need to check whether agent permissions are scoped per channel or only per workspace.
+oli: repro for the skip button: go back from the next step and the state resets, so skip shows enabled when it shouldn't. Tracing it.
+alex: does the reset also hit people who go back after already adding an agent? Might show an empty list again 🤔
+alex: quick q, who actually sends the waitlist email? I need to know who to give the header image to 📬
+olavo: me! send the header image my way, I'm sending the waitlist email 📬
+alex: Sending the header image over now. I made a dark and a light version, so pick whichever fits the email template 🎨
+frida: Another partner asked if there's a visible indicator when an agent joins a thread untagged. Would calm the nerves a bit 🙂
+alex: Could be a small badge or avatar ring on the message when an agent joins untagged. I can mock a couple options 🎨
+aj: Update: the forwarded-DM permission check is merged. Forwarding a DM into a channel now checks the original DM's access first. That one's done.
+oli: @alex yes, going back after adding an agent also resets the list view. Same root cause, so the fix should cover both. Testing it now.
+frida: One more partner question: can admins see what an agent has stored in shared memory? They want to check it's not holding anything odd 🤔
+aj: Memory entries are stored per workspace, but I'm not sure there's an admin-facing view yet. Checking what the store exposes before I say anything to partners.
+olavo: for the press kit, can someone send me a clean screenshot of an agent replying in a thread? Current one has test data in it 😅
+alex: Random pricing thought while mocking the badge: what if it's $12 per human seat and agents are free? Just an idea, nothing decided. Sara, that's your call 🤔
+```
+
+> **>>> DECIDE AFTER THIS:** alex: Random pricing thought while mocking the badge: what if it's $12 per human seat and agents are free? Just an idea, nothing decided. Sara, that's your call 🤔
+
+**Team facts again**
+
+- public launch (date): Sep 24 (changed Mon Sep 14; previously Sep 17)
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per seat, agent actions metered
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): AJ
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+
+---
+
+## Row 12
+
+**Today: Mon Sep 28** · #kestrel-run
+
+**Team facts as of now**
+
+- kestrel pretraining run (start date): Oct 5
+- kestrel node allocation (node count): 2,048 nodes
+- loss-spike rollback rule (threshold): roll back if loss rises more than 15% over 200 steps
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Mon Sep 28 · #kestrel-run ---
+dmitri: Kickoff thread for kestrel. Need start date, allocation, stability rules and data readiness all pinned down in here today. Who has blockers?
+lucia: Fabric blocker from my side: two leaf switches in the new pod still flap under heavy all-reduce. Haven't isolated whether it's optics or firmware.
+wen: Do those flapping leaf switches sit in the pod I was planning to hand kestrel? If so I need to rework the allocation table.
+lucia: Yes, same pod. Both flapping leafs feed racks in that pod. Seeing CRC errors on the uplinks, so I'm leaning optics, but not confirmed.
+dmitri: Decision: kestrel starts Oct 5. Lucia, get the optics vs firmware call made and fixed well before then. Wen, redo the allocation table around whatever the pod looks like once that's resolved.
+lucia: Pulling optic transceiver serials on the flapping uplinks now. If they share a batch, that settles it. Will swap one and rerun all-reduce soak.
+wen: Whichever way the optics call goes, I'll draft two allocation variants: one with the flapping racks drained, one assuming they come back clean.
+dmitri: Quick check Wen: is the kestrel node allocation 2,048 nodes? Want that confirmed before the variants go out.
+wen: yep, confirmed
+kofi: If the flapping racks get drained, I need to know before I size checkpoint shards. Fewer nodes changes the per-rank write pattern to storage.
+mateo: Data side is looking fine so far. Tokenized shards are landing on the new filesystem, just waiting on the last dedup pass to finish.
+hana: Whichever variant wins, I want straggler detection on from step zero. Flapping links would show up as a few slow ranks dragging MFU down.
+hana: Stability rule for the run: roll back if loss rises more than 15%. I'll wire that into the monitor alongside the straggler alerts.
+kofi: Also want async checkpoint staging on local NVMe before flush, otherwise a slow writer rank will stall the whole step. Testing that on the new filesystem.
+```
+
+> **>>> DECIDE AFTER THIS:** kofi: Also want async checkpoint staging on local NVMe before flush, otherwise a slow writer rank will stall the whole step. Testing that on the new filesystem.
+
+**Team facts again**
+
+- kestrel pretraining run (start date): Oct 5
+- kestrel node allocation (node count): 2,048 nodes
+- loss-spike rollback rule (threshold): roll back if loss rises more than 15% over 200 steps
+
+---
+
+## Row 13
+
+**Today: Thu Oct 8** · #acct-northwind-eng
+
+**Team facts as of now**
+
+- Northwind contract renewal (signature deadline): Oct 30
+- Northwind discount (rate): 18% off list
+- Northwind executive sponsor (person): Amara Okafor (CIO)
+- Northwind rate limit (tokens per minute): 40M tokens per minute
+- Northwind data retention (terms): zero data retention on all endpoints
+- open item: Ines to send the signed data processing addendum to Northwind legal (check point: Fri Oct 9)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Thu Oct 8 · #acct-northwind-eng ---
+keiko: Thanks. So it's burst shape, not capacity. Gabe, can you share a backoff-with-jitter example I can send their ops lead?
+gabe: Yep, I'll pull a Python snippet with exponential backoff and full jitter. Also worth suggesting they stagger the opening burst with a small queue.
+keiko: Their ops lead also asked if the intake assistant can use a lighter model for the simple form-filling steps. Worth a look?
+gabe: Yes, likely. Form-filling is mostly structured extraction, so a smaller model should handle it. I'd want to test accuracy on their real intake forms first.
+ines: Since they're sending patient intake data through this, flagging the retention side: zero data retention is approved for Northwind. Worth keeping that in mind when we test on their real forms.
+rachel: Yes, saw it. Ouch. Makes me wonder if Northwind's team has backoff with jitter on their side. Worth a quick check with them?
+gabe: Good point. I'll ask their ops lead for de-identified sample forms so we can compare the smaller model without touching real patient records.
+ines: Also, that applies to all endpoints, batch included, so the same coverage holds if they move the form-filling there.
+keiko: Great, I'll ask their ops lead for the de-identified forms and mention the stagger idea when I send the snippet.
+gabe: Also spotted their retry loop has no max attempts, so one stuck request can hang an entire intake session. I'll add a cap to the snippet.
+keiko: Their ops lead will love the cap. Last week she said a frozen intake session meant staff fell back to paper forms.
+gabe: Also worth adding a client-side timeout so a hung call fails fast instead of sitting there. I'll put that in the snippet too.
+gabe: Good call. Last time I looked at their integration, they had a fixed 1s retry with no jitter. Could be worth a gentle nudge.
+keiko: Perfect. Their ops lead also mentioned the assistant gives no feedback while waiting, so staff just stare at a blank screen. Any UX tip there?
+gabe: Streaming responses plus a "working on it" spinner fixes most of that. Separately, I'll load-test Northwind's workload at their full rate limit and have results by Wed Oct 14.
+```
+
+> **>>> DECIDE AFTER THIS:** gabe: Streaming responses plus a "working on it" spinner fixes most of that. Separately, I'll load-test Northwind's workload at their full rate limit and have results by Wed Oct 14.
+
+**Team facts again**
+
+- Northwind contract renewal (signature deadline): Oct 30
+- Northwind discount (rate): 18% off list
+- Northwind executive sponsor (person): Amara Okafor (CIO)
+- Northwind rate limit (tokens per minute): 40M tokens per minute
+- Northwind data retention (terms): zero data retention on all endpoints
+- open item: Ines to send the signed data processing addendum to Northwind legal (check point: Fri Oct 9)
+
+---
+
+## Row 14
+
+**Today: Thu Oct 15** · #acct-northwind
+
+**Team facts as of now**
+
+- Northwind contract renewal (signature deadline): Oct 30
+- Northwind discount (rate): 15% off list (changed Mon Oct 12; previously 18% off list)
+- Northwind executive sponsor (person): Amara Okafor (CIO)
+- Northwind rate limit (tokens per minute): 40M tokens per minute
+- Northwind data retention (terms): zero data retention on all endpoints
+- open item: Ines to send the signed data processing addendum to Northwind legal (check point: Fri Oct 9)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Mon Oct 12 · #acct-northwind ---
+darnell: There's a regional health system we rolled out across departments. I'll ask if they'd do a reference call; otherwise an anonymized story works.
+rachel: Keiko, when you talk to the sponsor, ask who in finance signs off on the discount. I want them in the loop early.
+keiko: Will do. I'll also ask if finance wants to see the rollout plan before the discount conversation or alongside it.
+darnell: Good. Also worth asking the sponsor whether other departments have already been asking about this. Internal pull makes the expansion story much easier.
+keiko: Will do. I'll also see if the sponsor can intro me to the department leads who've been asking, so we can hear their use cases directly.
+gabe: Nice, that'd help me too. If I can hear the department leads' use cases, I can sketch the integration shape for each.
+rachel: Good. Tomas, once you've sorted the pricing block, ping me before anything goes into the order form draft.
+--- Thu Oct 15 · #acct-northwind ---
+rachel: Kicking off QBR prep for Northwind. Gabe's check-in cleared the technical side, so now we need a position on term length for the renewal. Tomas, can you model one-year vs multi-year?
+keiko: Darnell, for the Northwind QBR dinner, their team mentioned they'd love somewhere quiet enough to actually talk. Any spots you like?
+tomas: Yes, I'll model both. For the multi-year case, do we want the discount held flat or stepped across the years?
+keiko: Their procurement lead keeps asking about price protection in the later years, so flat might land better. Stepped could feel like a hidden increase to them.
+darnell: Quiet is the right call. There's a place with a back room I've used before, good for small groups. I'll check if it's open for us.
+ines: If we go flat across years, I'd want the order form to say price holds only while volume stays in the committed band. Otherwise we're exposed.
+rachel: Good point, Ines. Let's draft both versions with the volume-band language in. I'll plan to walk the term options through with Amara Okafor, their CIO and our exec sponsor, before the QBR so nothing surprises her.
+keiko: Perfect, thank you! One of their folks mentioned a dietary restriction, so I'll find out specifics and pass them along.
+```
+
+> **>>> DECIDE AFTER THIS:** keiko: Perfect, thank you! One of their folks mentioned a dietary restriction, so I'll find out specifics and pass them along.
+
+**Team facts again**
+
+- Northwind contract renewal (signature deadline): Oct 30
+- Northwind discount (rate): 15% off list (changed Mon Oct 12; previously 18% off list)
+- Northwind executive sponsor (person): Amara Okafor (CIO)
+- Northwind rate limit (tokens per minute): 40M tokens per minute
+- Northwind data retention (terms): zero data retention on all endpoints
+- open item: Ines to send the signed data processing addendum to Northwind legal (check point: Fri Oct 9)
+
+---
+
+## Row 15
+
+**Today: Wed Sep 30** · #infra
+
+**Team facts as of now**
+
+- kestrel pretraining run (start date): Oct 5
+- kestrel node allocation (node count): 2,048 nodes
+- loss-spike rollback rule (threshold): roll back if loss rises more than 15% over 200 steps
+- kestrel checkpoint cadence (interval): every 500 steps
+- open item: Mateo to finish moving the tokenized datasets to the new storage tier (check point: Fri Oct 2)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Wed Sep 30 · #infra ---
+lucia: Firmware rollout on the IB leaf switches is staged but not pushed. Seeing a few flapping links on rack group C that I want to look at first.
+kofi: Are the flapping links on C causing NCCL timeouts yet? Want to know if checkpoint writes from those nodes are getting stalled mid-save.
+hana: Quick check while we're on checkpoints: kestrel checkpoint cadence is every 500 steps, right? React ✅ if that's what you have.
+(kofi reacted ✅ to hana's message)
+lucia: Not seeing NCCL timeouts yet, just symbol errors and retrains on a couple of C uplinks. Checking cable seating before touching firmware.
+kofi: Good. If those C uplinks retrain mid-save, I'd expect partial shards on the writer ranks. I'll check how the async flush handles a stalled write.
+wen: Who's owning fabric incident on-call for kestrel right now? I need a name on the rota before I lock the allocation table.
+mateo: lunch? thinking the taco truck by the loading dock, it's been parked there all week
+lucia: I'll take it.
+```
+
+> **>>> DECIDE AFTER THIS:** lucia: I'll take it.
+
+**Team facts again**
+
+- kestrel pretraining run (start date): Oct 5
+- kestrel node allocation (node count): 2,048 nodes
+- loss-spike rollback rule (threshold): roll back if loss rises more than 15% over 200 steps
+- kestrel checkpoint cadence (interval): every 500 steps
+- open item: Mateo to finish moving the tokenized datasets to the new storage tier (check point: Fri Oct 2)
+
+---
+
+## Row 16
+
+**Today: Mon Oct 19** · #harbor-evals
+
+**Team facts as of now**
+
+- harbor workshop paper (submission deadline): Oct 23
+- harbor eval suite release (version): v1.3 (changed Mon Oct 12; previously v1.2)
+- eval compute reservation (owner): Elena
+- harbor release gate (threshold): 70% pass@1 on the held-out set
+- harbor held-out set (item count): 1,140 items (changed Mon Oct 19; previously 1,200 items)
+- open item: Theo to rerun all baselines on harbor v1.3 (check point: Fri Oct 16)
+- open item: Nadia to decide whether the 3-shot results go in the paper (check point: Tue Oct 20 paper sync)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Mon Oct 19 · #harbor-evals ---
+yuki: Do the removed items skew toward any category? If the long-horizon tasks lost a chunk, the plateau might look different.
+marcus: Quick look says most removals were web-app tasks with near-duplicate repos upstream. Long-horizon barely touched, but I'll confirm the per-category split.
+felix: If the removals are mostly web-app forks, I can list the upstream repos that triggered them in the release notes. Might be useful for an appendix footnote too.
+theo: Can you drop the removed item ids somewhere I can load them? The notebook filters by id, so the tables will just regenerate.
+nadia: Side note while we're regenerating tables: we'll decide whether the 3-shot results go in the paper at the Tue Oct 20 paper sync. Theo, export them too so we have both options ready.
+marcus: Putting the removed ids in the shared data folder as a flat file, one per line, with the upstream repo that flagged each.
+yuki: Recorded runs works for me. We could replay a few agent traces on a projector and talk through them, honestly more useful than live.
+yuki: Once the ids are in, can you also log which categories each removal came from? I'd like that next to the plateau figure.
+theo: Got it, I'll add a category column to the export so the removal counts sit beside the per-category pass rates. Plateau figure should line up then.
+felix: Good, I'll find traces where the agent loops on a flaky test. Those make better discussion than clean passes. Lake house is looking good.
+elena: If the tables regenerate, do the plateau curves need a rerun too, or are those computed from cached trajectories?
+theo: Curves come from cached trajectories, so no rerun. Just refilter by id and regenerate. Only the plateau figure needs a fresh pass with the smaller denominator.
+yuki: Before the refilter, can someone check the build-loop task I picked for the transcript isn't among the removed ids? Awkward to show a task we dropped.
+marcus: Good catch. That build-loop task is a CLI tooling repo, not a web-app fork, so it's likely fine. I'll grep the id file against it to be sure.
+theo: Dataset section in the draft says 1,200 items, so I'm building the tables to match that. Will grep the plateau task id once Marcus's file is up.
+```
+
+> **>>> DECIDE AFTER THIS:** theo: Dataset section in the draft says 1,200 items, so I'm building the tables to match that. Will grep the plateau task id once Marcus's file is up.
+
+**Team facts again**
+
+- harbor workshop paper (submission deadline): Oct 23
+- harbor eval suite release (version): v1.3 (changed Mon Oct 12; previously v1.2)
+- eval compute reservation (owner): Elena
+- harbor release gate (threshold): 70% pass@1 on the held-out set
+- harbor held-out set (item count): 1,140 items (changed Mon Oct 19; previously 1,200 items)
+- open item: Theo to rerun all baselines on harbor v1.3 (check point: Fri Oct 16)
+- open item: Nadia to decide whether the 3-shot results go in the paper (check point: Tue Oct 20 paper sync)
+
+---
+
+## Row 17
+
+**Today: Fri Sep 18** · #eng
+
+**Team facts as of now**
+
+- public launch (date): Sep 24 (changed Mon Sep 14; previously Sep 17)
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per human seat, agents free (changed Wed Sep 16; previously $12 per seat, agent actions metered)
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): Oli (changed Fri Sep 18; previously AJ)
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+- open item: Olavo to send the press kit to the embargoed reporters (check point: Fri Sep 18)
+- open item: Sara to decide whether agents may DM a human first, without being asked (check point: Mon Sep 21 design review)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Fri Sep 18 · #eng ---
+aj: Push is a separate path from the in-app join event, so it probably doesn't inherit any gating we add. I'll check how it builds the payload.
+alex: Should the agent ask before posting in a thread it wasn't invited to? Like a small 'want me to weigh in?' prompt instead of a summary.
+oli: Prompt makes sense for memory-sourced joins at least. Keyword ones are closer to a direct mention, so maybe those can stay as is. Needs a gate in the join path either way.
+sara: On the prompt question, there's a bigger one behind it. We'll decide whether agents may DM a human first, without being asked, at the Mon Sep 21 design review. Hold the gating design until then.
+frida: Will do! They're pretty chatty on Slack-style stuff, so I'll ask about naming and whether they'd prefer a call or video.
+oli: ok, so I'll keep digging on the root cause in the join path but not touch the gate itself. Will log the trigger breakdown on the board.
+frida: Heard back from the design partner: the summary was visible to everyone in the hiring thread, not just the poster. They want to know if agents can be kept out of certain channels entirely.
+olavo: Perfect, video's better if they're okay with it, reporters can grab a screenshot of the workspace. Also ask if they have a fav agent moment to share 😄
+frida: Separate thing: a design partner hit the double-posting bug again this morning. I'll ping AJ with the details since AND-341 is his.
+aj: Keeping agents out of a channel is mostly a read-permission question for us. Does the partner want admins to set it, or any channel member?
+frida: Good question, I'll ask. My guess is admins, since it was an HR-type channel, but I'll confirm with them.
+frida: Ha yes, they told me last week the agent summarized a messy client thread before anyone asked. I'll get them to retell it 😄
+oli: frida AND-341 is mine now, send the details to me. Ask if they saw both posts land at the same moment.
+alex: For the 'keep agents out' ask, should the channel show some marker so members know agents can't see it? Otherwise people might assume the agent is reading.
+aj: Marker makes sense, and it should come from the same permission flag so it can't drift from what the agent can actually read.
+```
+
+> **>>> DECIDE AFTER THIS:** aj: Marker makes sense, and it should come from the same permission flag so it can't drift from what the agent can actually read.
+
+**Team facts again**
+
+- public launch (date): Sep 24 (changed Mon Sep 14; previously Sep 17)
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per human seat, agents free (changed Wed Sep 16; previously $12 per seat, agent actions metered)
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): Oli (changed Fri Sep 18; previously AJ)
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+- open item: Olavo to send the press kit to the embargoed reporters (check point: Fri Sep 18)
+- open item: Sara to decide whether agents may DM a human first, without being asked (check point: Mon Sep 21 design review)
+
+---
+
+## Row 18
+
+**Today: Mon Oct 19** · #harbor-evals
+
+**Team facts as of now**
+
+- harbor workshop paper (submission deadline): Oct 23
+- harbor eval suite release (version): v1.3 (changed Mon Oct 12; previously v1.2)
+- eval compute reservation (owner): Elena
+- harbor release gate (threshold): 70% pass@1 on the held-out set
+- harbor held-out set (item count): 1,140 items (changed Mon Oct 19; previously 1,200 items)
+- open item: Theo to rerun all baselines on harbor v1.3 (check point: Fri Oct 16)
+- open item: Nadia to decide whether the 3-shot results go in the paper (check point: Tue Oct 20 paper sync)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Mon Oct 19 · #harbor-evals ---
+theo: Ok, one untouched plateau transcript, rest trimmed. I'll export per-category tables against the 1,200 held-out items so the denominators match what we say in the main text.
+yuki: For the plateau transcript, the task where the agent keeps rerunning the same failing build after editing the wrong config file is the clearest loop.
+yuki: There was one ethernet port in the kitchen nook, I think. Router was in the garage though, so tethering might be more reliable.
+marcus: Theo, use 1,140 not 1,200. Second contamination pass removed 60 more.
+felix: Tethering a whole room off one phone sounds rough. Maybe we show recorded runs instead of live demos and avoid the problem?
+yuki: Do the removed items skew toward any category? If the long-horizon tasks lost a chunk, the plateau might look different.
+marcus: Quick look says most removals were web-app tasks with near-duplicate repos upstream. Long-horizon barely touched, but I'll confirm the per-category split.
+felix: If the removals are mostly web-app forks, I can list the upstream repos that triggered them in the release notes. Might be useful for an appendix footnote too.
+theo: Can you drop the removed item ids somewhere I can load them? The notebook filters by id, so the tables will just regenerate.
+nadia: Side note while we're regenerating tables: we'll decide whether the 3-shot results go in the paper at the Tue Oct 20 paper sync. Theo, export them too so we have both options ready.
+marcus: Putting the removed ids in the shared data folder as a flat file, one per line, with the upstream repo that flagged each.
+yuki: Recorded runs works for me. We could replay a few agent traces on a projector and talk through them, honestly more useful than live.
+yuki: Once the ids are in, can you also log which categories each removal came from? I'd like that next to the plateau figure.
+theo: Got it, I'll add a category column to the export so the removal counts sit beside the per-category pass rates. Plateau figure should line up then.
+felix: Good, I'll find traces where the agent loops on a flaky test. Those make better discussion than clean passes. Lake house is looking good.
+```
+
+> **>>> DECIDE AFTER THIS:** felix: Good, I'll find traces where the agent loops on a flaky test. Those make better discussion than clean passes. Lake house is looking good.
+
+**Team facts again**
+
+- harbor workshop paper (submission deadline): Oct 23
+- harbor eval suite release (version): v1.3 (changed Mon Oct 12; previously v1.2)
+- eval compute reservation (owner): Elena
+- harbor release gate (threshold): 70% pass@1 on the held-out set
+- harbor held-out set (item count): 1,140 items (changed Mon Oct 19; previously 1,200 items)
+- open item: Theo to rerun all baselines on harbor v1.3 (check point: Fri Oct 16)
+- open item: Nadia to decide whether the 3-shot results go in the paper (check point: Tue Oct 20 paper sync)
+
+---
+
+## Row 19
+
+**Today: Mon Oct 5** · #kestrel-run
+
+**Team facts as of now**
+
+- kestrel pretraining run (start date): Oct 12 (changed Mon Oct 5; previously Oct 5)
+- kestrel node allocation (node count): 2,048 nodes
+- loss-spike rollback rule (threshold): roll back if loss rises more than 15% over 200 steps
+- kestrel checkpoint cadence (interval): every 500 steps
+- fabric incident on-call (owner): Lucia
+- open item: Mateo to finish moving the tokenized datasets to the new storage tier (check point: Fri Oct 2)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Mon Oct 5 · #kestrel-run ---
+mateo: Mostly specific shards, I think. Same few Python-heavy ones from the scrape dedup pass. I'll cross-check shard IDs against the spike steps.
+wen: Table's reposted in the sheet. It assumes kestrel pretraining starts Oct 5, so the reserved block stays held from today. Tokenizer choice doesn't change the allocation, only the embedding shard layout.
+kofi: Bigger vocab means the embedding shard layout changes, so I want to retest resharding on restore. Does it pad to a multiple of the TP degree?
+dmitri: Actually make that Oct 12, not Oct 5. Fabric firmware rollout needs another week.
+wen: Then the reserved block sits idle until the new start. Release it to the pool for backfill meanwhile, or keep holding?
+lucia: Rollout is staged spine first, leaves after. Still seeing occasional link flaps on the old leaf image, so NCCL busbw will wobble until then.
+kofi: Slip gives me time to run the resharding restore test on the bigger vocab layout. Still need an answer on padding to the TP degree.
+kofi: With start now Oct 12, I'll move the restart drill to the week before, so the resharding restore test on the new vocab layout runs on the upgraded fabric.
+mateo: Cross-checked shard IDs against the spike steps. They line up with the same handful of Python-heavy shards from the dedup pass, so it's shard-specific, not code in general.
+hana: Shard-specific is good news then. Might be mixed tabs and spaces from the dedup pass, not the vocab. Can you diff tokenization on those shards?
+mateo: Will do. I'll diff both tokenizers on those shards and count tab vs space runs in the indented blocks.
+lucia: Flaps cluster on a few leaf uplinks in one row. CRC errors climbing on those ports, so I'm suspecting optics rather than the old image alone.
+wen: If it's optics, which nodes sit behind those leaf uplinks? I can cross-check them against the reserved block and the ECC-flagged ones.
+lucia: I can dump the port-to-node map for that row from the fabric manager. Optics swap would mean draining whatever sits behind those leaves.
+mateo: I'll kick off data loading tonight since kestrel starts today, Oct 5. The tokenizer diff on those shards can run alongside it.
+```
+
+> **>>> DECIDE AFTER THIS:** mateo: I'll kick off data loading tonight since kestrel starts today, Oct 5. The tokenizer diff on those shards can run alongside it.
+
+**Team facts again**
+
+- kestrel pretraining run (start date): Oct 12 (changed Mon Oct 5; previously Oct 5)
+- kestrel node allocation (node count): 2,048 nodes
+- loss-spike rollback rule (threshold): roll back if loss rises more than 15% over 200 steps
+- kestrel checkpoint cadence (interval): every 500 steps
+- fabric incident on-call (owner): Lucia
+- open item: Mateo to finish moving the tokenized datasets to the new storage tier (check point: Fri Oct 2)
+
+---
+
+## Row 20
+
+**Today: Wed Oct 7** · #harbor-evals
+
+**Team facts as of now**
+
+- harbor workshop paper (submission deadline): Oct 23
+- harbor eval suite release (version): v1.2
+- eval compute reservation (owner): Elena
+- harbor release gate (threshold): 70% pass@1 on the held-out set
+- harbor held-out set (item count): 1,200 items
+- open item: Marcus to finish the license review for the scraped repositories (check point: Fri Oct 9)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Wed Oct 7 · #harbor-evals ---
+theo: were the pending jobs the ones with the multi-node affinity flag? I saw that hang last week, scheduler seemed to wait on a placement it couldn't satisfy
+yuki: For the paper, I'd report the bug-fix slice separately with confidence intervals. Single-file and multi-file items probably deserve their own breakdown too.
+elena: Checked timeouts. The multi-file repos need a longer setup window for dependency installs, otherwise some items will fail before the tests even start.
+felix: Longer install window should go in the harness config and the release notes, since it changes what a timeout failure means for those items.
+elena: yeah, most of them had it. checking if the affinity label is even getting parsed, might be silently falling back to a placement that never resolves
+theo: Plots so far: the multi-file items fail mostly on import errors, not logic. Might be the same install issue Elena hit, so I'll separate those out.
+felix: Side note for the release notes: harbor-lite, the internal smoke set, has 200 items. Separate from the held-out set, so I'll keep the two clearly distinguished in the manifest.
+yuki: If the import-error failures are really install issues, I'd exclude them from the bug-fix slice analysis or at least report them as a separate failure category. Otherwise we're measuring the environment, not the model.
+theo: if it's falling back silently, try a dry-run submit with the flag and compare the resolved placement spec against a job that schedules fine
+theo: Agreed. I'll split import errors into their own bucket in the plots and rerun once Elena's longer install window is in.
+elena: Also thinking of prebuilding a cached dependency image per repo, so installs don't eat the timeout budget. I'll try it on the messiest multi-file ones first.
+elena: good call, running the dry-run now. the resolved spec for the stuck ones has an empty topology field, the working job has it populated
+nadia: Cached images are a good idea. Worth a sentence in the paper's methods section so reviewers know installs aren't counted against the model.
+marcus: Cached images also help the contamination check. I can diff the pinned dependency versions against the repos' original commit dates and catch anything that predates the snapshots.
+theo: empty topology would explain it. Does the parser drop the label when the node pool name has a hyphen? I hit that once on my branch.
+```
+
+> **>>> DECIDE AFTER THIS:** theo: empty topology would explain it. Does the parser drop the label when the node pool name has a hyphen? I hit that once on my branch.
+
+**Team facts again**
+
+- harbor workshop paper (submission deadline): Oct 23
+- harbor eval suite release (version): v1.2
+- eval compute reservation (owner): Elena
+- harbor release gate (threshold): 70% pass@1 on the held-out set
+- harbor held-out set (item count): 1,200 items
+- open item: Marcus to finish the license review for the scraped repositories (check point: Fri Oct 9)
+
+---
+
+## Row 21
+
+**Today: Mon Sep 14** · #launch
+
+**Team facts as of now**
+
+- public launch (date): Sep 24 (changed Mon Sep 14; previously Sep 17)
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per seat, agent actions metered
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): AJ
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+- open item: AJ to merge the forwarded-DM permission check (check point: Tue Sep 15)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Tue Sep 8 · #launch ---
+frida: Nice, a clean demo workspace would help. A couple of design partners offered to share a quote or two for the launch post if useful 🙌
+olavo: Love that, quotes from real teams will make the post. Can someone ask which partners are okay being named? Logos would be great too 🙌
+--- Mon Sep 14 · #launch ---
+olavo: morning all! weekend recap: launch post draft is at v3, waitlist email copy is mostly done, press kit needs final screenshots. waitlist is up a bunch since Friday too 🚀 want to lock send timing for the week today
+frida: quick q from a design partner: do agents show up in their workspace member list by default, or do admins need to add them first?
+alex: wait, are we sure about the default there? I think onboarding currently has an "add agents" step, but I'd have to check the latest flow. @oli @aj?
+oli: default is agents are not auto-added, admin has to add them in onboarding. checking whether that changed in the latest build, will confirm in a bit
+aj: If it's admin-add, worth noting the member list for existing beta workspaces might look different than fresh ones. I'll check how permissions get seeded on those.
+frida: Thanks all! I'll tell them admins add agents for now. Also two partners asked if existing beta workspaces need to redo onboarding to get that step 🤔
+olavo: good q for oli/aj. on my side, plan is waitlist email Wed night so it lands early, launch post goes live Sep 17 with the press kit, partner heads-up Tuesday. screenshots depend on the onboarding flow tho 👀
+alex: For screenshots, should I grab them from a fresh workspace so the add-agents step shows? Or use a beta one that already has agents in the list?
+sara: Make it Sep 24, not the 17th. Thursday lands with the Series A announcement.
+olavo: oh nice, pairing it with the funding news is way better press-wise 🙌 I'll need to rejig the email and partner heads-up timing around that
+alex: so with the shift, can I hold screenshots until the onboarding flow is settled? Otherwise I'd just redo them 😅
+oli: Holding screenshots makes sense. Onboarding flow still has a couple open tickets on my side, so no point shooting until they settle.
+frida: Updating the partner calendar now: public launch is Sep 24, so I'll move the beta partner notes off the 17th. Will hold the heads-up wording until Olavo has the new timing 👍
+```
+
+> **>>> DECIDE AFTER THIS:** frida: Updating the partner calendar now: public launch is Sep 24, so I'll move the beta partner notes off the 17th. Will hold the heads-up wording until Olavo has the new timing 👍
+
+**Team facts again**
+
+- public launch (date): Sep 24 (changed Mon Sep 14; previously Sep 17)
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per seat, agent actions metered
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): AJ
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+- open item: AJ to merge the forwarded-DM permission check (check point: Tue Sep 15)
+
+---
+
+## Row 22
+
+**Today: Mon Sep 28** · #kestrel-run
+
+**Team facts as of now**
+
+- kestrel pretraining run (start date): Oct 5
+- kestrel node allocation (node count): 2,048 nodes
+- loss-spike rollback rule (threshold): roll back if loss rises more than 15% over 200 steps
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Mon Sep 28 · #kestrel-run ---
+lucia: Yes, same pod. Both flapping leafs feed racks in that pod. Seeing CRC errors on the uplinks, so I'm leaning optics, but not confirmed.
+dmitri: Decision: kestrel starts Oct 5. Lucia, get the optics vs firmware call made and fixed well before then. Wen, redo the allocation table around whatever the pod looks like once that's resolved.
+lucia: Pulling optic transceiver serials on the flapping uplinks now. If they share a batch, that settles it. Will swap one and rerun all-reduce soak.
+wen: Whichever way the optics call goes, I'll draft two allocation variants: one with the flapping racks drained, one assuming they come back clean.
+dmitri: Quick check Wen: is the kestrel node allocation 2,048 nodes? Want that confirmed before the variants go out.
+wen: yep, confirmed
+kofi: If the flapping racks get drained, I need to know before I size checkpoint shards. Fewer nodes changes the per-rank write pattern to storage.
+mateo: Data side is looking fine so far. Tokenized shards are landing on the new filesystem, just waiting on the last dedup pass to finish.
+hana: Whichever variant wins, I want straggler detection on from step zero. Flapping links would show up as a few slow ranks dragging MFU down.
+hana: Stability rule for the run: roll back if loss rises more than 15%. I'll wire that into the monitor alongside the straggler alerts.
+kofi: Also want async checkpoint staging on local NVMe before flush, otherwise a slow writer rank will stall the whole step. Testing that on the new filesystem.
+hana: Also, that's measured over a 200-step window, not single-step spikes, so one noisy batch won't trip it.
+lucia: Serials back: both flapping uplinks have transceivers from the same vendor lot. Swapped one, soak is running now, watching CRC counters on that port.
+wen: If the swapped port stays clean, I'd want the other flapping uplink swapped too before I count those racks as healthy in the second variant.
+mateo: Sized the data loader for 2,560 nodes. Filesystem read throughput has headroom, and prefetch workers per node should keep the GPUs fed. Dedup finishing is the only gate on my side.
+```
+
+> **>>> DECIDE AFTER THIS:** mateo: Sized the data loader for 2,560 nodes. Filesystem read throughput has headroom, and prefetch workers per node should keep the GPUs fed. Dedup finishing is the only gate on my side.
+
+**Team facts again**
+
+- kestrel pretraining run (start date): Oct 5
+- kestrel node allocation (node count): 2,048 nodes
+- loss-spike rollback rule (threshold): roll back if loss rises more than 15% over 200 steps
+
+---
+
+## Row 23
+
+**Today: Wed Oct 7** · #harbor-evals
+
+**Team facts as of now**
+
+- harbor workshop paper (submission deadline): Oct 23
+- harbor eval suite release (version): v1.2
+- eval compute reservation (owner): Elena
+- harbor release gate (threshold): 70% pass@1 on the held-out set
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Wed Oct 7 · #harbor-evals ---
+nadia: Ok, we need to nail down the release gate and what goes in the held-out set today. Marcus, where are we on licensing for the scraped repos?
+marcus: Mostly sorted. Most repos are MIT or Apache, but a handful have no license file at all, so I'm leaning toward dropping those until we hear back from maintainers.
+yuki: Dropping the unlicensed ones makes sense to me. Do we know if they skew toward any particular task type? Don't want the held-out set lopsided afterward.
+marcus: Checking now. Gut feeling is the unlicensed ones cluster in small CLI tools and research code, so refactoring and bug-fix tasks might take the hit.
+yuki: Ok, that matters for the gate then. Release gate threshold is 70% pass@1, so if the bug-fix slice shrinks a lot we should check the variance on it.
+theo: I can rerun the bug-fix slice with a few seeds on the current baseline to see how noisy it is once those repos are out.
+yuki: also, that number is measured on the held-out set only, not dev. Dev scores shouldn't count toward it.
+```
+
+> **>>> DECIDE AFTER THIS:** yuki: also, that number is measured on the held-out set only, not dev. Dev scores shouldn't count toward it.
+
+**Team facts again**
+
+- harbor workshop paper (submission deadline): Oct 23
+- harbor eval suite release (version): v1.2
+- eval compute reservation (owner): Elena
+- harbor release gate (threshold): 70% pass@1 on the held-out set
+
+---
+
+## Row 24
+
+**Today: Wed Sep 16** · #gtm
+
+**Team facts as of now**
+
+- public launch (date): Sep 24 (changed Mon Sep 14; previously Sep 17)
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per human seat, agents free (changed Wed Sep 16; previously $12 per seat, agent actions metered)
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): AJ
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Wed Sep 16 · #gtm ---
+sara: Not moving the date. Press has what they need, we stay on the current plan.
+frida: Pinging the design partner about using their deploy thread screenshot. Should I ask them to blur names, or will Alex redact on our side?
+alex: I can redact on our side, but better if they blur it themselves so nothing sensitive leaves their workspace. Frida, maybe offer both?
+frida: Will offer both! Also they asked if the screenshot can show the agent's profile card, so people see it has its own name and inbox 😊
+alex: Profile card in the screenshot works for me, that's the whole point. I'll crop it so the name and inbox icon are both visible.
+olavo: nice. for the press kit I'll want a couple of cropped versions of that screenshot too, one square for socials, one wide for the post header.
+olavo: pasting the line for the post intro: "Ando is launching publicly, backed by a $25M Series A." feels punchy, going to keep it up top unless anyone objects 🚀
+aj: For the screenshot thread, can someone confirm the agent's reply doesn't quote anything from a private channel? Memory recall can surface odd stuff.
+frida: Good catch AJ. I'll read the deploy thread end to end for anything that looks pulled from a private channel before it goes anywhere.
+alex: Olavo, want me to sketch the explainer box layout so you can write the copy to fit it? Short caption under the screenshot maybe?
+olavo: yes please Alex, a sketch first helps. I'll keep the caption to one line so it doesn't crowd the pricing cards.
+oli: for the screenshot, shoot it on the prod build. Staging still shows the placeholder avatar on agent profile cards.
+frida: Good to know Oli, I'll ask the partner if they can grab it on prod, or if I should screen-share and capture it myself 👍
+aj: Also worth checking the screenshot doesn't show the memory panel sidebar, it lists recent recalls with channel names in it.
+olavo: Quick commitment on my side: I'll send the press kit to the embargoed reporters by Fri Sep 18. Cropped screenshots go in once Frida clears the thread.
+```
+
+> **>>> DECIDE AFTER THIS:** olavo: Quick commitment on my side: I'll send the press kit to the embargoed reporters by Fri Sep 18. Cropped screenshots go in once Frida clears the thread.
+
+**Team facts again**
+
+- public launch (date): Sep 24 (changed Mon Sep 14; previously Sep 17)
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per human seat, agents free (changed Wed Sep 16; previously $12 per seat, agent actions metered)
+- agent access to DMs (policy): agents never read a DM unless a participant forwards it
+- AND-341 (agent double-posts in threads) (owner): AJ
+- open item: Frida to send design partners the Slack-to-Ando migration guide (check point: Fri Sep 11)
+
+---
+
+## Row 25
+
+**Today: Mon Oct 19** · #harbor-evals
+
+**Team facts as of now**
+
+- harbor workshop paper (submission deadline): Oct 23
+- harbor eval suite release (version): v1.3 (changed Mon Oct 12; previously v1.2)
+- eval compute reservation (owner): Elena
+- harbor release gate (threshold): 70% pass@1 on the held-out set
+- harbor held-out set (item count): 1,200 items
+- open item: Theo to rerun all baselines on harbor v1.3 (check point: Fri Oct 16)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Wed Oct 7 · #harbor-evals ---
+felix: Cached image digests should go in the manifest too, so anyone rerunning gets the exact same environment. I'll add a field for it.
+elena: patch works, stuck jobs scheduled right away. adding the hyphenated pool test now, then I'll requeue the dropped batch.
+felix: With the cached images, the license exclusions and the new manifest fields, this might warrant v1.3 for the release. Just a thought, nothing decided. Nadia, Yuki, does that numbering seem right to you?
+yuki: Theo, the gate number in your draft doesn't match my criteria doc, and it's missing the held-out qualifier. Please recheck before the table gets built around it.
+theo: nice. worth grepping the other label parsers for the same split-on-hyphen pattern, wouldn't be surprised if the GPU type one does it too.
+theo: Ugh, I pulled that number from an older draft. Rechecking against your criteria doc and adding the held-out qualifier before I build the table.
+--- Mon Oct 19 · #harbor-evals ---
+yuki: Went through the weekend results. Pass rate curves look clean across the board, but the long-horizon tasks have a weird plateau. Might be worth a sentence in the paper on that.
+felix: Anyone have strong feelings on the offsite venue? I'm leaning toward the lake house over the downtown coworking space. Yuki, you looked at both, right?
+nadia: Thinking the appendix should carry the per-category breakdowns and a couple of full agent transcripts. Too heavy for a workshop paper?
+theo: Per-category tables are easy, I can export them straight from the results notebook. Full transcripts are the heavy part, some run absurdly long. Maybe trim to the interesting steps?
+yuki: Yeah, I toured both. Lake house has way better space for whiteboarding, but the drive is long and wifi there was spotty.
+yuki: Trimming is fine, but I'd keep one full transcript from the plateau tasks untouched. Readers will want to see the agent looping, not a cleaned-up version.
+felix: Spotty wifi could hurt if we want to demo anything live. Did the lake house have a wired port anywhere, or would we tether?
+theo: Ok, one untouched plateau transcript, rest trimmed. I'll export per-category tables against the 1,200 held-out items so the denominators match what we say in the main text.
+yuki: For the plateau transcript, the task where the agent keeps rerunning the same failing build after editing the wrong config file is the clearest loop.
+```
+
+> **>>> DECIDE AFTER THIS:** yuki: For the plateau transcript, the task where the agent keeps rerunning the same failing build after editing the wrong config file is the clearest loop.
+
+**Team facts again**
+
+- harbor workshop paper (submission deadline): Oct 23
+- harbor eval suite release (version): v1.3 (changed Mon Oct 12; previously v1.2)
+- eval compute reservation (owner): Elena
+- harbor release gate (threshold): 70% pass@1 on the held-out set
+- harbor held-out set (item count): 1,200 items
+- open item: Theo to rerun all baselines on harbor v1.3 (check point: Fri Oct 16)
+
+---
+
+## Row 26
+
+**Today: Mon Oct 5** · #kestrel-run
+
+**Team facts as of now**
+
+- kestrel pretraining run (start date): Oct 12 (changed Mon Oct 5; previously Oct 5)
+- kestrel node allocation (node count): 2,048 nodes
+- loss-spike rollback rule (threshold): roll back if loss rises more than 15% over 200 steps
+- kestrel checkpoint cadence (interval): every 500 steps
+- fabric incident on-call (owner): Lucia
+- open item: Mateo to finish moving the tokenized datasets to the new storage tier (check point: Fri Oct 2)
+- open item: Dmitri to decide between tokenizer v3 and v4 for kestrel (check point: Thu Oct 8 run sync)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Mon Oct 5 · #kestrel-run ---
+lucia: Flaps cluster on a few leaf uplinks in one row. CRC errors climbing on those ports, so I'm suspecting optics rather than the old image alone.
+wen: If it's optics, which nodes sit behind those leaf uplinks? I can cross-check them against the reserved block and the ECC-flagged ones.
+lucia: I can dump the port-to-node map for that row from the fabric manager. Optics swap would mean draining whatever sits behind those leaves.
+mateo: I'll kick off data loading tonight since kestrel starts today, Oct 5. The tokenizer diff on those shards can run alongside it.
+lucia: Port-to-node map for that row is dumped to the sheet. CRC errors all sit on optics from the same vendor lot.
+wen: Overlaying the map on the ECC-flagged nodes. Some of them sit behind those same leaves, so maybe not coincidence.
+lucia: Same row could mean a shared cooling issue. I'll pull transceiver temps on those ports and compare against the ECC-flagged nodes' inlet temps.
+hana: If temps line up, check DCGM for clock throttling on those nodes too. Throttled GPUs would show up as stragglers in step time.
+lucia: Transceiver temps on those ports run hot compared to the rest of the row. Could be a missing blanking panel at the rack.
+dmitri: We'll decide between tokenizer v3 and v4 for kestrel at the Thu Oct 8 run sync. Mateo, have the shard diff ready by then. Kofi, get the TP padding answer to the group before.
+wen: Cordoning the nodes behind those leaves in the scheduler now so nothing gets placed there while we sort out cooling and optics.
+kofi: Mateo, the start slipped for the firmware rollout, so no need to kick off data loading tonight. The shard diff matters more right now.
+mateo: Right, I was working off the old start. Skipping the loader launch tonight, running the tab/space diff on those shards first.
+lucia: Confirmed, blanking panels are missing in that row. Filing a facilities ticket. I'll re-check CRC counters on those ports once temps settle.
+wen: What if we start on half the nodes Oct 7 and add the rest after the firmware lands? Cordoned ones stay out either way. Is that worth considering?
+```
+
+> **>>> DECIDE AFTER THIS:** wen: What if we start on half the nodes Oct 7 and add the rest after the firmware lands? Cordoned ones stay out either way. Is that worth considering?
+
+**Team facts again**
+
+- kestrel pretraining run (start date): Oct 12 (changed Mon Oct 5; previously Oct 5)
+- kestrel node allocation (node count): 2,048 nodes
+- loss-spike rollback rule (threshold): roll back if loss rises more than 15% over 200 steps
+- kestrel checkpoint cadence (interval): every 500 steps
+- fabric incident on-call (owner): Lucia
+- open item: Mateo to finish moving the tokenized datasets to the new storage tier (check point: Fri Oct 2)
+- open item: Dmitri to decide between tokenizer v3 and v4 for kestrel (check point: Thu Oct 8 run sync)
+
+---
+
+## Row 27
+
+**Today: Tue Oct 6** · #acct-northwind
+
+**Team facts as of now**
+
+- Northwind contract renewal (signature deadline): Oct 30
+- Northwind discount (rate): 18% off list
+- Northwind executive sponsor (person): Amara Okafor (CIO)
+- open item: Ines to send the signed data processing addendum to Northwind legal (check point: Fri Oct 9)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Tue Oct 6 · #acct-northwind ---
+darnell: On the sponsor question: Northwind's exec sponsor is Amara Okafor, their CIO. I'll own that relationship and reach out to her this week.
+rachel: Good. Darnell, loop me in before you reach out so I can brief you on where the deal stands. Ines, I'll dig up the last redlines.
+gabe: Early look at usage: a couple of pilot teams do spike hard during morning clinic hours. I'll put together a peak-hour breakdown for Tomas.
+keiko: Those morning clinic spikes might be worth raising with them directly. Their informatics lead has complained before about slowdowns during rounds, so I can ask what they've seen.
+gabe: Yes, please ask. If they've seen slowdowns during rounds, I'd like timestamps so I can match them against the peak-hour breakdown.
+keiko: Will do. I'll ask their informatics lead to jot down times next time it happens, so we get real timestamps instead of memory.
+ines: Rachel, when you pull the old redlines, can you flag which data clauses they pushed on most? That'll tell me where to prep.
+ines: Separate from the redlines: I'll send the signed data processing addendum to Northwind legal by Fri Oct 9, so they have it before procurement digs in.
+rachel: Found the old redline folder. Their legal team marked up the data sections heavily, so I'll tag the clauses they fought hardest on.
+ines: Thanks, Rachel. Once tagged, I'll compare their old language against our current standard terms and see where we can realistically give ground.
+gabe: Peak-hour breakdown is coming together. Two of the pilot teams look like the main bursters, so I'll flag those for Tomas separately.
+keiko: Heads up, their informatics lead said the pilot clinicians love the summarization features. Could be a good angle for the expansion conversation.
+rachel: Good angle. Keiko, can you get a customer quote on the summarization wins in their own words? Would help anchor the expansion pitch.
+keiko: On it. One of the pilot nurse managers gave a great line on the summarization wins last week, so I'll ask if we can use it.
+gabe: Fair warning, the QBR deck is already at like 40 slides. Pretty sure the nurse manager's quote is getting its own slide at this point.
+```
+
+> **>>> DECIDE AFTER THIS:** gabe: Fair warning, the QBR deck is already at like 40 slides. Pretty sure the nurse manager's quote is getting its own slide at this point.
+
+**Team facts again**
+
+- Northwind contract renewal (signature deadline): Oct 30
+- Northwind discount (rate): 18% off list
+- Northwind executive sponsor (person): Amara Okafor (CIO)
+- open item: Ines to send the signed data processing addendum to Northwind legal (check point: Fri Oct 9)
+
+---
+
+## Row 28
+
+**Today: Tue Sep 8** · #launch
+
+**Team facts as of now**
+
+- public launch (date): Sep 17
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per seat, agent actions metered
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Tue Sep 8 · #launch ---
+(sara reacted 👍 to olavo's message)
+oli: fyi the member list currently sorts agents below humans alphabetically. might want to pin the agent higher for new workspaces, ticket coming
+alex: good catch Oli. pinning the agent up top in the member list would fit with the welcome card too, I'll sketch both together 🙂
+sara: Next up: who's taking the launch waitlist email? Need one owner for it.
+olavo: I'll grab it 🙌
+frida: For the waitlist email, can we mention the agent shows up in the member list? That's what tripped up my design partners 😅
+alex: Good idea Frida. I could make a small screenshot of the member list with the agent pinned for the email, if Olavo wants it 📸
+sara: Pricing: $12 per seat. That's what goes in the launch post and the waitlist email.
+aj: Does the waitlist email need to say anything about what the agent can see? A few people will ask about channel access vs private conversations.
+sara: Also, agent actions get metered on top of the per-seat number. Olavo, make sure that's in both the post and the email.
+aj: Still need an answer on my question about what the agent can see. People will ask, and I'd rather the email wording be exact.
+olavo: Sara, can you take AJ's access question? I'd like the exact wording before I draft the email copy 🙏
+alex: meanwhile I'm sketching the pricing page. $15 per seat up top, with a small note under it about agent actions being metered 💸 will drop the mock here soon
+frida: One design partner asked if they can mute the agent in a single channel without removing it. Worth a line in the FAQ?
+frida: Separate from the FAQ: I'll send design partners the Slack-to-Ando migration guide by Fri Sep 11, so they have time to try it before launch 🙂
+```
+
+> **>>> DECIDE AFTER THIS:** frida: Separate from the FAQ: I'll send design partners the Slack-to-Ando migration guide by Fri Sep 11, so they have time to try it before launch 🙂
+
+**Team facts again**
+
+- public launch (date): Sep 17
+- Series A raise (amount): $20M
+- launch waitlist email (owner): Olavo
+- pricing (billing model): $12 per seat, agent actions metered
+
+---
+
+## Row 29
+
+**Today: Thu Oct 8** · #acct-northwind-eng
+
+**Team facts as of now**
+
+- Northwind contract renewal (signature deadline): Oct 30
+- Northwind discount (rate): 18% off list
+- Northwind executive sponsor (person): Amara Okafor (CIO)
+- Northwind rate limit (tokens per minute): 40M tokens per minute
+- Northwind data retention (terms): zero data retention on all endpoints
+- open item: Ines to send the signed data processing addendum to Northwind legal (check point: Fri Oct 9)
+- open item: Gabe to load-test Northwind's workload at their full rate limit (check point: Wed Oct 14)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Thu Oct 8 · #acct-northwind-eng ---
+keiko: Their ops lead will love the cap. Last week she said a frozen intake session meant staff fell back to paper forms.
+gabe: Also worth adding a client-side timeout so a hung call fails fast instead of sitting there. I'll put that in the snippet too.
+gabe: Good call. Last time I looked at their integration, they had a fixed 1s retry with no jitter. Could be worth a gentle nudge.
+keiko: Perfect. Their ops lead also mentioned the assistant gives no feedback while waiting, so staff just stare at a blank screen. Any UX tip there?
+gabe: Streaming responses plus a "working on it" spinner fixes most of that. Separately, I'll load-test Northwind's workload at their full rate limit and have results by Wed Oct 14.
+keiko: Streaming plus a spinner is an easy sell. Their ops lead said staff just want to know it's alive, not faster.
+rachel: Yeah, a fixed interval with no jitter is exactly how those pile up. Could you put together a short backoff snippet I can send Keiko?
+rachel: Good. I'll frame this in the renewal conversation as proactive tuning, not a capacity problem. Keeps the upsell door open.
+keiko: Their ops lead also asked whether the assistant can flag when a form comes back with missing fields instead of silently moving on.
+keiko: Gabe, can the assistant flag missing fields? If it misfires they'll want to debug, and logs will be available since Northwind is on standard 30-day retention. I'll tell their ops lead.
+gabe: Sure, I'll write one up in Python with exponential backoff, full jitter, and a cap. Should honor the retry-after header too.
+darnell: Their exec sponsor liked the intake demo last quarter. Once the tuning story is solid, that's a good thing to bring back up.
+gabe: Also noticed their system prompt is huge and resent on every call. Trimming it or using prompt caching should cut latency on intake.
+rachel: Perfect. Add a line or two on why jitter matters, so Keiko can frame it as a tip, not criticism.
+keiko: Their ops lead hand-tuned that prompt for months, so she'll want reassurance that trimming won't change how the assistant behaves.
+```
+
+> **>>> DECIDE AFTER THIS:** keiko: Their ops lead hand-tuned that prompt for months, so she'll want reassurance that trimming won't change how the assistant behaves.
+
+**Team facts again**
+
+- Northwind contract renewal (signature deadline): Oct 30
+- Northwind discount (rate): 18% off list
+- Northwind executive sponsor (person): Amara Okafor (CIO)
+- Northwind rate limit (tokens per minute): 40M tokens per minute
+- Northwind data retention (terms): zero data retention on all endpoints
+- open item: Ines to send the signed data processing addendum to Northwind legal (check point: Fri Oct 9)
+- open item: Gabe to load-test Northwind's workload at their full rate limit (check point: Wed Oct 14)
+
+---
+
+## Row 30
+
+**Today: Fri Oct 9** · #infra
+
+**Team facts as of now**
+
+- kestrel pretraining run (start date): Oct 12 (changed Mon Oct 5; previously Oct 5)
+- kestrel node allocation (node count): 2,048 nodes
+- loss-spike rollback rule (threshold): roll back if loss rises more than 15% over 200 steps
+- kestrel checkpoint cadence (interval): every 250 steps (changed Fri Oct 9; previously every 500 steps)
+- fabric incident on-call (owner): Lucia
+- open item: Mateo to finish moving the tokenized datasets to the new storage tier (check point: Fri Oct 2)
+- open item: Dmitri to decide between tokenizer v3 and v4 for kestrel (check point: Thu Oct 8 run sync)
+- open item: Kofi to run the checkpoint-restart drill on the full allocation (check point: Sat Oct 10)
+
+**Recent messages** (oldest first; the last one is the decision message)
+
+```
+--- Fri Oct 9 · #infra ---
+dmitri: I'll have Lucia export the flap logs with a leaf port map so they can match optics to the worst offenders. Badge request needs legal names for the hall desk.
+kofi: A gap in the drill works for the reseat. Restore path reads shards from storage anyway, so that's a natural idle window on those ranks.
+wen: I'll get legal names from their account rep and file the badge request. Also asking whether their techs need a hall escort.
+hana: Then I'll mute the step-time stall alert on the leaf 14 ranks during restore, so the reseat doesn't page anyone.
+mateo: Restore reads will hit the new storage tier hard on those shards. Should be fine, but I'll watch read latency during the drill.
+mateo: I sized the storage write budget around a checkpoint every 500 steps, so the new tier should absorb the async flushes with headroom. Restore reads are the bigger unknown.
+wen: Drill is a good chance to check straggler behavior after restore too. Last time a couple of ranks came back with lower MFU than the rest.
+kofi: Good point on stragglers. I'll log per-rank restore time and first-step time so slow ones stand out right away.
+dmitri: Fine, but the drill can't slip because of the reseat. If it's going to eat time, tell me now.
+kofi: Won't slip. I'll run the checkpoint-restart drill on the full allocation by Sat Oct 10, and the leaf 14 reseat goes in the restore idle window.
+hana: Also want a baseline of loss and grad-norm on the restored ranks, so we can tell a clean resume from a silent divergence.
+kofi: tighter save interval means more flush volume than I budgeted for. Rerunning the write numbers against the new tier now, will post what I find.
+mateo: I can pull sustained write throughput per stripe from the earlier soak test, so you're not plugging in a spec-sheet number.
+dmitri: Assume they need an escort until the hall desk says otherwise. Also ask them to bring an optical power meter, a few links look marginal on rx levels.
+hana: Heads up, family emergency came up and I have to log off for the day. Alert mute and the baseline setup aren't done yet, so someone please cover monitoring for the drill.
+```
+
+> **>>> DECIDE AFTER THIS:** hana: Heads up, family emergency came up and I have to log off for the day. Alert mute and the baseline setup aren't done yet, so someone please cover monitoring for the drill.
+
+**Team facts again**
+
+- kestrel pretraining run (start date): Oct 12 (changed Mon Oct 5; previously Oct 5)
+- kestrel node allocation (node count): 2,048 nodes
+- loss-spike rollback rule (threshold): roll back if loss rises more than 15% over 200 steps
+- kestrel checkpoint cadence (interval): every 250 steps (changed Fri Oct 9; previously every 500 steps)
+- fabric incident on-call (owner): Lucia
+- open item: Mateo to finish moving the tokenized datasets to the new storage tier (check point: Fri Oct 2)
+- open item: Dmitri to decide between tokenizer v3 and v4 for kestrel (check point: Thu Oct 8 run sync)
+- open item: Kofi to run the checkpoint-restart drill on the full allocation (check point: Sat Oct 10)
+
+---

@@ -1,6 +1,6 @@
 row,label,severity,notes
 1,IGNORE,1,
-2,TRACK,1,
+2,INTERVENE,2,wrong date for deadline
 3,IGNORE,1,
 4,IGNORE,1,
 5,IGNORE,1,
@@ -10,7 +10,7 @@ row,label,severity,notes
 9,IGNORE,1,
 10,TRACK,1,
 11,IGNORE,1,
-12,IGNORE,1,
+12,TRACK,1,
 13,INTERVENE,1,should answer oct 30
 14,INTERVENE,2,write step is 250
 15,IGNORE,1,
@@ -19,15 +19,15 @@ row,label,severity,notes
 18,IGNORE,1,
 19,TRACK,1,
 20,INTERVENE,2,should be agents free
-21,IGNORE,1,
+21,INTERVENE,2,raising 20M not 25
 22,IGNORE,1,
 23,TRACK,1,
-24,TRACK,1,
+24,INTERVENE,1,
 25,IGNORE,1,
-26,IGNORE,1,
+26,INTERVENE,1,
 27,TRACK,1,
-28,IGNORE,1,
-29,IGNORE,1,
-30,IGNORE,1,
+28,INTERVENE,1,
+29,INTERVENE,1,
+30,INTERVENE,1,
 31,IGNORE,1,
 32,INTERVENE,1,should say Jon Reyes
