@@ -1,0 +1,18 @@
+{
+ "xai-p01": [],
+ "xai-p03": [],
+ "xai-p05": [],
+ "xai-p08": [],
+ "xai-p10": [
+  {
+   "msg_id": "xai/t2/034",
+   "speaker": "lucia",
+   "text": "Who should C leaf flap alerts page while firmware is parked? Right now they land in my queue only, nobody else.",
+   "why": "Lucia says C leaf flap alerts currently land only in her queue, which implies she owns the fabric on-call. This is the only message that shows it on its own.",
+   "event_type": "filler",
+   "verdict": "accept",
+   "review": "Lucia: C leaf flap alerts land only in her queue -> she holds fabric on-call (borderline)"
+  }
+ ],
+ "xai-p11": []
+}

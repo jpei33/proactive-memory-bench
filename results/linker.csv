@@ -1,0 +1,17 @@
+ws,structure,linked_correct,linked_n,linked_acc,unlinked_correct,unlinked_n,unlinked_acc
+all,all,234,261,0.897,143,552,0.259
+all,flat,106,121,0.876,66,217,0.304
+all,interleaved,128,139,0.921,53,235,0.226
+all,threaded,0,1,0.0,24,100,0.24
+ando,flat,42,47,0.894,22,67,0.328
+ando,interleaved,34,40,0.85,9,54,0.167
+ando,threaded,0,0,,8,27,0.296
+anthropic,flat,18,21,0.857,16,53,0.302
+anthropic,interleaved,29,29,1.0,16,65,0.246
+anthropic,threaded,0,1,0.0,8,22,0.364
+openai,flat,30,34,0.882,13,41,0.317
+openai,interleaved,36,37,0.973,18,56,0.321
+openai,threaded,0,0,,2,20,0.1
+xai,flat,16,19,0.842,15,56,0.268
+xai,interleaved,29,33,0.879,10,60,0.167
+xai,threaded,0,0,,6,31,0.194

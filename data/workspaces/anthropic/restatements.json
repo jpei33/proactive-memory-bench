@@ -1,0 +1,19 @@
+{
+ "anthropic-p01": [],
+ "anthropic-p03": [],
+ "anthropic-p05": [
+  {
+   "msg_id": "anthropic/t3/017",
+   "speaker": "theo",
+   "text": "Ok, committing: I'll rerun all baselines on harbor v1.3 and have them done by Fri Oct 16. Rescoring the unpatched tasks from saved traces, fresh runs only for the patched ones.",
+   "why": "Theo commits to rerunning all baselines on harbor v1.3, which states the current version of the eval suite release.",
+   "event_type": "commitment",
+   "verdict": "accept",
+   "review": "'rerun all baselines on harbor v1.3' states the current version"
+  }
+ ],
+ "anthropic-p08": [],
+ "anthropic-p09": [],
+ "anthropic-p10": [],
+ "anthropic-p11": []
+}

@@ -1,0 +1,86 @@
+{
+ "ando-p01": [],
+ "ando-p03": [],
+ "ando-p05": [],
+ "ando-p07": [],
+ "ando-p08": [],
+ "ando-p10": [],
+ "ando-p13": [],
+ "ando-p14": [
+  {
+   "msg_id": "ando/t1/019",
+   "speaker": "sara",
+   "text": "Also, agent actions get metered on top of the per-seat number. Olavo, make sure that's in both the post and the email.",
+   "why": "Sara tells Olavo to make sure the agent-metering point is in the waitlist email, which implies he owns it.",
+   "event_type": "form_part2",
+   "verdict": "accept",
+   "review": "Sara tells Olavo to put the metering point in the waitlist email -> he owns it"
+  },
+  {
+   "msg_id": "ando/t1/021",
+   "speaker": "olavo",
+   "text": "Sara, can you take AJ's access question? I'd like the exact wording before I draft the email copy \ud83d\ude4f",
+   "why": "Olavo says he will draft the email copy himself once he has the exact wording.",
+   "event_type": "filler",
+   "verdict": "accept",
+   "review": "Olavo will draft the email copy himself"
+  },
+  {
+   "msg_id": "ando/t3/001",
+   "speaker": "olavo",
+   "text": "morning all! weekend recap: launch post draft is at v3, waitlist email copy is mostly done, press kit needs final screenshots. waitlist is up a bunch since Friday too \ud83d\ude80 want to lock send timing for the week today",
+   "why": "Olavo reports the waitlist email copy is mostly done and wants to lock the send timing.",
+   "event_type": "deadline_passed",
+   "verdict": "accept",
+   "review": "Olavo reports on the waitlist email copy and wants to lock send timing"
+  },
+  {
+   "msg_id": "ando/t3/007",
+   "speaker": "olavo",
+   "text": "good q for oli/aj. on my side, plan is waitlist email Wed night so it lands early, launch post goes live Sep 17 with the press kit, partner heads-up Tuesday. screenshots depend on the onboarding flow tho \ud83d\udc40",
+   "why": "Olavo states his plan to send the waitlist email Wednesday night.",
+   "event_type": "form_setup",
+   "verdict": "accept",
+   "review": "Olavo: 'plan is waitlist email Wed night', speaking as owner"
+  },
+  {
+   "msg_id": "ando/t3/010",
+   "speaker": "olavo",
+   "text": "oh nice, pairing it with the funding news is way better press-wise \ud83d\ude4c I'll need to rejig the email and partner heads-up timing around that",
+   "why": "Olavo says he must rejig the email timing, which treats the email as his.",
+   "event_type": "filler",
+   "verdict": "accept",
+   "review": "Olavo says he must rejig the email timing"
+  },
+  {
+   "msg_id": "ando/t3/020",
+   "speaker": "olavo",
+   "text": "catching up, can the waitlist email still go out the day before Sep 17 like we planned? want to lock the send slot \ud83d\udcec",
+   "why": "Olavo asks whether the waitlist email can still go out the day before launch so he can lock the send slot.",
+   "event_type": "stale_quote",
+   "verdict": "accept",
+   "review": "Olavo asks to lock the send timing of the email"
+  },
+  {
+   "msg_id": "ando/t6/018",
+   "speaker": "olavo",
+   "text": "For the waitlist email, should I mention agents can be muted? Feels like a good trust line, but don't want to overpromise on per-thread.",
+   "why": "Olavo asks whether he should mention muting in the waitlist email, speaking as its author.",
+   "event_type": "filler",
+   "verdict": "accept",
+   "review": "Olavo asks what to put in the waitlist email, as its author"
+  }
+ ],
+ "ando-p15": [],
+ "ando-p16": [
+  {
+   "msg_id": "ando/t5/020",
+   "speaker": "oli",
+   "text": "frida AND-341 is mine now, send the details to me. Ask if they saw both posts land at the same moment.",
+   "why": "Oli says 'AND-341 is mine now, send the details to me', stating he is the current owner.",
+   "event_type": "filler",
+   "verdict": "accept",
+   "review": "Oli: 'AND-341 is mine now' states the current owner"
+  }
+ ]
+}
