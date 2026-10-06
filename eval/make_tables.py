@@ -3,7 +3,7 @@
     python -m eval.make_tables
       -> results/strategy_table.md        15 memory strategies (5 chunkers x 3 retrievers) + reference rows
       -> results/probe_table.md           paired-probe decisions for the conditions that ran on them
-      -> results/figs/strategy_table.png  the strategy table as an image
+      -> results/figs/strategy_table.png, probe_table.png  both tables as images
 """
 from __future__ import annotations
 
@@ -133,12 +133,55 @@ def png(df, path):
     fig.savefig(path, dpi=160, bbox_inches="tight")
 
 
+def probe_png(path):
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    p = pd.read_csv("results/probe_decisions.csv")
+    name = {"S0": "window only (no memory)", "A3": "A · per message", "B3": "B · 6-msg window",
+            "Cs2": "Cstar · reply-linked (gold links)", "D2": "D · topic segments", "E1": "E · write-time rewrite",
+            "AG-grep": "agent searches: grep + read-around", "OR": "oracle facts box (perfect memory)"}
+    retr = {"S0": "-", "A3": "hybrid (RRF)", "B3": "hybrid (RRF)", "Cs2": "embeddings", "D2": "embeddings",
+            "E1": "BM25", "AG-grep": "tools", "OR": "-"}
+    head = ["", "Memory", "Retriever", "Evidence\ndelivered %", "Catches wrong\nvalue % [95% CI]",
+            "False alarm on\ncorrect value %", "Balanced\naccuracy %", "Catch when\ndelivered %"]
+    cells = [[r.condition, name.get(r.condition, r.condition), retr.get(r.condition, ""), pct(r.delivered_full),
+              f"{100*r.catch:.0f} [{100*r.catch_lo:.0f}, {100*r.catch_hi:.0f}]", f"{100*r.false_alarm:.0f}",
+              f"{100*r.bal_acc:.0f}", pct(r["catch|full"])] for _, r in p.iterrows()]
+    fig, ax = plt.subplots(figsize=(13.5, 0.32 * (len(cells) + 2.5)))
+    ax.axis("off")
+    tb = ax.table(cellText=cells, colLabels=head, cellLoc="center", bbox=[0, 0, 1, 1],
+                  colWidths=[.07, .23, .1, .1, .14, .13, .1, .1])
+    tb.auto_set_font_size(False)
+    tb.set_fontsize(9)
+    ref = {"S0", "AG-grep", "OR"}
+    for (i, j), c in tb.get_celld().items():
+        c.set_edgecolor("#d0d0d0")
+        if i == 0:
+            c.set_facecolor("#1f3b4d"); c.get_text().set_color("white"); c.get_text().set_weight("bold")
+        elif cells[i - 1][0] in ref:
+            c.set_facecolor("#f2f2f2")
+        if j == 1 and i > 0:
+            c.get_text().set_ha("left")
+    mem = [k for k, r in enumerate(cells) if r[0] not in ref]
+    for col, j, fn in (("catch", 4, max), ("false_alarm", 5, min), ("bal_acc", 6, max)):
+        vals = p.iloc[mem][col]
+        best = vals.idxmax() if fn is max else vals.idxmin()
+        tb[(best + 1, j)].get_text().set_weight("bold")
+    ax.set_title("Paired probes: 142 pairs over 21 facts. A message stating a fact with a wrong value should get INTERVENE;\n"
+                 "the identical message with the correct value should get IGNORE. Judge: Sonnet. Bold = best memory strategy "
+                 "(grey rows are references).", fontsize=10, loc="left", pad=10)
+    fig.tight_layout()
+    fig.savefig(path, dpi=160, bbox_inches="tight")
+
+
 def main():
     df = build()
     Path("results/figs").mkdir(parents=True, exist_ok=True)
     Path("results/strategy_table.md").write_text(to_md(df) + "\n")
     Path("results/probe_table.md").write_text(probe_md() + "\n")
     png(df, "results/figs/strategy_table.png")
+    probe_png("results/figs/probe_table.png")
     print(to_md(df)); print(); print(probe_md())
     print("\n-> results/strategy_table.md, results/probe_table.md, results/figs/strategy_table.png")
 

@@ -74,47 +74,16 @@ References: no memory (S0), true reply links (Cstar), two search-on-demand agent
 
 ![15 memory strategies](results/figs/strategy_table.png)
 
-| Strategy   | Chunking                    | Retriever    | Retrieval: proactive %   |   Retrieval: reactive % | Judge: plants caught %   | Judge: INTERVENE F1   |   Judge: false alarms /100 |   $ / 1k decisions |
-|:-----------|:----------------------------|:-------------|:-------------------------|------------------------:|:-------------------------|:----------------------|---------------------------:|-------------------:|
-| A1         | A · per message             | BM25         | 42                       |                      78 | 64                       | 0.71                  |                        6.9 |               3.89 |
-| A2         | A · per message             | embeddings   | 52                       |                      86 | 72                       | 0.66                  |                        5.2 |               3.87 |
-| A3         | A · per message             | hybrid (RRF) | 52                       |                      81 | 67                       | **0.75**              |                        4.3 |               3.91 |
-| B1         | B · 6-msg window            | BM25         | 58                       |                      89 | 69                       | 0.71                  |                        3.9 |               3.79 |
-| B2         | B · 6-msg window            | embeddings   | 71                       |                      86 | 75                       | 0.66                  |                       11.2 |               3.81 |
-| B3         | B · 6-msg window            | hybrid (RRF) | 64                       |                      92 | **81**                   | 0.73                  |                        5.6 |               3.77 |
-| C1         | C · reply-linked (inferred) | BM25         | 39                       |                      94 | 58                       | 0.66                  |                        1.3 |               4.6  |
-| C2         | C · reply-linked (inferred) | embeddings   | 47                       |                     100 | 64                       | 0.68                  |                        3.4 |               4.62 |
-| C3         | C · reply-linked (inferred) | hybrid (RRF) | 43                       |                     100 | 69                       | 0.66                  |                        8.6 |               4.61 |
-| D1         | D · topic segments          | BM25         | 54                       |                      89 | 75                       | 0.64                  |                        9.5 |               3.84 |
-| D2         | D · topic segments          | embeddings   | 64                       |                      89 | 78                       | 0.69                  |                       10.8 |               3.88 |
-| D3         | D · topic segments          | hybrid (RRF) | 62                       |                      89 | 69                       | 0.63                  |                       14.2 |               3.85 |
-| E1         | E · write-time rewrite      | BM25         | **87**                   |                     100 | 72                       | 0.72                  |                        5.6 |               4.97 |
-| E2         | E · write-time rewrite      | embeddings   | 79                       |                     100 | 72                       | 0.69                  |                        6   |               4.97 |
-| E3         | E · write-time rewrite      | hybrid (RRF) | 86                       |                     100 | 75                       | 0.69                  |                        5.2 |               5.18 |
-| *reference* |  |  |  |  |  |  |  |  |
-| S0         | window only (no memory)            | -           |                        6 |                      22 |                       22 |                  0.34 |                        0.9 |               1.77 |
-| Cs2        | Cstar · reply-linked (gold links)  | embeddings  |                       67 |                     100 |                       67 |                  0.7  |                        4.3 |               3.85 |
-| AG-grep    | agent searches: grep + read-around | tools       |                          |                         |                       69 |                  0.68 |                        9.5 |               7.34 |
-| AG-both    | agent searches: + semantic search  | tools       |                          |                         |                       69 |                  0.69 |                        7.3 |               7.75 |
-| OR         | oracle facts box (perfect memory)  | -           |                      100 |                     100 |                       97 |                  0.68 |                       13.8 |               2.21 |
+*Retrieval*: % of queries (36 plants + 155 probe triggers) where all evidence reached the agent; *proactive* =
+queried with the latest messages, *reactive* = asked the question directly. *Plants caught*: % of the 36 planted
+conflicts where the judge intervened at the conflict or within 2 messages. *False alarms*: severity-weighted
+INTERVENE on gold-IGNORE points per 100 decisions. Bold = best of the 15. Markdown version:
+[`results/strategy_table.md`](results/strategy_table.md).
 
-*Retrieval*: % of queries (36 plants + 155 probe triggers) where all evidence reached the agent.
-*Plants caught*: % of the 36 planted conflicts where the judge intervened at the conflict or within 2 messages.
-*False alarms*: severity-weighted INTERVENE on gold-IGNORE points per 100 decisions. Bold = best of the 15.
+![Paired probes](results/figs/probe_table.png)
 
-**Paired probes** (142 pairs; a wrong-value message should get INTERVENE, the same message with the correct
-value should get IGNORE):
-
-| Condition                       |   Evidence delivered % | Catches wrong value % [95% CI]   |   False alarm on correct value % |   Balanced acc. % |   Catch given evidence delivered % |
-|:--------------------------------|-----------------------:|:---------------------------------|---------------------------------:|------------------:|-----------------------------------:|
-| S0 (window only)                |                      2 | 6 [2, 11]                        |                                6 |                50 |                                 67 |
-| A3 (A · per message + RRF)      |                     56 | 72 [59, 84]                      |                               27 |                72 |                                 89 |
-| B3 (B · window + RRF)           |                     64 | 69 [62, 76]                      |                               15 |                77 |                                 91 |
-| Cs2 (Cstar · gold links + emb)  |                     70 | 69 [56, 80]                      |                               18 |                76 |                                 93 |
-| D2 (D · topics + emb)           |                     66 | 72 [59, 82]                      |                               19 |                76 |                                 92 |
-| E1 (E · rewrite + BM25)         |                     91 | 82 [74, 90]                      |                               20 |                81 |                                 88 |
-| AG-grep (agent searches (grep)) |                     69 | 74 [62, 84]                      |                                8 |                83 |                                 93 |
-| OR (oracle facts box)           |                        | 96 [92, 100]                     |                               30 |                84 |                                    |
+Paired probes run on the best-retriever cell of each chunker plus references. Markdown version:
+[`results/probe_table.md`](results/probe_table.md).
 
 ### Headline findings
 
@@ -184,3 +153,11 @@ data/       generated workspaces, decision points, gold labels, every judge run 
 results/    all result tables, findings, figures
 notes/      design notes and lessons for a next version
 ```
+git add README.md eval/make_tables.py results/figs/strategy_table.png results/figs/probe_table.png results/*.md .gitignore
+git commit -m "README: tables as images, drop duplicate markdown table"
+git push
+
+
+
+
+
