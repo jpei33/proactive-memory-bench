@@ -1,109 +1,127 @@
 # proactive-memory-bench
 
-I wanted to know one thing: if an AI teammate is sitting in your team's chat, will it notice on its own when
-someone says something that contradicts what was said earlier? And does it matter how the agent stores the
-chat history?
+A small benchmark for one question: **when an AI teammate sits in a team chat, does it notice on its own that a
+new message conflicts with something said earlier**, and how does the way it stores chat history (its memory)
+change that?
 
-The case I kept coming back to is what I call the "I did" problem. Someone asks "who can take AND-341?" and
-the answer is just "I'll take it", or a 👍. That reply shares no words with the question, so if your memory
-stores messages one at a time, you lose who took what. A week later someone asks again, and the agent has no idea.
+The hard case is the "I did" problem: the answer to a question is often a short reply like *"I'll take it"*,
+*"nah hand it to me"* or a 👍 reaction, which shares no words with the question it answers. Memory that stores
+messages one at a time loses who took what.
 
-This is a one-week project and it's pretty rough. I'm sharing it to start a conversation, not as a finished
-benchmark. The full write-up of results is in [`results/findings.md`](results/findings.md), and my notes on
-what I'd change next are in [`notes/real_data_lessons.md`](notes/real_data_lessons.md).
+This is a one-week, rudimentary study, shared for discussion. Findings are in
+[`results/findings.md`](results/findings.md); ideas for a next version are in
+[`notes/real_data_lessons.md`](notes/real_data_lessons.md).
 
-> **Heads up: every chat in this repo is made up.** The four workspaces (`ando`, `anthropic`, `openai`, `xai`)
-> were written by a language model. I used real company names and some first names just to make the setting
-> feel familiar, but every event, number, date, deal, person and message is invented. None of it describes a
-> real company, team or conversation, and this isn't affiliated with or endorsed by any of them. There's also a
-> small check on real chat data near the end; that data is private and not in this repo, only aggregate numbers.
+> ## ⚠️ Disclaimer: all chat data in this repo is fabricated
+> The four simulated workspaces (`ando`, `anthropic`, `openai`, `xai`) are **fictional chats written by a language
+> model**. Company names, product names and first names are used only as a familiar setting; every event, number,
+> date, deal, person, decision and message is invented. Nothing here comes from, describes or represents any real
+> company, team, conversation or person, and the project is not affiliated with or endorsed by any of the companies
+> named. The separate real-data check (section 5) used a private dataset that is **not** included; only aggregate
+> numbers are reported.
 
-## What I built
+---
 
-Four fake Slack-style workspaces, about 880 messages in total, with threads, side conversations happening in the
-middle of other conversations, and emoji reactions. Inside them I planted 36 conflicts the agent should catch:
-someone quoting a date that already moved, re-asking a question that was answered days ago, a deadline that
-passed with nothing done, and so on. I also added decoys that look like conflicts but aren't, plus a lot of
-ordinary chatter. That gives 303 points where the agent has to decide: speak up (INTERVENE), make a note to
-check later (TRACK), or stay quiet (IGNORE).
+## 1. What is measured
 
-The decision maker is a fixed judge (Claude Sonnet with the same prompt and rubric every time). The only thing
-that changes is what it remembers. I tried 15 memory setups: 5 ways of cutting the chat into chunks, crossed
-with 3 ways of searching them.
+At a decision point the agent sees the last 15 messages of the channel plus whatever its memory retrieves, and a
+fixed judge (Claude Sonnet, fixed prompt and rubric) chooses one of:
 
-- **A, per message:** one chunk per message.
-- **B, windows:** 6 messages in a row.
-- **C, reply-linked:** a message plus what it's replying to (links guessed by Haiku; "Cstar" uses the true links as a ceiling).
-- **D, topic segments:** an LLM splits each channel into topics.
-- **E, rewrite:** every message gets rewritten into a standalone sentence when it's saved ("AJ took ownership of AND-341").
+- **INTERVENE**: the new message contradicts a team fact, quotes an outdated value, re-asks an answered question,
+  or a check point has passed with the task undone;
+- **TRACK**: it opens a commitment worth checking later;
+- **IGNORE**: everything else (most messages).
 
-Searches: BM25 (keyword), embeddings (meaning), and a hybrid of the two. For comparison I also ran no memory at
-all, two agents that search the history themselves with grep-style tools, and an "oracle" that's just handed a
-perfect list of the current facts.
+Three layers are scored:
 
-I looked at three things: did the evidence actually reach the agent, could it answer a direct question from
-what it got, and did the judge speak up at the right moment.
+1. **Retrieval**: did all the evidence for the relevant fact reach the agent? *Proactive* = the agent queries with
+   the latest messages, unprompted (the real use case); *reactive* = it is asked the question directly.
+2. **Reader**: given what was retrieved, can a fixed reader answer the question?
+3. **Decision**: does the judge INTERVENE on planted conflicts (within the next 2 messages), and how often does it
+   raise false alarms?
 
-## Results
+## 2. Data
+
+- 4 simulated workspaces, 876 messages, 21 threads, including Slack-style threads, interleaved side conversations
+  and emoji reactions. Facts are stated in six **evidence forms**: explicit, ellipsis ("I'll take it"), reaction,
+  correction, cross-reference, distributed.
+- **303 decision points**: 36 planted conflicts (contradiction, stale quote, repeat question, missed deadline),
+  13 commitments to track, 33 decoys (things that look like conflicts but aren't), 150 ordinary messages,
+  71 follow-up messages.
+- **155 probe triggers** (extra retrieval queries) and **142 paired conflict/control probes** (a wrong-value message
+  and the same message with the correct value) to raise sample size.
+- **Labels**: planted items carry their answer by construction. The other points were labeled by one human
+  (100 + 32 rows, blind-adjudicated against the model) and a cross-family LLM labeler (GPT) for the remaining 171;
+  see [`results/human_agreement.md`](results/human_agreement.md).
+
+## 3. Memory strategies
+
+5 ways of chunking chat × 3 retrievers = 15 strategies, each with a 1,500-token retrieval budget:
+
+| Chunker | What one memory chunk is |
+|---|---|
+| A · per message | one message |
+| B · window | 6 consecutive channel messages (stride 3) |
+| C · reply-linked | a message plus up to two reply parents, inferred by Haiku (Cstar = the simulator's true links, as an upper bound) |
+| D · topic segments | LLM-detected topic segments per channel |
+| E · write-time rewrite | each message rewritten by Haiku into 0-2 standalone statements ("AJ took ownership of AND-341") |
+
+Retrievers: BM25, embeddings (OpenAI `text-embedding-3-large`), hybrid (reciprocal rank fusion).
+References: no memory (S0), true reply links (Cstar), two search-on-demand agents that grep the history with tools
+(AG-grep, AG-both), and an oracle that is handed a perfect list of current facts and open items (OR).
+
+## 4. Results
 
 ![15 memory strategies](results/figs/strategy_table.png)
 
-"Proactive" retrieval means the agent searches with the latest messages, without being asked anything, which is
-the real situation. "Reactive" means it's asked the question directly. "Plants caught" is the share of the 36
-planted conflicts where the judge spoke up at the conflict or within the next two messages. False alarms are
-per 100 decisions. Markdown version: [`results/strategy_table.md`](results/strategy_table.md).
-
-Because 36 conflicts turned out to be too few to tell the setups apart, I also made 142 pairs of test messages:
-one that states a fact with the wrong value, and the exact same message with the right value. The judge should
-speak up on the first and stay quiet on the second.
+*Retrieval*: % of queries (36 plants + 155 probe triggers) where all evidence reached the agent; *proactive* =
+queried with the latest messages, *reactive* = asked the question directly. *Plants caught*: % of the 36 planted
+conflicts where the judge intervened at the conflict or within 2 messages. *False alarms*: severity-weighted
+INTERVENE on gold-IGNORE points per 100 decisions. Bold = best of the 15. Markdown version:
+[`results/strategy_table.md`](results/strategy_table.md).
 
 ![Paired probes](results/figs/probe_table.png)
 
-Markdown version: [`results/probe_table.md`](results/probe_table.md).
+Paired probes run on the best-retriever cell of each chunker plus references. Markdown version:
+[`results/probe_table.md`](results/probe_table.md).
 
-### What I found
+### Headline findings
 
-1. **How you chunk the chat matters a lot more than how you search it.** Getting the right evidence to the agent
-   varies by about 41 points across chunking methods and only about 7 across search methods. That held up when I
-   swapped in a different embedding model and when I resampled the data. Storing one message per chunk gets
-   plain statements through 84% of the time, but "I'll take it"-style answers only 18%.
-2. **If the evidence gets through, the agent can use it.** Asked a direct question, it answered correctly 93% of
-   the time when the evidence was retrieved and 3% when it wasn't.
-3. **On the 36 planted conflicts, I can't rank the setups.** They all land between 58% and 81%, the error bars
-   are about ±15 points, and just rerunning the same judge moved some numbers by 8. Any memory is way better than
-   none (22%), and the perfect-facts oracle gets 97%.
-4. **On the paired test messages, more evidence does mean more catches.** The rewrite setup catches 82% of wrong
-   values versus 69% for windows. Fair warning: I designed this test after seeing result 3, and it only covers one
-   kind of conflict.
-5. **Missed deadlines are basically invisible to search.** Nothing in the chat says "this didn't happen", so
-   there's nothing to retrieve. Retrieval setups caught 0-43% of these; a simple list of open to-dos caught all of
-   them, but only when it wasn't buried under a pile of retrieved messages.
-6. **More memory makes the agent chattier, not smarter.** The oracle had the most false alarms. The grep agent,
-   which only searches when something looks worth checking, had the fewest.
-7. **The judge model matters as much as the memory.** Swapping Sonnet for Haiku dropped catches by 5-22 points,
-   doubled or tripled false alarms, and shuffled the ranking.
+1. **Chunking decides what the agent sees.** Across the 15 strategies, retrieval varies 41 points by chunker and
+   7 points by retriever (difference 35 pts, 95% CI 26-44, resampling by fact; holds with a second embedding
+   model). Per-message memory delivers explicit facts 84% of the time but "I'll take it"-style answers 18%.
+2. **Delivery predicts what the agent can know**: a reader answers correctly 93% of the time when the evidence
+   was delivered, 3% when it was not.
+3. **On the 36 natural plants, the strategies cannot be ranked**: 58-81% caught, intervals about ±15 pts, and
+   rerunning the same judge moves cells by up to 8 pts. Any memory beats none (22%); the oracle catches 97%.
+4. **On targeted wrong-value probes, more delivery means more catches**: rewrite memory (E1) catches 82% vs
+   69% for windows and true reply links. This test was designed after seeing result 3 and covers only one
+   conflict type; see the caveats in the findings.
+5. **Missed deadlines are invisible to retrieval** (0-43% caught vs 100% for the oracle's open-item list);
+   adding an open-item list to retrieved memory helps only half the time.
+6. **More memory makes the judge speak more, not more accurately**: the oracle has the most false alarms;
+   the grep agent, which searches only when needed, has the fewest.
+7. **The judge model matters as much as the memory**: Haiku as judge catches 5-22 pts less with 2-3x the
+   false alarms, and reorders the memory strategies.
 
-### A check on real chat
+## 5. Reality check on real chat
 
-I also ran the same judge on 50 moments from a real team chat where people and AI agents work together (private
-data, not included). It never spoke up once, under any model. Two labelers each flagged 5 moments as worth
-interrupting, but only agreed on 2, and both of those were about the agents' own work: duplicate tickets from
-agents answering in parallel, and an agent contradicting its own earlier diagnosis. My benchmark doesn't simulate
-that kind of conflict at all, which is probably the most useful thing this whole exercise showed me. Numbers are
-in [`results/real_check.md`](results/real_check.md), and ideas for a v2 are in
-[`notes/real_data_lessons.md`](notes/real_data_lessons.md).
+On 50 decision points from a real team where people and AI agents work together (private, not included), the same
+judge **never intervened** (0/50, under Sonnet, Haiku and GPT, full or truncated thread). Two labelers each
+flagged 5 cases but agreed on only 2, and both of those concern the agents' own work (duplicate tickets from
+parallel agents, an agent contradicting its own diagnosis), a kind of conflict this benchmark does not simulate.
+Aggregate numbers: [`results/real_check.md`](results/real_check.md); what the benchmark misses and ideas for a
+next version: [`notes/real_data_lessons.md`](notes/real_data_lessons.md).
 
-## Caveats
+## 6. Limitations
 
-- It's all simulated, written by one model family, and judged by the same family.
-- 36 planted conflicts is small. Most differences between memory setups at the decision level are within noise.
-- The conflicts are people changing facts. Agents making mistakes, and facts that live in tools (tickets,
-  deploys), aren't modeled.
-- Labels come from me plus a GPT labeler, checked against each other (see
-  [`results/human_agreement.md`](results/human_agreement.md)).
-- The whole thing cost about $80 in API calls.
+- Simulated data from one model family; the judge is the same family. Four workspaces, 36 INTERVENE plants.
+- Strategy differences at the decision level are within noise on natural plants; the paired probes are targeted.
+- Conflicts are people changing facts; agent-made conflicts and tool state (tickets, deploys) are not modeled.
+- Labels: one human plus an LLM labeler.
+- About $80 of API calls in total (batch API for most judge runs).
 
-## Running it
+## 7. Reproduce
 
 ```bash
 uv sync
@@ -121,7 +139,7 @@ chats) → `world.verify` → `eval.select_points` → labeling (`label/`) → m
 `memory.segment`, `memory.rewrite`) → `eval.retrieval_grid` and `eval.reader` → `judge.batch` / `judge.run` →
 the scoring commands above. LLM responses are cached under `data/cache/` (not committed).
 
-## What's where
+## 8. Repo layout
 
 ```
 world/      fictional workspace ledgers (facts, plants, personas) + verify / stats / restatement audit
