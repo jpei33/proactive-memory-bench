@@ -76,7 +76,8 @@ def _call(req: dict):
 
 def complete(system: str | None, messages: list[dict] | str, *, model: str | None = None,
              max_tokens: int = 1024, seed: int = 0, effort: str | None = None,
-             tools: list[dict] | None = None, cache_system: bool = False,
+             tools: list[dict] | None = None, tool_choice: dict | None = None,
+             cache_system: bool = False,
              use_cache: bool = True) -> Result:
     """One Messages API call, served from disk cache when the identical request was made before.
 
@@ -98,15 +99,20 @@ def complete(system: str | None, messages: list[dict] | str, *, model: str | Non
         req["output_config"] = {"effort": effort}
     if tools:
         req["tools"] = tools
+    if tool_choice:
+        req["tool_choice"] = tool_choice
 
     key = hashlib.sha256(json.dumps({"req": req, "seed": seed}, sort_keys=True, default=str)
                          .encode()).hexdigest()
     path = CACHE_DIR / key[:2] / f"{key}.json"
 
     if use_cache and path.exists():
-        res = Result(**json.loads(path.read_text()))
-        res.cached = True
-        return res
+        try:
+            res = Result(**json.loads(path.read_text()))
+            res.cached = True
+            return res
+        except (json.JSONDecodeError, TypeError):    # torn write from a parallel run: redo the call
+            pass
 
     t0 = time.time()
     r = _call(req)
@@ -129,7 +135,9 @@ def complete(system: str | None, messages: list[dict] | str, *, model: str | Non
         path.parent.mkdir(parents=True, exist_ok=True)
         d = res.__dict__.copy()
         d.pop("cached")
-        path.write_text(json.dumps(d))
+        tmp = path.with_suffix(f".{os.getpid()}.{threading.get_ident()}.tmp")
+        tmp.write_text(json.dumps(d))
+        os.replace(tmp, path)                        # atomic: readers never see a half-written file
     return res
 
 
@@ -143,6 +151,13 @@ def parse_json(text: str):
         if i != -1 and j > i:
             try:
                 return json.loads(s[i:j + 1])
+            except json.JSONDecodeError:
+                continue
+    dec = json.JSONDecoder()                     # fallback: first object that decodes, ignoring trailing text
+    for i, ch in enumerate(s):
+        if ch in "{[":
+            try:
+                return dec.raw_decode(s[i:])[0]
             except json.JSONDecodeError:
                 continue
     raise ValueError(f"no JSON found in: {text[:200]!r}")

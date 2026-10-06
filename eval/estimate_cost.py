@@ -40,10 +40,13 @@ def spent_so_far(prices) -> dict:
     """Sum every real (non-cached) call recorded in data/cache/llm."""
     tot = defaultdict(lambda: Counter())
     for f in Path("data/cache/llm").rglob("*.json"):
-        r = json.loads(f.read_text())
+        try:
+            r = json.loads(f.read_text())
+        except json.JSONDecodeError:                 # a file two threads wrote at once; skip it
+            continue
         t = tot[r.get("model", "?")]
         t["calls"] += 1
-        t["in"] += r.get("in_tok", 0)
+        t["in"] += r.get("in_tok", 0) + 0.1 * r.get("cache_read_tok", 0)   # cache reads at ~10% price
         t["out"] += r.get("out_tok", 0)
     out = {}
     for m, t in tot.items():
