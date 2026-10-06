@@ -1,0 +1,232 @@
+condition,cause,n
+A1,lost_in_chunking,0
+A1,split_evidence,4
+A1,not_surfaced,5
+A1,stale_in_memory,0
+A1,not_acted_on (said TRACK),0
+A1,not_acted_on (said IGNORE),4
+A1,TOTAL_MISSES,13
+A2,lost_in_chunking,0
+A2,split_evidence,2
+A2,not_surfaced,4
+A2,stale_in_memory,0
+A2,not_acted_on (said TRACK),0
+A2,not_acted_on (said IGNORE),4
+A2,TOTAL_MISSES,10
+A2~haiku,lost_in_chunking,0
+A2~haiku,split_evidence,4
+A2~haiku,not_surfaced,5
+A2~haiku,stale_in_memory,1
+A2~haiku,not_acted_on (said TRACK),4
+A2~haiku,not_acted_on (said IGNORE),2
+A2~haiku,TOTAL_MISSES,16
+A3,lost_in_chunking,0
+A3,split_evidence,3
+A3,not_surfaced,4
+A3,stale_in_memory,1
+A3,not_acted_on (said TRACK),1
+A3,not_acted_on (said IGNORE),3
+A3,TOTAL_MISSES,12
+AG-both,lost_in_chunking,0
+AG-both,split_evidence,0
+AG-both,not_surfaced,7
+AG-both,stale_in_memory,0
+AG-both,not_acted_on (said TRACK),1
+AG-both,not_acted_on (said IGNORE),3
+AG-both,TOTAL_MISSES,11
+AG-grep,lost_in_chunking,0
+AG-grep,split_evidence,0
+AG-grep,not_surfaced,8
+AG-grep,stale_in_memory,0
+AG-grep,not_acted_on (said TRACK),1
+AG-grep,not_acted_on (said IGNORE),2
+AG-grep,TOTAL_MISSES,11
+AG-grep~haiku,lost_in_chunking,0
+AG-grep~haiku,split_evidence,2
+AG-grep~haiku,not_surfaced,12
+AG-grep~haiku,stale_in_memory,0
+AG-grep~haiku,not_acted_on (said TRACK),1
+AG-grep~haiku,not_acted_on (said IGNORE),2
+AG-grep~haiku,TOTAL_MISSES,17
+B1,lost_in_chunking,0
+B1,split_evidence,1
+B1,not_surfaced,8
+B1,stale_in_memory,0
+B1,not_acted_on (said TRACK),1
+B1,not_acted_on (said IGNORE),1
+B1,TOTAL_MISSES,11
+B2,lost_in_chunking,1
+B2,split_evidence,1
+B2,not_surfaced,4
+B2,stale_in_memory,0
+B2,not_acted_on (said TRACK),0
+B2,not_acted_on (said IGNORE),3
+B2,TOTAL_MISSES,9
+B3,lost_in_chunking,0
+B3,split_evidence,0
+B3,not_surfaced,4
+B3,stale_in_memory,1
+B3,not_acted_on (said TRACK),0
+B3,not_acted_on (said IGNORE),2
+B3,TOTAL_MISSES,7
+B3+OI,lost_in_chunking,0
+B3+OI,split_evidence,1
+B3+OI,not_surfaced,4
+B3+OI,stale_in_memory,1
+B3+OI,not_acted_on (said TRACK),0
+B3+OI,not_acted_on (said IGNORE),4
+B3+OI,TOTAL_MISSES,10
+B3~haiku,lost_in_chunking,0
+B3~haiku,split_evidence,1
+B3~haiku,not_surfaced,6
+B3~haiku,stale_in_memory,1
+B3~haiku,not_acted_on (said TRACK),4
+B3~haiku,not_acted_on (said IGNORE),3
+B3~haiku,TOTAL_MISSES,15
+C1,lost_in_chunking,0
+C1,split_evidence,0
+C1,not_surfaced,13
+C1,stale_in_memory,1
+C1,not_acted_on (said TRACK),0
+C1,not_acted_on (said IGNORE),1
+C1,TOTAL_MISSES,15
+C2,lost_in_chunking,0
+C2,split_evidence,2
+C2,not_surfaced,9
+C2,stale_in_memory,0
+C2,not_acted_on (said TRACK),0
+C2,not_acted_on (said IGNORE),2
+C2,TOTAL_MISSES,13
+C3,lost_in_chunking,0
+C3,split_evidence,2
+C3,not_surfaced,7
+C3,stale_in_memory,0
+C3,not_acted_on (said TRACK),1
+C3,not_acted_on (said IGNORE),1
+C3,TOTAL_MISSES,11
+C3~haiku,lost_in_chunking,0
+C3~haiku,split_evidence,2
+C3~haiku,not_surfaced,7
+C3~haiku,stale_in_memory,0
+C3~haiku,not_acted_on (said TRACK),3
+C3~haiku,not_acted_on (said IGNORE),1
+C3~haiku,TOTAL_MISSES,13
+Cs2,lost_in_chunking,0
+Cs2,split_evidence,2
+Cs2,not_surfaced,8
+Cs2,stale_in_memory,0
+Cs2,not_acted_on (said TRACK),0
+Cs2,not_acted_on (said IGNORE),2
+Cs2,TOTAL_MISSES,12
+D1,lost_in_chunking,0
+D1,split_evidence,0
+D1,not_surfaced,6
+D1,stale_in_memory,1
+D1,not_acted_on (said TRACK),0
+D1,not_acted_on (said IGNORE),2
+D1,TOTAL_MISSES,9
+D2,lost_in_chunking,0
+D2,split_evidence,0
+D2,not_surfaced,5
+D2,stale_in_memory,1
+D2,not_acted_on (said TRACK),0
+D2,not_acted_on (said IGNORE),2
+D2,TOTAL_MISSES,8
+D2~haiku,lost_in_chunking,0
+D2~haiku,split_evidence,1
+D2~haiku,not_surfaced,6
+D2~haiku,stale_in_memory,1
+D2~haiku,not_acted_on (said TRACK),2
+D2~haiku,not_acted_on (said IGNORE),4
+D2~haiku,TOTAL_MISSES,14
+D3,lost_in_chunking,0
+D3,split_evidence,1
+D3,not_surfaced,6
+D3,stale_in_memory,1
+D3,not_acted_on (said TRACK),0
+D3,not_acted_on (said IGNORE),3
+D3,TOTAL_MISSES,11
+E1,lost_in_chunking,0
+E1,split_evidence,0
+E1,not_surfaced,4
+E1,stale_in_memory,0
+E1,not_acted_on (said TRACK),0
+E1,not_acted_on (said IGNORE),6
+E1,TOTAL_MISSES,10
+E1+OI,lost_in_chunking,0
+E1+OI,split_evidence,0
+E1+OI,not_surfaced,3
+E1+OI,stale_in_memory,0
+E1+OI,not_acted_on (said TRACK),0
+E1+OI,not_acted_on (said IGNORE),3
+E1+OI,TOTAL_MISSES,6
+E1+T,lost_in_chunking,0
+E1+T,split_evidence,0
+E1+T,not_surfaced,2
+E1+T,stale_in_memory,2
+E1+T,not_acted_on (said TRACK),0
+E1+T,not_acted_on (said IGNORE),5
+E1+T,TOTAL_MISSES,9
+E1@4000,lost_in_chunking,0
+E1@4000,split_evidence,1
+E1@4000,not_surfaced,0
+E1@4000,stale_in_memory,0
+E1@4000,not_acted_on (said TRACK),0
+E1@4000,not_acted_on (said IGNORE),8
+E1@4000,TOTAL_MISSES,9
+E1@500,lost_in_chunking,0
+E1@500,split_evidence,0
+E1@500,not_surfaced,8
+E1@500,stale_in_memory,1
+E1@500,not_acted_on (said TRACK),0
+E1@500,not_acted_on (said IGNORE),4
+E1@500,TOTAL_MISSES,13
+E2,lost_in_chunking,0
+E2,split_evidence,1
+E2,not_surfaced,2
+E2,stale_in_memory,2
+E2,not_acted_on (said TRACK),0
+E2,not_acted_on (said IGNORE),5
+E2,TOTAL_MISSES,10
+E3,lost_in_chunking,0
+E3,split_evidence,1
+E3,not_surfaced,2
+E3,stale_in_memory,1
+E3,not_acted_on (said TRACK),0
+E3,not_acted_on (said IGNORE),5
+E3,TOTAL_MISSES,9
+E3~haiku,lost_in_chunking,0
+E3~haiku,split_evidence,1
+E3~haiku,not_surfaced,2
+E3~haiku,stale_in_memory,2
+E3~haiku,not_acted_on (said TRACK),2
+E3~haiku,not_acted_on (said IGNORE),4
+E3~haiku,TOTAL_MISSES,11
+OR,lost_in_chunking,0
+OR,split_evidence,0
+OR,not_surfaced,0
+OR,stale_in_memory,0
+OR,not_acted_on (said TRACK),0
+OR,not_acted_on (said IGNORE),1
+OR,TOTAL_MISSES,1
+OR~haiku,lost_in_chunking,0
+OR~haiku,split_evidence,0
+OR~haiku,not_surfaced,0
+OR~haiku,stale_in_memory,1
+OR~haiku,not_acted_on (said TRACK),2
+OR~haiku,not_acted_on (said IGNORE),1
+OR~haiku,TOTAL_MISSES,4
+S0,lost_in_chunking,25
+S0,split_evidence,2
+S0,not_surfaced,0
+S0,stale_in_memory,0
+S0,not_acted_on (said TRACK),0
+S0,not_acted_on (said IGNORE),1
+S0,TOTAL_MISSES,28
+S0~haiku,lost_in_chunking,26
+S0~haiku,split_evidence,2
+S0~haiku,not_surfaced,0
+S0~haiku,stale_in_memory,0
+S0~haiku,not_acted_on (said TRACK),3
+S0~haiku,not_acted_on (said IGNORE),1
+S0~haiku,TOTAL_MISSES,32

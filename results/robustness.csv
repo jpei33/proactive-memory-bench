@@ -1,0 +1,23 @@
+check,metric,spearman,n_conditions
+judge Sonnet vs Haiku,L3_loose,0.671,8
+judge Sonnet vs Haiku,iv_f1,0.81,8
+judge Sonnet vs Haiku,macro_f1,0.563,8
+judge Sonnet vs Haiku,false_per100,0.494,8
+embedding OpenAI vs MiniLM,L2_full (emb+rrf cells),0.839,10
+embedding OpenAI vs MiniLM,L2_full (all 15 cells),0.924,15
+noise: rerun,L3_loose |run1-run2| B3,0.084,1
+noise: rerun,iv_f1 |run1-run2| B3,0.026,1
+noise: rerun,macro_f1 |run1-run2| B3,0.038,1
+noise: rerun,false_per100 |run1-run2| B3,0.4,1
+noise: rerun,L3_loose |run1-run2| D2,0.0,1
+noise: rerun,iv_f1 |run1-run2| D2,0.009,1
+noise: rerun,macro_f1 |run1-run2| D2,0.018,1
+noise: rerun,false_per100 |run1-run2| D2,0.9,1
+noise: rerun,L3_loose |run1-run2| E1,0.055,1
+noise: rerun,iv_f1 |run1-run2| E1,0.078,1
+noise: rerun,macro_f1 |run1-run2| E1,0.01,1
+noise: rerun,false_per100 |run1-run2| E1,0.9,1
+noise: rerun,L3_loose |run1-run2| S0,0.028,1
+noise: rerun,iv_f1 |run1-run2| S0,0.008,1
+noise: rerun,macro_f1 |run1-run2| S0,0.016,1
+noise: rerun,false_per100 |run1-run2| S0,0.5,1

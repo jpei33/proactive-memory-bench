@@ -1,0 +1,7 @@
+stat,value,lo,hi
+row_spread (chunkers),0.412,0.354,0.464
+col_spread (retrievers),0.065,0.027,0.106
+row - col,0.347,0.279,0.411
+gap Cstar-C (flat),0.216,,
+gap Cstar-C (interleaved),0.185,,
+gap Cstar-C (threaded),0.291,,
