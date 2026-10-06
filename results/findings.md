@@ -1,127 +1,127 @@
-# Findings (draft, Day 5)
+# Findings
 
-Setup in one line: 4 simulated Slack workspaces (876 messages), 303 decision points (36 INTERVENE
-plants, 13 TRACK plants, 33 decoys, 150 ordinary, 71 follow-ups), a fixed Sonnet judge, and 22 memory
-conditions: no memory (S0), 5 chunkers x 3 retrievers, gold reply links (Cs2), two grep-style agents,
-two extra budgets, and an oracle facts box (OR). Gold labels: 132 human-adjudicated + 171 from a
-cross-family LLM labeler (see human_agreement.md).
+All workspaces, people and companies in the simulated data are fictional (see the disclaimer in the README).
+Numbers come from `results/*.csv`; every judge decision is in `data/runs/`.
 
-## 1. What the agent sees is decided by chunking, not by search
-Proactive retrieval (the agent searches from the last 3 messages, unprompted), % of queries where all
-evidence for the fact reached the agent at 1,500 tokens (36 plants + 155 probe triggers):
-spread across chunkers **41 pts [36, 47]**, across retrievers **7 pts [3, 11]**; difference 35 pts [28, 41].
-Per-message chunks deliver explicit statements 84% of the time but ellipsis answers 18% and emoji
-reactions 13%; 6-message windows: 67 / 67; write-time rewrite: 73 / 73.
-When asked directly (the probe question as query) every chunker delivers 82-100%: the gap exists only
-when the agent has to notice on its own.
-Embeddings are not better than BM25 on context-free replies: on ando-p16, "nah hand it to me" ranks
-193/245 under BM25 and 237/245 under embeddings.
+**Setup.** 4 simulated Slack-style workspaces (876 messages, 21 threads). 303 decision points: 49 planted
+items (36 conflicts that need an INTERVENE, 13 commitments to TRACK), 33 decoys, 150 ordinary messages,
+71 follow-up messages. A fixed Sonnet judge decides IGNORE / TRACK / INTERVENE at each point under 22 memory
+conditions: no memory (S0); 5 chunkers x 3 retrievers; gold reply links (Cstar); two search-on-demand agents;
+two extra token budgets; an oracle facts box (OR). Gold labels: 132 human-adjudicated + 171 from a
+cross-family LLM labeler (`results/human_agreement.md`). Total API spend ~$80.
 
-## 2. The "I did" problem, caught in the act
-xai-p10 (repeat_question, cross-channel). Sep 30, #infra:
-> wen: Who's owning fabric incident on-call for kestrel right now? I need a name on the rota...
-> lucia: I'll take it.
+---
 
-Oct 12, #kestrel-run (the trigger):
-> mateo: ...I'm seeing IB link flaps on a couple of the dataloader nodes. Who's on call for fabric incidents today?
+## 1. What the agent sees is decided by chunking, not by search  (solid)
 
-- A3 (per-message + hybrid) retrieved Wen's question but not the answer, and concluded the opposite:
-  *"the memory has no current answer (Wen asked the same on Sep 30 with no recorded reply)"* -> IGNORE.
-- E1 (rewrite + BM25) retrieved the rewrite of the question, *"Wen needs to identify the on-call fabric
-  incident owner"*, but not the rewrite of the answer (*"lucia is taking on-call ownership..."*) -> IGNORE.
-- AG-grep searched `on call|on-call|oncall|fabric`, then `read_around(xai/t2/007)`, saw "I'll take it"
-  under the question, and answered: *"on Sep 30 in #infra Lucia said 'I'll take it' when Wen asked who
-  owned fabric on-call, so Lucia is the answer"* -> INTERVENE.
-At the trigger, A3 and E1 both stayed silent; the grep agents caught it immediately. (E1 recovered on a
-follow-up message; A3 never did.) Over all conditions, 9 of 22 missed this plant entirely, including A1,
-A3, C1, C3, D2, E3 and S0. Reading around a hit is what reconstructs the question-answer pair.
+Proactive retrieval (the agent queries with the last 3 messages, unprompted), % of queries where all
+evidence for the fact reached the agent at 1,500 tokens; 36 plants + 155 probe triggers:
 
-## 3. For fact conflicts, most memories reach ~90%; missed deadlines are invisible to retrieval
-Catch rate (INTERVENE at the conflict or within 2 messages):
+- spread across chunkers **41 pts [36, 48]** vs across retrievers **7 pts [2, 13]**; difference 35 pts
+  [26, 44] with a bootstrap over the 28 underlying facts;
+- holds with a different embedding model (OpenAI text-embedding-3-large vs local MiniLM: Spearman 0.92
+  across the 15 cells; difference 34 pts [24, 42]);
+- write-time rewrite (E) delivers the most (E1 87%); inferred reply links (C) the least (39-47%);
+- token use is the same across chunkers (1,330-1,460 tokens), so E's lead is not a budget effect.
 
-| plant type | n | no memory | best retrieval cells | C1 (guessed links) | oracle facts box |
-|---|---|---|---|---|---|
-| contradiction | 11 | 36% | 100% | 82% | 100% |
-| repeat_question | 8 | 0% | 88% | 62% | 88% |
-| stale_quote | 10 | 40% | 90% | 70% | 100% |
-| deadline_passed | 7 | 0% | 0-43% (E1: 0%) | 0% | 100% |
+The "I did" problem shows up by evidence form (origin delivery, best retriever per chunker): per-message
+chunks deliver explicit statements 84% of the time but ellipsis answers ("I'll take it") 18% and emoji
+reactions 13%; 6-message windows 67 / 67; rewrite 73 / 73. Embeddings are not better than BM25 on
+context-free replies: "nah hand it to me" ranks 193/245 under BM25 and 237/245 under embeddings.
 
-On the 29 fact plants, E1 and B3 each catch 26 (90%). On the 7 deadline plants, every retrieval memory
-fails because the evidence is an absence. E1 had Frida's commitment in memory (*"send design partners the
-migration guide by Fri Sep 11"*) on Mon Sep 14 and said *"no passed check point"*. The oracle, which lists
-open items with check points, said *"The Sep 11 check point for Frida's migration guide has passed with no
-sign it was sent"*. Retrieval answers "what was said"; deadlines need "what should have happened".
+When asked directly (the probe question as query) every chunker delivers 82-100%: the gap exists only when
+the agent has to notice on its own.
 
-Tested directly (5.3): adding the open items with their check points to E1's memory (E1+OI) lifts
-deadline catches from 0% to 50% (3/6); the agent's own earlier TRACK notes (E1+T) reach 29% (2/7).
-The same open-item list added to B3 does not help (43% -> 43%) and costs elsewhere (stale_quote 80% -> 60%,
-false alarms 5.6 -> 12.9 per 100). The oracle shows the same items but in a short facts-only box and
-catches 7/7. So explicit tracking is necessary but not sufficient: buried under 1,500 tokens of retrieved
-chat, the judge still misses half the passed deadlines. How the tracker is presented matters.
+## 2. Delivery predicts answers
 
-## 4. Precision, not recall, is the bottleneck once memory works
-Perfect memory (OR) catches 97% of conflicts but has the most false alarms (13.8 severity-weighted per
-100 decisions; 15 of them on ordinary chatter) and flags the same conflict again on the next message for
-69% of plants. Raising E1's budget to 4,000 tokens lifts delivery 83% -> 94% with no F1 gain and more
-false alarms. The decoy that fools almost every condition is a correct quote of a just-changed value
-(decoy_legit_change_quote). Across the 15 cells INTERVENE F1 spans .63-.75 with overlapping CIs; the
-best observed are A3 .75, B3 .73, E1 .73.
+A fixed reader answering the probe question from retrieved memory is correct 93% of the time when the
+evidence was fully delivered and 3% when nothing was. Delivery is a valid proxy for what the agent can know.
 
-## 4b. With enough decision points, delivery differences do carry into decisions
-The 36 natural plants are too few to separate memory setups, and a rerun shows why: the same judge on
-the same memory changes 14-16% of its labels, moving catch rates by up to 8 pts (B3 81% -> 72%) and
-INTERVENE F1 by up to .08 (E1). So plant-level differences under ~10 pts are judge noise.
+## 3. On natural plants, memory setups cannot be ranked  (honest null)
 
-Paired probes fix the sample size: 142 minimal pairs over 21 facts, each a casual message stating a fact
-with a wrong value (should INTERVENE) and the identical message with the current value (should IGNORE).
+Catch rate on the 36 planted conflicts (INTERVENE at the conflict or within the next 2 messages):
+no memory 22%, the 15 strategies 58-81%, the oracle 97%. Intervals are about +/-15 pts, and rerunning the
+same judge on the same memory changes 14-16% of labels and moves catch rates by up to 8 pts (B3 81% -> 72%).
+So the differences between strategies on these plants are within noise.
 
-| condition | catch wrong value | false alarm on correct value | balanced acc. |
-|---|---|---|---|
-| no memory (S0) | 6% [2, 11] | 6% | 50 |
-| A3 per message + hybrid | 72% [59, 84] | 27% | 73 |
-| B3 windows + hybrid | 69% [62, 76] | 15% | 77 |
-| Cs2 gold reply links | 69% [56, 80] | 18% | 76 |
-| D2 topics + embeddings | 72% [59, 82] | 19% | 76 |
-| E1 rewrite + BM25 | **82% [74, 90]** | 20% | 81 |
-| AG-grep agent | 74% [62, 85] | **8%** | **83** |
-| oracle facts box | 96% [92, 100] | 30% | 83 |
+By plant type, the 29 fact conflicts (contradiction, stale quote, repeat question) are caught 86-90% by
+most memory setups (E1 26/29, B3 26/29, D2 25/29). The apparent lead of B and D overall comes from 3 of 7
+missed-deadline plants (finding 5).
 
-- E1 catches significantly more wrong values than B3 (+13 pts [+5, +22]) and Cs2 (+13 [+1, +27]); vs A3,
-  D2 and the grep agent the difference is 8-11 pts with CIs touching 0.
+## 4. On targeted wrong-value probes, the delivery advantage carries into decisions  (targeted, post hoc)
+
+142 paired probes over 21 facts: a message that states a fact with a wrong value (should INTERVENE) and the
+identical message with the current value (should IGNORE). Results: `results/probe_table.md`.
+
+- E1 catches 82% [74, 90] vs B3 69% and Cs2 69% (paired differences +13 pts, CIs exclude 0); vs A3, D2 and
+  the grep agent the lead is 8-11 pts with CIs touching 0.
 - The difference is delivery: E1 delivered the evidence on 91% of pairs vs 56-70% for the others, and once
-  delivered every condition catches 88-93%. No sign that E's rewrites hurt the judge.
-- The grep agent has the best precision (8% false alarms): it searches only when something looks
-  checkable, so it rarely second-guesses correct statements. It ties the oracle on balanced accuracy.
-- More memory means more false alarms: the oracle flags 30% of correct statements, per-message chunks 27%.
+  delivered every condition catches 88-93%.
 
-## 5. Reply links only help when they are right; agents only help when they look
-- Gold reply links (Cstar) deliver 64% vs 43% for Haiku-inferred links (C). The linker finds 90% of true
-  parents but leaves only 26% of new-topic messages unlinked, so C chunks carry wrong context and fill the
-  budget. At decision level C1 is the worst cell (58% caught; 13 of 15 misses "not surfaced").
-- Grep agents catch 69% at about twice the cost per decision. They searched on 53% of plant triggers
-  and 33% of ordinary messages; 8 of 11 misses are points where they did not search.
-- Topic segmentation (D) puts "I'll take it" in a side conversation's segment when the reply comes
-  after an interleaved message.
+Limits, stated plainly: this test was designed after seeing finding 3; it covers only "states a wrong value"
+conflicts (no deadlines, no repeat questions), only far/cross positions, and Haiku-written single
+messages with mostly invented wrong values. It shows that delivery matters for this conflict type; it does
+not show that E makes better decisions overall.
+
+## 5. Missed deadlines are invisible to retrieval
+
+7 plants where a check point passed and nobody did the task. Retrieval memories catch 0-43% (E1 0/7);
+the oracle, which lists open items with check points, catches 7/7. E1 had the commitment ("send the guide
+by Fri Sep 11") in memory on Sep 14 and said "no passed check point". Adding the open-item list to E1's
+memory lifts it to 3/6; the agent's own earlier TRACK notes to 2/7; the same list added to B3 does not help
+(3/7) and adds false alarms. A tracker is necessary but not sufficient when it is buried in retrieved chat.
+
+## 6. More memory makes the judge speak more, not more accurately
+
+The oracle catches 97% of plants but has the most false alarms (13.8 per 100 decisions) and flags 30% of
+correct statements on the paired probes; per-message chunks flag 27%. A 4,000-token budget raises E1's
+delivery to 94% with no F1 gain. The search-on-demand agent has the fewest false alarms on the probes (8%):
+it searches only when a message looks checkable (53% of plant triggers, 33% of ordinary messages).
+The decoy that fools almost every condition is a correct quote of a just-changed value.
+
+## 7. Reply links only help when they are right
+
+Gold reply links (Cstar) deliver 61-67% vs 39-47% for links inferred by Haiku. The linker finds 90% of
+true parents but leaves only 26% of new-topic messages unlinked, so its chunks carry wrong context. At the
+decision level C1 is the weakest cell (58%; 13 of 15 misses "not surfaced"). Topic segmentation (D) puts
+"I'll take it" into a side conversation's segment when the reply follows an interleaved message.
+
+## 8. The judge model matters as much as the memory
+
+Haiku as judge on the same memories catches 5-22 pts fewer plants and raises false alarms 2-3x (oracle:
+36 per 100). Rank correlation with Sonnet is 0.67 (catch) / 0.81 (F1), carried by the no-memory and oracle
+anchors; among memory setups the order changes (Sonnet B3 > D2 > E3, Haiku E3 > C3 > D2 > B3).
+
+## 9. Reality check on real chat
+
+50 real decision points from a team where people and AI agents work together (private data; aggregate
+numbers only, `results/real_check.md`). Two labelers (Claude, GPT) each mark 5 cases as needing an
+intervention but agree on only 2 (kappa 0.33). The same judge intervened on **0 of 50** under every model
+and context length: no false alarms, but it missed both consensus cases. It saw the conflicting messages and
+declined because they did not fit its rubric's idea of a conflict; both concern the agents' own work
+(duplicate tickets from parallel agents, an agent contradicting its own diagnosis), a category the simulated
+benchmark does not contain. Details and next steps: `notes/real_data_lessons.md`.
+
+---
 
 ## Caveats
-- 36 INTERVENE plants: catch-rate CIs are about +/-15 pts and a judge rerun moves them up to 8 pts;
-  plant-level differences among memory setups are not significant. The paired probes (142 pairs) are the
-  decision-level evidence; they are Haiku-written single messages, more explicit than natural plants.
-- Simulated data only (real Slack/IRC check dropped for time).
-- Follow-up points (2 per plant) are excluded from false-alarm metrics: the judge is stateless and
-  repeats itself (see repeat_after in main.csv).
-- Delivery is measured by message ids; for 20-30% of "full" deliveries the value itself is not stated in
-  the memory text (implicit: "mine", "I'll take it").
-- Robustness (results/robustness.csv):
-  - Embedding model swap (OpenAI text-embedding-3-large -> local MiniLM): retrieval ranking holds
-    (Spearman 0.92 over 15 cells; E still best, C still worst; retriever spread 7 vs 8 pts).
-  - Judge swap (Sonnet -> Haiku) on 8 conditions: Haiku is a much weaker judge (catch rates drop 5-22 pts,
-    false alarms 2-3x; OR false alarms 36 per 100). Rank correlation 0.67 (catch) / 0.81 (F1), but that is
-    carried by the S0 and OR anchors: among the 6 memory conditions the order changes (Sonnet: B3 > D2 > E3;
-    Haiku: E3 > C3 > D2 > B3). Retrieval-level conclusions are robust; which memory cell "wins" at the
-    decision level is not, consistent with the overlapping CIs.
 
-## Transcripts for the post
-1. xai-p10 (finding 2): the "I'll take it" case, three conditions side by side.
-2. ando-p06 (finding 3): commitment in memory, deadline not noticed; oracle notices.
-3. ando-p16: "nah hand it to me" ranked 193/245 (BM25) and 237/245 (embeddings); grep("AND-341") finds it in one call.
+- Simulated data, 4 workspaces, written by one model family (Sonnet); the judge is the same family.
+- 36 natural INTERVENE plants: too few to rank memory setups; judge noise is up to 8 pts.
+- Paired probes are targeted and post hoc (finding 4).
+- Follow-up messages are excluded from false-alarm metrics: the judge is stateless and repeats itself
+  after catching a conflict (`repeat_after` in `results/main.csv`).
+- Delivery is measured by message ids; for 20-30% of "full" deliveries the value is implicit ("mine").
+- Gold labels: one human plus an LLM labeler; first-pass human recall on planted conflicts was 66%.
+- Real-data check: 50 cases, 2 consensus positives, one team.
+
+## Transcripts worth showing
+
+1. **xai-p10, "I'll take it".** Wen: "Who's owning fabric incident on-call?" Lucia: "I'll take it." Twelve
+   days later in another channel: "Who's on call for fabric incidents today?" Per-message memory retrieved
+   only the question and concluded "no recorded reply"; the grep agent searched `on call`, read around the
+   hit, found "I'll take it" and intervened. 9 of 22 conditions missed this plant entirely.
+2. **ando-p06, missed deadline.** Commitment in memory, check point passed, judge says "no passed check
+   point"; the oracle says "the Sep 11 check point has passed with no sign it was sent".
+3. **ando-p16, "nah hand it to me".** Ranked 193/245 (BM25) and 237/245 (embeddings); a single
+   `grep("AND-341")` finds it.

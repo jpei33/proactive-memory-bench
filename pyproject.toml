@@ -1,7 +1,7 @@
 [project]
 name = "proactive-memory-bench"
 version = "0.1.0"
-description = "Add your description here"
+description = "Does an AI teammate notice conflicts in team chat? Memory chunking x retrieval benchmark (fictional data)"
 readme = "README.md"
 authors = [
     { name = "jpei33", email = "139657952+jpei33@users.noreply.github.com" }
