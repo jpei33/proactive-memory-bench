@@ -22,19 +22,28 @@ def rho(a: pd.Series, b: pd.Series):
 def main():
     out = []
     m = pd.read_csv("results/main.csv")
-    alt = m[m.condition.str.endswith("~haiku")].copy()
+    for tag in ("haiku", "gpt"):
+        judge_swap(m, tag, out)
+    _rest(m, out)
+
+
+def judge_swap(m, tag, out):
+    alt = m[m.condition.str.endswith(f"~{tag}")].copy()
     if len(alt):
-        alt["base"] = alt.condition.str.replace("~haiku", "", regex=False)
+        alt["base"] = alt.condition.str.replace(f"~{tag}", "", regex=False)
         base = m.set_index("condition")
         a = alt.set_index("base")
         for metric in ("L3_loose", "iv_f1", "macro_f1", "false_per100"):
             r, n = rho(base[metric], a[metric])
-            out.append({"check": "judge Sonnet vs Haiku", "metric": metric, "spearman": r, "n_conditions": n})
-        cmp = pd.DataFrame({"sonnet_L3": base.loc[a.index, "L3_loose"], "haiku_L3": a.L3_loose,
-                            "sonnet_f1": base.loc[a.index, "iv_f1"], "haiku_f1": a.iv_f1,
-                            "sonnet_false": base.loc[a.index, "false_per100"], "haiku_false": a.false_per100})
-        print("Judge swap (same memory, different judge):")
-        print(cmp.round(3).to_string())
+            out.append({"check": f"judge Sonnet vs {tag}", "metric": metric, "spearman": r, "n_conditions": n})
+        cmp = pd.DataFrame({"sonnet_L3": base.loc[a.index, "L3_loose"], f"{tag}_L3": a.L3_loose,
+                            "sonnet_f1": base.loc[a.index, "iv_f1"], f"{tag}_f1": a.iv_f1,
+                            "sonnet_false": base.loc[a.index, "false_per100"], f"{tag}_false": a.false_per100})
+        print(f"Judge swap Sonnet -> {tag} (same memory, different judge):")
+        print(cmp.round(3).to_string() + "\n")
+
+
+def _rest(m, out):
     g1 = Path("results/retrieval_grid.csv"); g2 = Path("results/retrieval_grid_minilm.csv")
     if g1.exists() and g2.exists():
         def cells(path):

@@ -78,16 +78,32 @@ def fmt_trace(trace):
     return [f"{t['tool']}({json.dumps(t['input'])})" for t in trace]
 
 
+class _R:
+    def __init__(self, text):
+        self.text, self.in_tok, self.out_tok, self.cache_read_tok = text, None, None, 0
+        self.latency_s, self.cached = None, None
+
+
+def _openai(system, user, model):
+    from label.llm_label import call               # disk-cached, retries on rate limits
+    return _R(call("openai", model, system, user))
+
+
 def judge_one(point, cond, budget, model, effort):
     if cond.startswith("AG-"):
+        if model.startswith("gpt"):
+            raise SystemExit("agentic arms use Anthropic tool calling; not supported with a GPT judge")
         return judge_agentic(point, cond, budget, model, effort)
     from sim.llm import complete
     ctx = build(point, cond, budget)
     user = user_prompt(ctx["today"], ctx["memory"], ctx["channel"], ctx["window"])
     out, r = None, None
     for attempt in range(3):                       # re-sample on invalid JSON
-        r = complete(system_prompt(), user, model=model, max_tokens=2000, effort=effort,
-                     cache_system=True, seed=attempt)
+        if model.startswith("gpt"):                # cross-family judge via OpenAI (same prompt)
+            r = _openai(system_prompt(), user + ("" if attempt == 0 else f"\n(attempt {attempt + 1})"), model)
+        else:
+            r = complete(system_prompt(), user, model=model, max_tokens=2000, effort=effort,
+                         cache_system=True, seed=attempt)
         out = parse_reply(r.text)
         if out:
             break
@@ -157,10 +173,10 @@ def main():
         mine = [r for r in allrows if r["point_id"] in {p["point_id"] for p in points}]
         inv = sum(r["label"] == "INVALID" for r in mine)
         acc = sum(r["label"] == gold.get(r["point_id"]) for r in mine) / max(len(mine), 1)
-        tok_in = sum(r["in_tok"] for r in rows) / max(len(rows), 1)
-        tok_out = sum(r["out_tok"] for r in rows) / max(len(rows), 1)
+        tok_in = sum(r["in_tok"] or 0 for r in rows) / max(len(rows), 1)
+        tok_out = sum(r["out_tok"] or 0 for r in rows) / max(len(rows), 1)
         print(f"{cond:<4} {len(rows)} new rows -> {path} | invalid {inv} | agree w/ gold {acc:.0%} "
-              f"| avg in {tok_in:.0f} tok, out {tok_out:.0f} tok, cache_read {sum(r['cache_read_tok'] for r in rows)}")
+              f"| avg in {tok_in:.0f} tok, out {tok_out:.0f} tok, cache_read {sum(r['cache_read_tok'] or 0 for r in rows)}")
 
 
 if __name__ == "__main__":
