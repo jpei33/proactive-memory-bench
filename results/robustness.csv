@@ -1,8 +1,12 @@
 check,metric,spearman,n_conditions
-judge Sonnet vs Haiku,L3_loose,0.671,8
-judge Sonnet vs Haiku,iv_f1,0.81,8
-judge Sonnet vs Haiku,macro_f1,0.563,8
-judge Sonnet vs Haiku,false_per100,0.494,8
+judge Sonnet vs haiku,L3_loose,0.671,8
+judge Sonnet vs haiku,iv_f1,0.81,8
+judge Sonnet vs haiku,macro_f1,0.563,8
+judge Sonnet vs haiku,false_per100,0.494,8
+judge Sonnet vs gpt,L3_loose,0.81,9
+judge Sonnet vs gpt,iv_f1,0.583,9
+judge Sonnet vs gpt,macro_f1,0.055,9
+judge Sonnet vs gpt,false_per100,0.589,9
 embedding OpenAI vs MiniLM,L2_full (emb+rrf cells),0.839,10
 embedding OpenAI vs MiniLM,L2_full (all 15 cells),0.924,15
 noise: rerun,L3_loose |run1-run2| B3,0.084,1
