@@ -12,6 +12,11 @@ from dataclasses import dataclass
 from pathlib import Path
 
 WS_DIR = Path("data/workspaces")
+PRIVATE_WS = {"real": Path("data/real/workspace")}   # git-ignored; built by memory/real_ws.py
+
+
+def ws_dir(ws: str) -> Path:
+    return PRIVATE_WS.get(ws, WS_DIR / ws)
 
 
 @dataclass(frozen=True)
@@ -25,15 +30,17 @@ class Chunk:
 
 
 def load_msgs(ws: str) -> list[dict]:
-    return [json.loads(l) for l in (WS_DIR / ws / "messages.jsonl").read_text().splitlines()]
+    return [json.loads(l) for l in (ws_dir(ws) / "messages.jsonl").read_text().splitlines()]
 
 
 def load_plants(ws: str, audit: bool = True) -> list[dict]:
     """Plants, with hidden restatements from world/restatement_audit.py merged in as extra
     evidence groups (form 'restatement', origin False). Only hits a human marked verdict='accept'
     are merged; unreviewed hits are ignored. audit=False gives the raw plants."""
-    plants = [json.loads(l) for l in (WS_DIR / ws / "plants.jsonl").read_text().splitlines()]
-    path = WS_DIR / ws / "restatements.json"
+    if not (ws_dir(ws) / "plants.jsonl").exists():      # real data: no planted facts
+        return []
+    plants = [json.loads(l) for l in (ws_dir(ws) / "plants.jsonl").read_text().splitlines()]
+    path = ws_dir(ws) / "restatements.json"
     if audit and path.exists():
         hits = json.loads(path.read_text())
         for p in plants:

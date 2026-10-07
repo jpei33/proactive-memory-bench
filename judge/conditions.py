@@ -18,8 +18,8 @@ from memory.build import build_chunks
 from memory.retrievers import retrieve
 from sim.run_workspace import load
 
-RET = {"1": "bm25", "2": "emb", "3": "rrf"}
-CHUNK = {"A": "A", "B": "B", "C": "C", "D": "D", "E": "E", "Cs": "Cstar"}
+RET = {"1": "bm25", "2": "emb", "3": "rrf", "4": "thr", "5": "thr_rr", "6": "thr_nob"}  # 4/5/6: Threader (5 = + reranker, 6 = no label boost)
+CHUNK = {"A": "A", "B": "B", "C": "C", "D": "D", "E": "E", "Cs": "Cstar", "Z": "Z", "L": "L"}
 GRID = [f"{c}{r}" for c in "ABCDE" for r in "123"]
 
 
