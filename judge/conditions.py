@@ -140,3 +140,17 @@ def prefetch_all(points, conds):
                  for c in visible_chunks(ws, ck, p["seq"], p["channel"], views[id(p)][0])}
         prefetch(list(texts), "d")
         prefetch([views[id(p)][2] for p in pts], "q")
+        # Threader rankers (4/5/6): embed every view/evidence unit and query with the local model up
+        # front, so the judge's worker threads only read the cache (no torch calls in threads)
+        thr = {parse(c)[0] for c in conds if parse(c)[1] in ("thr", "thr_rr", "thr_nob")}
+        if thr:
+            from memory.retrievers import THR_EMB, _views_units, embed
+            tt = set()
+            for ck in thr:
+                for p in pts:
+                    for c in visible_chunks(ws, ck, p["seq"], p["channel"], views[id(p)][0]):
+                        v, u = _views_units(c)
+                        tt.update(t for _, t in v)
+                        tt.update(u)
+            embed(sorted(tt), "d", THR_EMB)
+            embed([views[id(p)][2] for p in pts], "q", THR_EMB)

@@ -31,6 +31,7 @@ def tokenize(s: str) -> list[str]:
 # ---------- embeddings ----------
 DIM = 1024                                   # text-embedding-3-large truncated (Matryoshka); plenty here
 _lock = threading.Lock()
+_model_lock = threading.Lock()     # local models (MiniLM, reranker): load once, run one call at a time
 
 
 def _model() -> str:
@@ -70,12 +71,13 @@ def _compute(texts: list[str], kind: str, model: str | None = None) -> list[np.n
     m = model or _model()
     if m.startswith("local:"):
         from sentence_transformers import SentenceTransformer
-        _env()
         name = m.split(":", 1)[1]
-        if name not in _local:
-            _local[name] = SentenceTransformer(name)
         pfx = "Represent this sentence for searching relevant passages: " if kind == "q" and "bge" in name else ""
-        return list(_local[name].encode([pfx + t for t in texts], normalize_embeddings=True, batch_size=64))
+        with _model_lock:                          # torch models are not safe to load/run from many threads
+            _env()
+            if name not in _local:
+                _local[name] = SentenceTransformer(name)
+            return list(_local[name].encode([pfx + t for t in texts], normalize_embeddings=True, batch_size=64))
     from openai import OpenAI
     client, out = OpenAI(), []
     for i in range(0, len(texts), 256):
@@ -194,11 +196,12 @@ class _RerankCache:
         keys = [hashlib.sha1(f"{q}\x00{t}".encode()).hexdigest() for t in texts]
         todo = [(k, t) for k, t in zip(keys, texts) if k not in self.s]
         if todo:
-            if self.ce is None:
-                from sentence_transformers import CrossEncoder
-                _env()
-                self.ce = CrossEncoder(self.model)
-            out = self.ce.predict([(q, t) for _, t in todo])
+            with _model_lock:
+                if self.ce is None:
+                    from sentence_transformers import CrossEncoder
+                    _env()
+                    self.ce = CrossEncoder(self.model)
+                out = self.ce.predict([(q, t) for _, t in todo])
             with _lock:
                 for (k, _), v in zip(todo, out):
                     self.s[k] = float(v)
