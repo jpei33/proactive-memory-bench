@@ -1,0 +1,67 @@
+dataset,subset,cond,ref,diff,lo,hi,n
+simulated,all proactive (plants+triggers),D1,D4,4.19,-5.23,13.68,191
+simulated,all proactive (plants+triggers),D5,D4,8.33,-3.03,21.43,36
+simulated,all proactive (plants+triggers),E1,D4,37.7,26.4,48.81,191
+simulated,all proactive (plants+triggers),E4,D4,34.55,23.12,46.15,191
+simulated,all proactive (plants+triggers),L4,D4,-0.52,-3.78,3.55,191
+simulated,all proactive (plants+triggers),L6,D4,-0.52,-1.7,0.0,191
+simulated,all proactive (plants+triggers),Z4,D4,-2.09,-11.84,7.52,191
+simulated,all proactive (plants+triggers),D1,E1,-33.51,-42.03,-24.23,191
+simulated,all proactive (plants+triggers),D4,E1,-37.7,-48.96,-26.27,191
+simulated,all proactive (plants+triggers),D5,E1,-19.44,-36.36,-2.78,36
+simulated,all proactive (plants+triggers),E4,E1,-3.14,-7.42,1.05,191
+simulated,all proactive (plants+triggers),L4,E1,-38.22,-48.75,-27.75,191
+simulated,all proactive (plants+triggers),L6,E1,-38.22,-49.19,-26.06,191
+simulated,all proactive (plants+triggers),Z4,E1,-39.79,-50.82,-28.31,191
+simulated,plants proactive,D1,D4,5.56,-5.0,17.14,36
+simulated,plants proactive,D5,D4,8.33,-2.86,21.06,36
+simulated,plants proactive,E1,D4,27.78,10.53,46.88,36
+simulated,plants proactive,E4,D4,33.33,15.79,51.64,36
+simulated,plants proactive,L4,D4,2.78,0.0,9.1,36
+simulated,plants proactive,L6,D4,-2.78,-8.11,0.0,36
+simulated,plants proactive,Z4,D4,-2.78,-14.71,9.38,36
+simulated,plants proactive,D1,E1,-22.22,-40.0,-5.41,36
+simulated,plants proactive,D4,E1,-27.78,-46.67,-11.11,36
+simulated,plants proactive,D5,E1,-19.44,-38.24,-2.7,36
+simulated,plants proactive,E4,E1,5.56,0.0,13.16,36
+simulated,plants proactive,L4,E1,-25.0,-43.24,-7.5,36
+simulated,plants proactive,L6,E1,-30.56,-48.48,-13.16,36
+simulated,plants proactive,Z4,E1,-30.56,-48.48,-12.5,36
+simulated,plants reactive,D1,D4,5.56,0.0,13.52,36
+simulated,plants reactive,E1,D4,16.67,2.63,32.43,36
+simulated,plants reactive,E4,D4,11.11,0.0,25.0,36
+simulated,plants reactive,L4,D4,0.0,-8.11,8.57,36
+simulated,plants reactive,L6,D4,2.78,0.0,9.38,36
+simulated,plants reactive,Z4,D4,2.78,-7.89,15.8,36
+simulated,plants reactive,D1,E1,-11.11,-27.03,0.0,36
+simulated,plants reactive,D4,E1,-16.67,-33.33,-2.86,36
+simulated,plants reactive,E4,E1,-5.56,-17.65,0.0,36
+simulated,plants reactive,L4,E1,-16.67,-33.33,-2.78,36
+simulated,plants reactive,L6,E1,-13.89,-28.95,0.0,36
+simulated,plants reactive,Z4,E1,-13.89,-28.57,-2.7,36
+simulated,probe triggers,D1,D4,3.87,-6.0,15.04,155
+simulated,probe triggers,E1,D4,40.0,26.88,52.6,155
+simulated,probe triggers,E4,D4,34.84,23.22,46.36,155
+simulated,probe triggers,L4,D4,-1.29,-4.67,2.55,155
+simulated,probe triggers,L6,D4,0.0,0.0,0.0,155
+simulated,probe triggers,Z4,D4,-1.94,-12.59,8.39,155
+simulated,probe triggers,D1,E1,-36.13,-47.47,-24.18,155
+simulated,probe triggers,D4,E1,-40.0,-52.66,-27.22,155
+simulated,probe triggers,E4,E1,-5.16,-10.32,-0.66,155
+simulated,probe triggers,L4,E1,-41.29,-52.26,-30.07,155
+simulated,probe triggers,L6,E1,-40.0,-52.35,-27.01,155
+simulated,probe triggers,Z4,E1,-41.94,-53.42,-30.43,155
+real,thread_root,D1,D4,-1.14,-7.04,4.26,88
+real,thread_root,D5,D4,0.0,-3.85,2.25,88
+real,thread_root,E1,D4,1.14,-8.54,6.78,88
+real,thread_root,E4,D4,4.55,-6.45,12.41,88
+real,thread_root,L4,D4,2.27,0.0,6.33,88
+real,thread_root,L6,D4,0.0,0.0,0.0,88
+real,thread_root,Z4,D4,-3.41,-18.39,18.04,88
+real,thread_root,D1,E1,-2.27,-7.25,5.13,88
+real,thread_root,D4,E1,-1.14,-6.95,8.48,88
+real,thread_root,D5,E1,-1.14,-8.75,8.07,88
+real,thread_root,E4,E1,3.41,-6.17,10.32,88
+real,thread_root,L4,E1,1.14,-3.49,10.26,88
+real,thread_root,L6,E1,-1.14,-6.9,8.34,88
+real,thread_root,Z4,E1,-4.55,-19.42,18.37,88

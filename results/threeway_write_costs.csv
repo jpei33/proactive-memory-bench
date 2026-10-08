@@ -1,0 +1,7 @@
+dataset,stage,messages,chat_tokens,model,calls,in_tok,out_tok,cache_read_tok,usd
+simulated,segment,876,35591,claude-haiku-4-5-20251001,46.0,65842.0,1908.0,0.0,0.075382
+simulated,label,876,35591,claude-haiku-4-5-20251001,200.0,77012.0,3907.0,0.0,0.096547
+simulated,rewrite,876,35591,claude-haiku-4-5-20251001,876.0,597545.0,89703.0,0.0,1.04606
+real,segment,955,45018,claude-haiku-4-5-20251001,51.0,84252.0,2047.0,0.0,0.094487
+real,label,955,45018,claude-haiku-4-5-20251001,167.0,81100.0,3281.0,0.0,0.097505
+real,rewrite,955,45018,claude-haiku-4-5-20251001,955.0,719288.0,91912.0,0.0,1.178848

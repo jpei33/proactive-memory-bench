@@ -1,0 +1,53 @@
+src,ws,fact,value,form,raw_has_origin,kept_origin,kept_ent_origin,stmts_from_origin,raw_has_any,kept_any,kept_ent_any
+plant,ando,pricing_model,"$12 per seat, agent actions metered",distributed,True,True,True,4,True,True,True
+plant,ando,launch_date,Sep 17,explicit,True,True,True,5,True,True,True
+plant,ando,dm_policy,agents never read a DM unless a participant forwards it,explicit,True,True,True,4,True,True,True
+plant,ando,launch_date,Sep 24,correction,True,True,True,12,True,True,True
+plant,ando,series_a,$20M,reaction,True,True,True,3,True,True,True
+plant,ando,and341_owner,Oli,correction,True,True,True,5,True,True,True
+plant,ando,pricing_model,"$12 per human seat, agents free",cross_ref,True,True,True,5,True,True,True
+plant,ando,waitlist_email_owner,Olavo,ellipsis,True,True,True,6,True,True,True
+plant,anthropic,paper_deadline,Oct 23,reaction,True,True,True,3,True,True,True
+plant,anthropic,pass_threshold,70% pass@1 on the held-out set,distributed,True,True,True,5,True,True,True
+plant,anthropic,suite_version,v1.3,cross_ref,True,True,True,6,True,True,True
+plant,anthropic,item_count,"1,140 items",correction,True,True,True,11,True,True,True
+plant,anthropic,compute_owner,Elena,ellipsis,True,True,True,3,True,True,True
+plant,openai,discount,18% off list,ellipsis,True,True,True,3,True,True,True
+plant,openai,retention,zero data retention on all endpoints,distributed,True,True,True,4,True,True,True
+plant,openai,discount,15% off list,cross_ref,True,True,True,6,True,True,True
+plant,openai,exec_contact,Jon Reyes (new CTO),correction,True,True,False,12,True,True,False
+plant,openai,renewal_deadline,Oct 30,explicit,True,True,True,4,True,True,True
+plant,xai,node_alloc,"2,048 nodes",ellipsis,True,True,True,3,True,True,True
+plant,xai,ckpt_cadence,every 500 steps,reaction,True,True,True,3,True,True,True
+plant,xai,run_start,Oct 12,correction,True,True,True,11,True,True,True
+plant,xai,ckpt_cadence,every 250 steps,cross_ref,True,True,True,10,True,True,True
+plant,xai,fabric_oncall,Lucia,ellipsis,True,True,True,3,True,True,True
+probe,ando,launch_date,Sep 17,explicit,True,True,True,5,True,True,True
+probe,ando,series_a,$20M,reaction,True,True,True,3,True,True,True
+probe,ando,waitlist_email_owner,Olavo,ellipsis,True,True,True,6,True,True,True
+probe,ando,pricing_model,"$12 per seat, agent actions metered",distributed,True,True,True,4,True,True,True
+probe,ando,dm_policy,agents never read a DM unless a participant forwards it,explicit,True,True,True,4,True,True,True
+probe,ando,and341_owner,AJ,ellipsis,True,True,True,9,True,True,True
+probe,ando,launch_date,Sep 24,correction,True,True,True,12,True,True,True
+probe,ando,pricing_model,"$12 per human seat, agents free",cross_ref,True,True,True,5,True,True,True
+probe,ando,and341_owner,Oli,correction,True,True,True,5,True,True,True
+probe,anthropic,paper_deadline,Oct 23,reaction,True,True,True,3,True,True,True
+probe,anthropic,suite_version,v1.2,explicit,True,True,True,2,True,True,True
+probe,anthropic,compute_owner,Elena,ellipsis,True,True,True,3,True,True,True
+probe,anthropic,pass_threshold,70% pass@1 on the held-out set,distributed,True,True,True,5,True,True,True
+probe,anthropic,item_count,"1,200 items",explicit,True,True,True,8,True,True,True
+probe,anthropic,suite_version,v1.3,cross_ref,True,True,True,6,True,True,True
+probe,anthropic,item_count,"1,140 items",correction,True,True,True,11,True,True,True
+probe,openai,renewal_deadline,Oct 30,explicit,True,True,True,4,True,True,True
+probe,openai,discount,18% off list,ellipsis,True,True,True,3,True,True,True
+probe,openai,exec_contact,Amara Okafor (CIO),explicit,True,True,True,2,True,True,True
+probe,openai,rate_limit,40M tokens per minute,reaction,True,True,True,3,True,True,True
+probe,openai,retention,zero data retention on all endpoints,distributed,True,True,True,4,True,True,True
+probe,openai,discount,15% off list,cross_ref,True,True,True,6,True,True,True
+probe,openai,exec_contact,Jon Reyes (new CTO),correction,True,True,False,12,True,True,False
+probe,xai,run_start,Oct 5,explicit,True,True,True,7,True,True,True
+probe,xai,node_alloc,"2,048 nodes",ellipsis,True,True,True,3,True,True,True
+probe,xai,rollback_rule,roll back if loss rises more than 15% over 200 steps,distributed,True,True,True,4,True,True,True
+probe,xai,ckpt_cadence,every 500 steps,reaction,True,True,True,3,True,True,True
+probe,xai,fabric_oncall,Lucia,ellipsis,True,True,True,3,True,True,True
+probe,xai,run_start,Oct 12,correction,True,True,True,11,True,True,True

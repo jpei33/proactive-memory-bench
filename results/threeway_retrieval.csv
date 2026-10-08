@@ -1,0 +1,47 @@
+dataset,subset,cond,n,metric,value,lo,hi,mrr,tokens,empty_or_short,latency_ms_median,latency_ms_median_cold,r1,r3,r5
+simulated,all proactive (plants+triggers),D1,191,delivery_full,53.927,46.198,60.83,0.361,1326.738,0.016,1.969,,,,
+simulated,all proactive (plants+triggers),D4,191,delivery_full,49.738,39.645,59.616,0.346,1332.717,0.016,464.396,,,,
+simulated,all proactive (plants+triggers),D5,36,delivery_full,63.889,48.649,78.378,0.4,1223.528,0.083,2748.797,2942.36,,,
+simulated,all proactive (plants+triggers),E1,191,delivery_full,87.435,80.519,93.125,0.259,1456.859,0.016,2.893,,,,
+simulated,all proactive (plants+triggers),E4,191,delivery_full,84.293,77.314,91.351,0.235,1456.293,0.016,460.129,,,,
+simulated,all proactive (plants+triggers),L4,191,delivery_full,49.215,39.881,58.293,0.324,1330.723,0.016,461.845,,,,
+simulated,all proactive (plants+triggers),L6,191,delivery_full,49.215,38.931,59.043,0.348,1337.277,0.016,461.884,,,,
+simulated,all proactive (plants+triggers),Z4,191,delivery_full,47.644,37.557,58.297,0.418,1289.974,0.016,459.652,,,,
+simulated,plants proactive,D1,36,delivery_full,61.111,44.444,77.143,0.418,1196.056,0.083,2.311,,,,
+simulated,plants proactive,D4,36,delivery_full,55.556,38.235,71.875,0.388,1241.833,0.083,468.625,,,,
+simulated,plants proactive,D5,36,delivery_full,63.889,50.0,78.125,0.4,1223.528,0.083,2748.797,2942.36,,,
+simulated,plants proactive,E1,36,delivery_full,83.333,70.27,95.0,0.198,1349.917,0.083,3.299,,,,
+simulated,plants proactive,E4,36,delivery_full,88.889,78.571,97.297,0.176,1345.25,0.083,463.587,,,,
+simulated,plants proactive,L4,36,delivery_full,58.333,42.105,75.0,0.395,1225.5,0.083,461.059,,,,
+simulated,plants proactive,L6,36,delivery_full,52.778,34.211,71.429,0.388,1243.417,0.083,462.117,,,,
+simulated,plants proactive,Z4,36,delivery_full,52.778,36.665,68.571,0.44,1210.0,0.083,458.389,,,,
+simulated,plants reactive,D1,36,delivery_full,88.889,73.684,100.0,0.667,1236.528,0.083,2.628,,,,
+simulated,plants reactive,D4,36,delivery_full,83.333,66.667,97.222,0.722,1228.056,0.083,499.044,,,,
+simulated,plants reactive,E1,36,delivery_full,100.0,100.0,100.0,0.632,1349.556,0.083,2.133,,,,
+simulated,plants reactive,E4,36,delivery_full,94.444,82.857,100.0,0.662,1347.194,0.083,475.9,,,,
+simulated,plants reactive,L4,36,delivery_full,83.333,66.667,97.145,0.696,1255.889,0.083,471.568,,,,
+simulated,plants reactive,L6,36,delivery_full,86.111,69.691,100.0,0.724,1215.222,0.083,463.604,,,,
+simulated,plants reactive,Z4,36,delivery_full,86.111,72.727,97.368,0.72,1232.75,0.083,467.939,,,,
+simulated,probe triggers,D1,155,delivery_full,52.258,42.689,61.04,0.348,1357.09,0.0,1.931,,,,
+simulated,probe triggers,D4,155,delivery_full,48.387,38.415,58.71,0.336,1353.826,0.0,462.241,,,,
+simulated,probe triggers,E1,155,delivery_full,88.387,80.252,94.546,0.273,1481.697,0.0,2.842,,,,
+simulated,probe triggers,E4,155,delivery_full,83.226,75.607,90.506,0.249,1482.084,0.0,459.44,,,,
+simulated,probe triggers,L4,155,delivery_full,47.097,37.662,56.863,0.307,1355.161,0.0,462.268,,,,
+simulated,probe triggers,L6,155,delivery_full,48.387,38.706,58.386,0.338,1359.077,0.0,461.884,,,,
+simulated,probe triggers,Z4,155,delivery_full,46.452,35.251,57.419,0.413,1308.548,0.0,459.824,,,,
+real,thread_root,D1,88,hit,44.318,27.273,64.516,0.432,1165.068,0.0,13.001,,0.364,0.443,0.477
+real,thread_root,D4,88,hit,45.455,31.167,63.334,0.467,1165.807,0.0,600.711,,0.398,0.466,0.545
+real,thread_root,D5,88,hit,45.455,29.09,63.383,0.406,1202.807,0.0,3708.276,8443.732,0.318,0.432,0.477
+real,thread_root,E1,88,hit,46.591,32.691,61.291,0.205,1479.648,0.0,7.952,,0.159,0.205,0.205
+real,thread_root,E4,88,hit,50.0,35.554,62.164,0.239,1481.591,0.0,494.395,,0.182,0.261,0.284
+real,thread_root,L4,88,hit,47.727,32.786,66.275,0.462,1156.989,0.0,498.916,,0.375,0.477,0.557
+real,thread_root,L6,88,hit,45.455,30.303,62.903,0.467,1145.182,0.0,487.558,,0.398,0.466,0.545
+real,thread_root,Z4,88,hit,42.045,33.077,59.658,0.378,1218.193,0.011,498.608,,0.273,0.455,0.466
+real,artifact,D1,4,hit,50.0,33.333,100.0,0.425,1315.75,0.0,8.099,,0.25,0.5,0.5
+real,artifact,D4,4,hit,50.0,33.333,100.0,0.362,1269.25,0.0,518.347,,0.0,0.5,1.0
+real,artifact,D5,4,hit,100.0,100.0,100.0,0.708,1258.0,0.0,456.308,,0.5,1.0,1.0
+real,artifact,E1,4,hit,50.0,33.333,100.0,0.075,1473.75,0.0,8.102,,0.0,0.0,0.0
+real,artifact,E4,4,hit,50.0,33.333,100.0,0.021,1468.5,0.0,459.459,,0.0,0.0,0.0
+real,artifact,L4,4,hit,50.0,33.333,100.0,0.375,1290.5,0.0,471.542,,0.0,0.5,1.0
+real,artifact,L6,4,hit,50.0,33.333,100.0,0.362,1290.5,0.0,529.255,,0.0,0.5,1.0
+real,artifact,Z4,4,hit,25.0,0.0,100.0,0.26,1174.25,0.0,483.386,,0.25,0.25,0.25
