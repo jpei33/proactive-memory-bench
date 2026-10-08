@@ -104,6 +104,17 @@ Paired probes run on the best-retriever cell of each chunker plus references. Ma
 7. **The judge model matters as much as the memory**: Haiku as judge catches 5-22 pts less with 2-3x the
    false alarms, and reorders the memory strategies.
 
+### Follow-up: Threader vs. conversational units vs. memory rewrite
+
+A cost-vs-effectiveness comparison of three ways to write memory, on the simulated workspaces and on real
+team chat: Threader-style raw segments (no LLM at write time), LLM-labeled conversational units, and
+per-message memory rewrite. Rewrite wins at a tight context budget on simulated data (87% vs 71% for the best
+raw memory) mainly by fitting more facts into the budget, at ~12-14x the write cost; the lead fades with more
+context and does not appear on the real data, where raw segments with a strong embedder match or beat it.
+Zero-call segmentation matched LLM segmentation, labels added nothing, and the embedding model was the biggest
+cheap lever. Full write-up with pros and cons of each method:
+[`results/threeway_findings.md`](results/threeway_findings.md).
+
 ## 5. Reality check on real chat
 
 On 50 decision points from a real team where people and AI agents work together (private, not included), the same
